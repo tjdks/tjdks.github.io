@@ -4,27 +4,23 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>🍎띵타이쿤 계산기</title>
-    
+
     <!-- Font Awesome 아이콘 -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-
     <link rel="stylesheet" href="style.css">
-
     <link rel="stylesheet" href="calc.css">
 </head>
 <body>
 
     <header>
-        <!-- 타이틀 클릭 시 홈으로 이동 -->
         <h1 onclick="openTab('home', document.getElementById('tab-home'))" style="cursor:pointer;">
             🍎띵타이쿤 계산기
         </h1>
     </header>
 
-    <!-- 탭 메뉴 -->
     <nav>
-        <div id="slider"></div> <!-- 슬라이더 배경 -->
-        <a id="tab-home" onclick="openTab('home', this)" class="home-btn">
+        <div id="slider"></div>
+        <a id="tab-home" onclick="openTab('home', this)" class="home-btn active">
             <i class="fa-solid fa-house"></i>
         </a>
         <a id="tab-mine" onclick="openTab('mine', this)">채광</a>
@@ -34,55 +30,66 @@
 
     <main>
         <!-- 홈 화면 -->
-        <section id="home" class="tab">
+        <section id="home" class="tab" style="display:block;">
             <h2>홈</h2>
-            <p>기본틀</p>
+            <p>기본 틀입니다.</p>
         </section>
 
         <!-- 채광 -->
-        <section id="mine" class="tab" style="display:none;">
+        <section id="mine" class="tab">
             <h2>채광</h2>
-            <p>여기에 채광 계산기 작성.</p>
+            <p>여기에 채광 계산기를 작성하세요.</p>
         </section>
 
         <!-- 재배 -->
-        <section id="farm" class="tab" style="display:none;">
+        <section id="farm" class="tab">
             <h2>재배</h2>
-            <p>여기에 재배 계산기 작성.</p>
+            <p>여기에 재배 계산기를 작성하세요.</p>
         </section>
 
         <!-- 해양 -->
-        <section id="ocean" class="tab" style="display:none;">
+        <section id="ocean" class="tab">
             <h2>해양</h2>
-
-            <!-- 해양 계산기 시작 -->
             <div id="ocean-calculator" class="calculator">
-                <p>보유한 어패류 수량을 입력하세요 (1~3성)</p>
+                <p>보유한 어패류 수량을 입력하세요</p>
 
                 <table class="input-table">
                     <thead>
                         <tr>
                             <th>어패류</th>
-                            <th>1성</th>
-                            <th>2성</th>
-                            <th>3성</th>
+                            <th>수량</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr><td>굴</td><td><input type="number" id="굴1" value="0"></td><td><input type="number" id="굴2" value="0"></td><td><input type="number" id="굴3" value="0"></td></tr>
-                        <tr><td>소라</td><td><input type="number" id="소라1" value="0"></td><td><input type="number" id="소라2" value="0"></td><td><input type="number" id="소라3" value="0"></td></tr>
-                        <tr><td>문어</td><td><input type="number" id="문어1" value="0"></td><td><input type="number" id="문어2" value="0"></td><td><input type="number" id="문어3" value="0"></td></tr>
-                        <tr><td>미역</td><td><input type="number" id="미역1" value="0"></td><td><input type="number" id="미역2" value="0"></td><td><input type="number" id="미역3" value="0"></td></tr>
-                        <tr><td>성게</td><td><input type="number" id="성게1" value="0"></td><td><input type="number" id="성게2" value="0"></td><td><input type="number" id="성게3" value="0"></td></tr>
+                        <tr><td>굴</td><td><input type="number" id="굴" value="0"></td></tr>
+                        <tr><td>소라</td><td><input type="number" id="소라" value="0"></td></tr>
+                        <tr><td>문어</td><td><input type="number" id="문어" value="0"></td></tr>
+                        <tr><td>미역</td><td><input type="number" id="미역" value="0"></td></tr>
+                        <tr><td>성게</td><td><input type="number" id="성게" value="0"></td></tr>
                     </tbody>
                 </table>
 
+                <!-- 기존 보유량 토글 -->
+                <button id="toggleExisting" class="toggle-btn">기존 보유량 보기</button>
+                <div id="existingInputs" style="display:none; margin-top:10px; text-align:left;">
+                    <p><b>정수</b></p>
+                    수호: <input type="number" id="eG_exist" value="0"><br>
+                    파동: <input type="number" id="eW_exist" value="0"><br>
+                    혼란: <input type="number" id="eC_exist" value="0"><br>
+                    생명: <input type="number" id="eL_exist" value="0"><br>
+                    부식: <input type="number" id="eCo_exist" value="0"><br>
+
+                    <p><b>핵</b></p>
+                    물결 수호: <input type="number" id="cWG_exist" value="0"><br>
+                    파동 오염: <input type="number" id="cWP_exist" value="0"><br>
+                    질서 파괴: <input type="number" id="cOD_exist" value="0"><br>
+                    활력 붕괴: <input type="number" id="cVD_exist" value="0"><br>
+                    침식 방어: <input type="number" id="cED_exist" value="0"><br>
+                </div>
+
                 <button id="calculateBtn">계산하기</button>
-
-                <div id="result"></div>
+                <div id="result" style="margin-top:15px;"></div>
             </div>
-            <!-- 해양 계산기 끝 -->
-
         </section>
     </main>
 

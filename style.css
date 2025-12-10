@@ -1,17 +1,41 @@
-/* 공통 스타일 */
+/* =============================
+   공통 스타일
+   ============================= */
 body {
     font-family: Arial, sans-serif;
     margin: 0;
     background-color: #f8f7f7;
 }
 
-/* header */
+/* =============================
+   header 고정 (블러+반투명)
+   ============================= */
 header {
-    background-color: #20232a;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-color: rgba(18, 20, 24, 0.83); /* 반투명 */
+    backdrop-filter: blur(10px);             /* 블러 효과 */
+    -webkit-backdrop-filter: blur(10px);     /* 사파리 지원 */
     padding: 10px 20px;
     color: white;
+    z-index: 1000;
 }
 
+/* header 위 선 */
+header::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 1px;
+    background-color: rgba(255,255,255,0.1); /* 블러 위 선 */
+    pointer-events: none;
+}
+
+/* header h1 */
 header h1 {
     margin: 0;
     font-size: 1.8em;
@@ -19,27 +43,47 @@ header h1 {
     user-select: none;
 }
 
-/* nav 바탕 */
+/* =============================
+   nav 바탕 고정 (블러+반투명)
+   ============================= */
 nav {
-    position: relative; /* 슬라이더 위치 기준 */
-    background-color: #20232a;
+    position: fixed;
+    top: 60px; /* header 높이 */
+    left: 0;
+    width: 100%;
+    background-color: rgba(18, 20, 24, 0.83);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
     padding: 10px 12px;
     display: flex;
     align-items: center;
+    z-index: 999;
+}
+
+/* nav 위 선 */
+nav::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 1px;
+    background-color: rgba(255,255,255,0.1);
+    pointer-events: none;
 }
 
 /* 슬라이더 배경 */
 #slider {
     position: absolute;
-    top: 50%;                  /* 버튼 중앙 정렬 */
+    top: 50%;                  
     left: 0;
-    height: 40px;              /* 버튼 높이에 맞춤 */
+    height: 40px;              
     width: 0;
     background-color: #2e76ff;
     border-radius: 6px;
     transition: all 0.3s ease;
     z-index: 0;
-    transform: translateY(-50%); /* 세로 중앙 정렬 */
+    transform: translateY(-50%); 
 }
 
 /* nav 버튼 */
@@ -70,11 +114,15 @@ nav a.active {
     font-weight: bold;
 }
 
-/* main 영역 */
+/* =============================
+   main 영역 여백 추가 (header+nav 높이 고려)
+   ============================= */
 main {
     padding: 20px;
+    margin-top: 120px; /* header 60px + nav 60px */
 }
 
+/* h2 제목 */
 h2 {
     margin-top: 0;
 }
@@ -82,4 +130,30 @@ h2 {
 /* 탭 기본 숨김 */
 .tab {
     display: none;
+}
+
+/* =============================
+   모바일 대응
+   ============================= */
+@media screen and (max-width: 480px) {
+    header h1 {
+        font-size: 1.5em;
+    }
+
+    nav a {
+        font-size: 13px;
+        padding: 6px 10px;
+        margin-right: 12px;
+    }
+
+    nav a.home-btn {
+        font-size: 16px;
+        padding: 5px 10px;
+        margin-right: 15px;
+    }
+
+    main {
+        padding: 15px;
+        margin-top: 110px; /* 모바일 header+nav 높이 */
+    }
 }
