@@ -6,6 +6,7 @@
 <title>🍎띵타이쿤 계산기</title>
 <link rel="stylesheet" href="style.css">
 <link rel="stylesheet" href="calc.css">
+<link rel="stylesheet" href="expert.css">
 <script src="calc.js" defer></script>
 <script src="script.js" defer></script>
 </head>
@@ -23,7 +24,7 @@
 <main>
 <section id="home" class="tab" style="display:block;">
     <h2>홈</h2>
-    <p>기본 틀입니다.</p>
+    <p>야르</p>
 </section>
 
 <section id="mine" class="tab">
@@ -39,14 +40,60 @@
 <section id="ocean" class="tab">
     <!-- 하위 탭 -->
     <div class="sub-tabs">
-        <button class="sub-tab active" onclick="openSubTab('ocean-expert', this)">전문가 입력</button>
-        <button class="sub-tab" onclick="openSubTab('ocean-maxGold', this)">최대 골드 조합</button>
+        <button class="sub-tab active" onclick="openSubTab('ocean-expert', this)">전문가 </button>
+        <button class="sub-tab" onclick="openSubTab('ocean-maxGold', this)">골드 수익 최적화</button>
         <button class="sub-tab" onclick="openSubTab('ocean-crafting', this)">공예품</button>
     </div>
 
 <!-- 전문가 입력 탭 -->
 <div id="ocean-expert" class="sub-tab-content" style="display:block;">
-    <p>전문가 입력 설명 영역 (추후 사용)</p>
+    <div class="fish-section-box">
+
+        <h3 style="margin-bottom: 12px;">🎣 현재 전문가 세팅</h3>
+
+        <div class="fish-row">
+            <div class="fish-label">낚싯대 스펙</div>
+            <div class="input-area">
+                <input id="expert-rod" type="number" placeholder="예: 10">
+            </div>
+        </div>
+
+        <div class="fish-row">
+            <div class="fish-label">조개 좀 사조개</div>
+            <div class="input-area">
+                <input id="expert-clam-level" type="number" placeholder="LV">
+            </div>
+        </div>
+
+        <div class="fish-row">
+            <div class="fish-label">프리미엄 한정가</div>
+            <div class="input-area">
+                <input id="expert-premium-price" type="number" placeholder="LV">
+            </div>
+        </div>
+
+        <div class="fish-row">
+            <div class="fish-label">폭풍의 물질꾼</div>
+            <div class="input-area">
+                <input id="expert-storm" type="number" placeholder="LV">
+            </div>
+        </div>
+
+        <div class="fish-row">
+            <div class="fish-label">별별별!</div>
+            <div class="input-area">
+                <input id="expert-star" type="number" placeholder="LV">
+            </div>
+        </div>
+
+        <div class="fish-row">
+            <div class="fish-label">조개 무한리필</div>
+            <div class="input-area">
+                <input id="expert-clam-refill" type="number" placeholder="LV">
+            </div>
+        </div>
+
+    </div>
 </div>
 
 <!-- 최대 골드 조합 탭 -->
