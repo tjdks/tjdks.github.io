@@ -21,6 +21,11 @@ function openSubTab(tabId, elmnt) {
     elmnt.classList.add('active');
 }
 
+function toggleDesc(id) {
+    const el = document.getElementById(id);
+    el.style.display = (el.style.display === "block") ? "none" : "block";
+}
+
 document.addEventListener("DOMContentLoaded", () => {
 
     /* =========================
@@ -67,6 +72,8 @@ document.addEventListener("DOMContentLoaded", () => {
             cOD_exist: Number(document.getElementById("ocean-cOD_exist").value) || 0,
             cVD_exist: Number(document.getElementById("ocean-cVD_exist").value) || 0,
             cED_exist: Number(document.getElementById("ocean-cED_exist").value) || 0,
+
+            premium: Number(document.getElementById("expert-premium-price").value) || 0
         };
 
         /* calc.js 로직 실행 */
@@ -113,5 +120,6 @@ document.addEventListener("DOMContentLoaded", () => {
             <h4>🔹 필요 물고기</h4>
             <p>새우 ${result.need_shrimp}, 도미 ${result.need_domi}, 청어 ${result.need_herring}, 금붕어 ${result.need_goldfish}, 농어 ${result.need_bass}</p>
         `;
+        
     });
 });

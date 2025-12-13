@@ -9,6 +9,7 @@
 <link rel="stylesheet" href="expert.css">
 <script src="calc.js" defer></script>
 <script src="script.js" defer></script>
+<script src="expert.js" defer></script>
 </head>
 <body>
 <header>
@@ -44,55 +45,139 @@
         <button class="sub-tab" onclick="openSubTab('ocean-maxGold', this)">골드 수익 최적화</button>
         <button class="sub-tab" onclick="openSubTab('ocean-crafting', this)">공예품</button>
     </div>
-
-<!-- 전문가 입력 탭 -->
+<!-- 전문가 입력 탭-->
 <div id="ocean-expert" class="sub-tab-content" style="display:block;">
-    <div class="fish-section-box">
+    <div class="flex-container">
+        <div class="fish-section-box">
 
-        <h3 style="margin-bottom: 12px;">🎣 현재 전문가 세팅</h3>
+            <h3 style="margin-bottom: 12px;">현재 해양 전문가 세팅</h3>
 
-        <div class="fish-row">
-            <div class="fish-label">낚싯대 스펙</div>
-            <div class="input-area">
-                <input id="expert-rod" type="number" placeholder="예: 10">
+            <!-- 🎣 낚싯대 스펙 강조 박스 -->
+            <div class="expert-rod-box">
+                <div class="expert-rod-title">
+                </div>
+
+                <div class="fish-row">
+                    <div class="fish-label">현재 낚싯대 스펙</div>
+                    <div class="input-area">
+                        <input id="expert-rod" type="number" placeholder="예 : 8">
+                    </div>
+                </div>
             </div>
-        </div>
-
-        <div class="fish-row">
-            <div class="fish-label">조개 좀 사조개</div>
-            <div class="input-area">
-                <input id="expert-clam-level" type="number" placeholder="LV">
+            <!-- 🎣 낚싯대 스펙 끝 -->
+            <hr>
+            
+            <div class="fish-row expert-clam">
+                <div class="fish-label">
+                    조개 좀 사조개
+                    <span class="info-btn" onclick="toggleDesc('desc-clam')">ⓘ</span>
+                </div>
+                <div class="input-area">
+                    <input id="expert-clam-level" type="number" placeholder="LV">
+                </div>
             </div>
-        </div>
 
-        <div class="fish-row">
-            <div class="fish-label">프리미엄 한정가</div>
-            <div class="input-area">
-                <input id="expert-premium-price" type="number" placeholder="LV">
+            <div id="desc-clam" class="expert-desc">
+                <ul style="padding-left: 16px; margin: 0;">
+                    <li><b>LV 1</b> – 공예품 판매가 +5%</li>
+                    <li><b>LV 2</b> – 공예품 판매가 +7%</li>
+                    <li><b>LV 3</b> – 공예품 판매가 +10%</li>
+                    <li><b>LV 4</b> – 공예품 판매가 +15%</li>
+                    <li><b>LV 5</b> – 공예품 판매가 +20%</li>
+                    <li><b>LV 6</b> – 공예품 판매가 +30%</li>
+                </ul>
             </div>
-        </div>
 
-        <div class="fish-row">
-            <div class="fish-label">폭풍의 물질꾼</div>
-            <div class="input-area">
-                <input id="expert-storm" type="number" placeholder="LV">
+            <div class="fish-row expert-premium">
+                <div class="fish-label">
+                    프리미엄 한정가
+                    <span class="info-btn" onclick="toggleDesc('desc-premium')">ⓘ</span>
+                </div>
+                <div class="input-area">
+                    <input id="expert-premium-price" type="number" placeholder="LV">
+                </div>
             </div>
-        </div>
 
-        <div class="fish-row">
-            <div class="fish-label">별별별!</div>
-            <div class="input-area">
-                <input id="expert-star" type="number" placeholder="LV">
+            <div id="desc-premium" class="expert-desc">
+                <ul style="padding-left: 16px; margin: 0;">
+                    <li><b>LV 1</b> – 연금품 판매가 +5%</li>
+                    <li><b>LV 2</b> – 연금품 판매가 +7%</li>
+                    <li><b>LV 3</b> – 연금품 판매가 +10%</li>
+                    <li><b>LV 4</b> – 연금품 판매가 +15%</li>
+                    <li><b>LV 5</b> – 연금품 판매가 +20%</li>
+                    <li><b>LV 6</b> – 연금품 판매가 +30%</li>
+                </ul>
             </div>
-        </div>
 
-        <div class="fish-row">
-            <div class="fish-label">조개 무한리필</div>
-            <div class="input-area">
-                <input id="expert-clam-refill" type="number" placeholder="LV">
+            
+
+            <div class="fish-row expert-storm">
+                <div class="fish-label">
+                    폭풍의 물질꾼
+                    <span class="info-btn" onclick="toggleDesc('desc-storm')">ⓘ</span>
+                </div>
+                <div class="input-area">
+                    <input id="expert-storm" type="number" placeholder="LV">
+                </div>
             </div>
-        </div>
 
+            <div id="desc-storm" class="expert-desc">
+                <ul>
+                    <li><b>LV 1</b> – 비 오는 날 어패류 1% 확률 추가 드롭</li>
+                    <li><b>LV 2</b> – 비 오는 날 어패류 3% 확률 추가 드롭</li>
+                    <li><b>LV 3</b> – 비 오는 날 어패류 5% 확률 추가 드롭</li>
+                    <li><b>LV 4</b> – 비 오는 날 어패류 7% 확률 추가 드롭</li>
+                    <li><b>LV 5</b> – 비 오는 날 어패류 10% 확률 추가 드롭</li>
+                </ul>
+            </div>
+
+            <div class="fish-row expert-star">
+                <div class="fish-label">
+                    별별별!
+                    <span class="info-btn" onclick="toggleDesc('desc-star')">ⓘ</span>
+                </div>
+                <div class="input-area">
+                    <input id="expert-star" type="number" placeholder="LV">
+                </div>
+            </div>
+
+            <div id="desc-star" class="expert-desc">
+                <ul>
+                    <li><b>LV 1</b> – 수중 어획 시 3성 등급 어패류 등장 확률 +1%</li>
+                    <li><b>LV 2</b> – 수중 어획 시 3성 등급 어패류 등장 확률 +2%</li>
+                    <li><b>LV 3</b> – 수중 어획 시 3성 등급 어패류 등장 확률 +3%</li>
+                    <li><b>LV 4</b> – 수중 어획 시 3성 등급 어패류 등장 확률 +4%</li>
+                    <li><b>LV 5</b> – 수중 어획 시 3성 등급 어패류 등장 확률 +5%</li>
+                    <li><b>LV 6</b> – 수중 어획 시 3성 등급 어패류 등장 확률 +7%</li>
+                </ul>
+            </div>
+
+            <div class="fish-row expert-refill">
+                <div class="fish-label">
+                    조개 무한리필
+                    <span class="info-btn" onclick="toggleDesc('desc-clam-refill')">ⓘ</span>
+                </div>
+                <div class="input-area">
+                    <input id="expert-clam-refill" type="number" placeholder="LV">
+                </div>
+            </div>
+
+            <div id="desc-clam-refill" class="expert-desc">
+                <ul>
+                    <li><b>LV 2</b> – 조개 등장 확률 +1.5%</li>
+                    <li><b>LV 1</b> – 조개 등장 확률 +1%</li>
+                    <li><b>LV 3</b> – 조개 등장 확률 +2%</li>
+                    <li><b>LV 4</b> – 조개 등장 확률 +2.5%</li>
+                    <li><b>LV 5</b> – 조개 등장 확률 +3%</li>
+                    <li><b>LV 6</b> – 조개 등장 확률 +3.5%</li>
+                    <li><b>LV 7</b> – 조개 등장 확률 +4%</li>
+                    <li><b>LV 8</b> – 조개 등장 확률 +4.5%</li>
+                    <li><b>LV 9</b> – 조개 등장 확률 +5%</li>
+                    <li><b>LV 10</b> – 조개 등장 확률 +7%</li>
+                </ul>
+            </div>
+
+        </div>
     </div>
 </div>
 
