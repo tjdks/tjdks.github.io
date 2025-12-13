@@ -42,6 +42,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
     calcBtn.addEventListener("click", () => {
 
+        /* ✅ 이미 결과가 열려 있으면 닫기 */
+        if (resultBox.style.display === "block") {
+            resultBox.style.display = "none";
+            return;
+        }
+
         /* 입력값 수집 */
         const input = {
             g: Number(document.getElementById("ocean-굴").value) || 0,
@@ -76,50 +82,36 @@ document.addEventListener("DOMContentLoaded", () => {
         resultBox.style.display = "block";
         resultBox.innerHTML = `
             <h3>📊 최적 조합 결과</h3>
-
-            <p><b>수호(A)</b>: ${result.bestA}</p>
-            <p><b>파괴(K)</b>: ${result.bestK}</p>
-            <p><b>침식(L)</b>: ${result.bestL}</p>
-
-            <hr>
-
             <p><b>💰 최대 골드</b>: ${result.bestGold.toLocaleString()}</p>
 
-            <hr>
+            <p><b>리바이던의 깃털</b>: ${result.bestL}</p>
+            <p><b>크라켄의 광란체</b>: ${result.bestK}</p>
+            <p><b>영생의 아쿠티스</b>: ${result.bestA}</p>
 
-            <h4>🔹 필요 공예품 제작</h4>
-            <p>물결 수호(WG): ${result.needMake_WG}</p>
-            <p>파동 오염(WP): ${result.needMake_WP}</p>
-            <p>질서 파괴(OD): ${result.needMake_OD}</p>
-            <p>활력 붕괴(VD): ${result.needMake_VD}</p>
-            <p>침식 방어(ED): ${result.needMake_ED}</p>
 
             <hr>
 
             <h4>🔹 필요 정수 제작</h4>
-            <p>수호 정수: ${result.make_eG}</p>
-            <p>파동 정수: ${result.make_eW}</p>
-            <p>혼란 정수: ${result.make_eC}</p>
-            <p>생명 정수: ${result.make_eL}</p>
-            <p>부식 정수: ${result.make_eCo}</p>
+            <p>수호 정수 ${result.make_eG}, 파동 정수 ${result.make_eW}, 혼란 정수 ${result.make_eC}</p>
+            <p>생명 정수 ${result.make_eL}, 부식 정수 ${result.make_eCo}</p>
+
+
+            <hr>
+
+            <h4>🔹 필요 공예품 제작</h4>
+            <p>물결 수호 ${result.needMake_WG}, 파동 오염 ${result.needMake_WP}, 질서 파괴 ${result.needMake_OD}</p>
+            <p>활력 붕괴  ${result.needMake_VD}, 침식 방어 ${result.needMake_ED}</p>
+
 
             <hr>
 
             <h4>🔹 필요 재료</h4>
-            <p>점토: ${result.need_clay}</p>
-            <p>모래: ${result.need_sand}</p>
-            <p>흙: ${result.need_dirt}</p>
-            <p>자갈: ${result.need_gravel}</p>
-            <p>화강암: ${result.need_granite}</p>
+            <p>점토 ${result.need_clay}, 모래 ${result.need_sand}, 흙 ${result.need_dirt}, 자갈 ${result.need_gravel}, 화강암 ${result.need_granite}</p>
 
             <hr>
 
-            <h4>🔹 필요 어패류</h4>
-            <p>새우: ${result.need_shrimp}</p>
-            <p>도미: ${result.need_domi}</p>
-            <p>청어: ${result.need_herring}</p>
-            <p>금붕어: ${result.need_goldfish}</p>
-            <p>농어: ${result.need_bass}</p>
+            <h4>🔹 필요 물고기</h4>
+            <p>새우 ${result.need_shrimp}, 도미 ${result.need_domi}, 청어 ${result.need_herring}, 금붕어 ${result.need_goldfish}, 농어 ${result.need_bass}</p>
         `;
     });
 });

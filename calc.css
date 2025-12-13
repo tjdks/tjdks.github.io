@@ -104,15 +104,68 @@
 }
 
 /* =========================
-   결과 박스
+   결과 박스 (Compact)
    ========================= */
 #ocean-result {
     width: 320px;
     background-color: #ffffff;
     border-radius: 12px;
-    padding: 18px 20px;
+    padding: 14px 16px;
     display: none;
     border: 1px solid #e5e7eb;
+    font-size: 13px;
+}
+
+/* 요약 영역 */
+.result-summary {
+    text-align: center;
+    margin-bottom: 12px;
+}
+
+.summary-row {
+    display: flex;
+    justify-content: space-between;
+    font-weight: 600;
+    color: #374151;
+    margin-bottom: 6px;
+}
+
+.summary-row span {
+    font-weight: 500;
+    color: #6b7280;
+}
+
+.summary-gold {
+    font-size: 18px;
+    font-weight: 700;
+    color: #2563eb;
+}
+
+/* 결과 그리드 */
+.result-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+}
+
+.result-block {
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    padding: 8px 10px;
+    background-color: #fafafa;
+}
+
+.result-block h4 {
+    margin: 0 0 6px 0;
+    font-size: 13px;
+    font-weight: 600;
+    color: #374151;
+}
+
+.result-block p {
+    margin: 2px 0;
+    font-size: 12px;
+    color: #4b5563;
 }
 
 /* =========================
@@ -122,41 +175,34 @@
     display: flex;
     justify-content: center;
     align-items: stretch;
-    margin-bottom: 32px; /*하위랑 계산기 사이 간격*/
+    margin-bottom: 32px;
     border-bottom: 1px solid #e5e7eb;
 }
 
-/* 탭 하나가 넓은 영역 */
 .sub-tab {
     flex: 1;
     max-width: 240px;
     padding: 14px 0;
-
     text-align: center;
     background-color: transparent;
     border: none;
     border-bottom: 2px solid transparent;
-
     font-size: 15px;
     font-weight: 600;
     color: #6b7280;
     cursor: pointer;
-
     transition: color 0.2s ease, border-color 0.2s ease;
 }
 
-/* hover */
 .sub-tab:hover {
     color: #374151;
 }
 
-/* 활성 탭 */
 .sub-tab.active {
     color: #2563eb;
     border-bottom: 2px solid #2563eb;
 }
 
-/* 포커스 제거 */
 .sub-tab:focus {
     outline: none;
 }
@@ -186,6 +232,10 @@
     .flex-container {
         flex-direction: column;
         align-items: center;
+    }
+
+    .result-grid {
+        grid-template-columns: 1fr;
     }
 
     .sub-tabs {
