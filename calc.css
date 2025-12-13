@@ -1,101 +1,204 @@
-/* 세로형 레이아웃 */
-.ocean-container-vertical {
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    gap:10px;
+/* =========================
+   CLEAN STYLE – CALC UI
+   ========================= */
+
+/* 전체 컨테이너 */
+.flex-container {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 24px;
+    flex-wrap: wrap;
 }
 
-/* 어패류 입력 박스 */
+/* 카드 공통 */
+.fish-section-box,
+#ocean-existingInputs,
+#ocean-result {
+    transition: opacity 0.25s ease;
+}
+
+/* =========================
+   입력 카드
+   ========================= */
 .fish-section-box {
-    width: 90%;
-    max-width: 300px;
+    width: 320px;
+    padding: 18px;
     background-color: #ffffff;
-    padding: 15px;
-    border-radius: 10px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.274);
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-}
-
-/* 레이블과 입력칸 */
-.fish-row { display:flex; justify-content:space-between; align-items:center; width:100%; margin-bottom:10px; }
-.fish-label { width:80px; font-weight:bold; text-align:left; }
-.input-area input { width:80px; padding:6px; border:1px solid #b8b8b8; border-radius:6px; outline:none; font-size:14px; }
-
-/* 숫자 화살표 제거 */
-input[type=number]::-webkit-inner-spin-button, 
-input[type=number]::-webkit-outer-spin-button { -webkit-appearance: none; margin:0; }
-input[type=number] { -moz-appearance:textfield; }
-
-/* 계산 버튼 */
-.classic-btn {
-    background-color: #2e76ff;
-    color:white;
-    border:none;
-    padding:8px 20px;
-    border-radius:6px;
-    font-size:14px;
-    cursor:pointer;
-    transition: background 0.5s;
-}
-.classic-btn:hover { background-color: #1457d0; }
-
-/* 토글 버튼 */
-.toggle-btn { padding:5px 12px; cursor:pointer; margin-bottom:10px; }
-
-/* 결과창 - 카드형 디자인, 항목별 구분 */
-.result-box {
-    width: 90%;
-    max-width: 500px;
-    background: #ffffff; 
     border-radius: 12px;
-    padding: 20px;
-    font-family: 'Noto Sans KR', Arial, sans-serif;
+    border: 1px solid #e5e7eb;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.04);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* 입력 행 */
+.fish-row {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    margin: 8px 0;
+    gap: 10px;
+}
+
+.fish-label {
+    font-weight: 600;
+    flex: 1;
+    color: #374151;
+}
+
+/* 입력창 */
+.input-area input,
+#ocean-existingInputs input {
+    width: 80px;
+    padding: 6px 10px;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    font-size: 14px;
+    background-color: #ffffff;
+}
+
+/* =========================
+   버튼
+   ========================= */
+.classic-btn {
+    width: 100%;
+    background-color: #2563eb;
+    color: #ffffff;
+    padding: 10px 0;
+    border-radius: 8px;
+    font-weight: 600;
+    margin-top: 14px;
+    cursor: pointer;
+    border: none;
+}
+
+.classic-btn:hover {
+    background-color: #1d4ed8;
+}
+
+.toggle-btn {
+    width: 100%;
+    background-color: #f9fafb;
+    padding: 8px 0;
+    border-radius: 8px;
+    font-weight: 600;
+    margin-top: 8px;
+    cursor: pointer;
+    border: 1px solid #e5e7eb;
+}
+
+/* =========================
+   기존 정수 / 핵 입력
+   ========================= */
+#ocean-existingInputs {
+    width: 320px;
+    background-color: #ffffff;
+    border-radius: 12px;
+    padding: 14px 16px;
+    display: none;
+    flex-direction: column;
+    gap: 8px;
+    border: 1px solid #e5e7eb;
+}
+
+/* =========================
+   결과 박스
+   ========================= */
+#ocean-result {
+    width: 320px;
+    background-color: #ffffff;
+    border-radius: 12px;
+    padding: 18px 20px;
+    display: none;
+    border: 1px solid #e5e7eb;
+}
+
+/* =========================
+   하위 탭 (ZLOA 느낌, 넓게)
+   ========================= */
+.sub-tabs {
+    display: flex;
+    justify-content: center;
+    align-items: stretch;
+    margin-bottom: 32px; /*하위랑 계산기 사이 간격*/
+    border-bottom: 1px solid #e5e7eb;
+}
+
+/* 탭 하나가 넓은 영역 */
+.sub-tab {
+    flex: 1;
+    max-width: 240px;
+    padding: 14px 0;
+
+    text-align: center;
+    background-color: transparent;
+    border: none;
+    border-bottom: 2px solid transparent;
+
     font-size: 15px;
-    color: #333;
-    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
-    line-height: 1.6;
-    text-align: left;
-    overflow: hidden;
+    font-weight: 600;
+    color: #6b7280;
+    cursor: pointer;
 
-    max-height: 0;      /* 기본 숨김 */
-    opacity: 0;         /* 기본 투명 */
-    transition: max-height 0.5s ease, opacity 0.5s ease;
+    transition: color 0.2s ease, border-color 0.2s ease;
 }
 
-/* show 클래스 추가 시 열림 */
-.result-box.show {
-    max-height: 2000px; /* 충분히 큰 값 */
-    opacity: 1;
+/* hover */
+.sub-tab:hover {
+    color: #374151;
 }
 
-/* 결과 항목별 섹션 */
-.result-box .section {
-    margin-bottom: 15px;
-    padding-bottom: 10px;
-    border-bottom: 1px solid #eee;
+/* 활성 탭 */
+.sub-tab.active {
+    color: #2563eb;
+    border-bottom: 2px solid #2563eb;
 }
 
-/* 마지막 섹션은 구분선 제거 */
-.result-box .section:last-child {
-    border-bottom: none;
-    margin-bottom: 0;
-    padding-bottom: 0;
+/* 포커스 제거 */
+.sub-tab:focus {
+    outline: none;
 }
 
-/* 항목 레이블 강조 */
-.result-box .section .label {
-    font-weight: bold;
-    color: #2e76ff;
+/* =========================
+   하위 탭 콘텐츠
+   ========================= */
+.sub-tab-content {
+    animation: fadeIn 0.2s ease;
 }
 
-/* 항목 값 스타일 */
-.result-box .section .value {
-    margin-left: 5px;
-    color: #555;
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(4px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
-/* 전체 중앙 정렬 */
-.ocean-container-vertical > * { align-self:center; }
+/* =========================
+   반응형
+   ========================= */
+@media screen and (max-width: 600px) {
+    .flex-container {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .sub-tabs {
+        flex-direction: column;
+        border-bottom: none;
+    }
+
+    .sub-tab {
+        max-width: none;
+        border-bottom: 1px solid #e5e7eb;
+    }
+
+    .sub-tab.active {
+        border-bottom: 2px solid #2563eb;
+    }
+}

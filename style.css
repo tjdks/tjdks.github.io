@@ -1,21 +1,15 @@
-/* =============================
-   공통 스타일
-   ============================= */
 body {
     font-family: Arial, sans-serif;
     margin: 0;
     background-color: #f8f7f7;
 }
 
-/* =============================
-   header 고정 (단색, 블러 제거 — 요청대로 고정만)
-   ============================= */
 header {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
-    background-color: #37393d; /* 조금 진한 색 */
+    background-color: #37393d;
     padding: 10px 20px;
     color: white;
     z-index: 1000;
@@ -29,25 +23,22 @@ header h1 {
     user-select: none;
 }
 
-/* nav */
 nav {
     margin-top: 6px;
     display: flex;
     align-items: center;
 }
 
-/* 슬라이더 배경 (절대위치일 경우 script.js에서 조절) */
 #slider {
     position: absolute;
     height: 40px;
     width: 0;
-    background-color: #2e76ff;
+    background-color: rgba(40,104,255,0.2);
     border-radius: 6px;
-    transition: all 0.25s ease;
     z-index: 0;
+    transition: all 0.25s ease;
 }
 
-/* nav 버튼 기본 */
 nav a {
     position: relative;
     z-index: 1;
@@ -63,66 +54,28 @@ nav a {
     transition: background 0.2s, color 0.2s;
 }
 
-/* 홈 버튼 */
 nav a.home-btn {
     font-size: 18px;
     padding: 6px 12px;
     margin-right: 18px;
 }
 
-/* 탭 선택 시 강조 */
 nav a.active {
     color: white;
     background: #2868ff;
     font-weight: bold;
 }
 
-/* 슬라이더 스타일 (파란색 바탕 강조) */
-#slider {
-    position: absolute;
-    background-color: rgba(40,104,255,0.2);
-    border-radius: 6px;
-    z-index: 0;
-    transition: all 0.25s ease;
-}
-
-/* main 마진 (헤더 높이 고려) */
 main {
     padding: 20px;
-    margin-top: 120px;
+    margin-top: 100px;
 }
 
-/* h2 */
-h2 {
-    margin-top: 0;
-}
+.tab { display: none; }
 
-/* 탭 숨김 기본 */
-.tab {
-    display: none;
-}
-
-/* 모바일 대응 */
 @media screen and (max-width: 480px) {
-    header h1 {
-        font-size: 1.5em;
-    }
-
-    nav a {
-        font-size: 13px;
-        padding: 6px 10px;
-        margin-right: 12px;
-    }
-
-    nav a.home-btn {
-        font-size: 16px;
-        padding: 5px 10px;
-        margin-right: 15px;
-    }
-
-    main {
-        padding: 15px;
-        margin-top: 110px;
-    }
-    
+    header h1 { font-size: 1.5em; }
+    nav a { font-size: 13px; padding: 6px 10px; margin-right: 12px; }
+    nav a.home-btn { font-size: 16px; padding: 5px 10px; margin-right: 15px; }
+    main { padding: 15px; margin-top: 110px; }
 }

@@ -1,23 +1,19 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🍎띵타이쿤 계산기</title>
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="calc.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-    <script src="calc.js" defer></script>
-    <script src="script.js" defer></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🍎띵타이쿤 계산기</title>
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="calc.css">
+<script src="calc.js" defer></script>
+<script src="script.js" defer></script>
 </head>
 <body>
 <header>
     <h1 onclick="openTab('home', document.getElementById('tab-home'))">🍎띵타이쿤 계산기</h1>
     <nav>
-        <div id="slider"></div>
-        <a id="tab-home" class="home-btn active" onclick="openTab('home', this)">
-            <i class="fa-solid fa-house"></i>
-        </a>
+        <a id="tab-home" class="home-btn active" onclick="openTab('home', this)">홈</a>
         <a id="tab-mine" onclick="openTab('mine', this)">채광</a>
         <a id="tab-farm" onclick="openTab('farm', this)">재배</a>
         <a id="tab-ocean" onclick="openTab('ocean', this)">해양</a>
@@ -25,76 +21,71 @@
 </header>
 
 <main>
-    <section id="home" class="tab" style="display:block;">
-        <h2>홈</h2>
-        <p>기본 틀입니다.</p>
-    </section>
+<section id="home" class="tab" style="display:block;">
+    <h2>홈</h2>
+    <p>기본 틀입니다.</p>
+</section>
 
-    <section id="mine" class="tab">
-        <h2>채광</h2>
-        <p>채광 계산기를 여기에 작성하세요.</p>
-    </section>
+<section id="mine" class="tab">
+    <h2>채광</h2>
+    <p>채광 계산기</p>
+</section>
 
-    <section id="farm" class="tab">
-        <h2>재배</h2>
-        <p>재배 계산기를 여기에 작성하세요.</p>
-    </section>
+<section id="farm" class="tab">
+    <h2>재배</h2>
+    <p>재배 계산기</p>
+</section>
 
-    <!-- 해양 탭 -->
-    <section id="ocean" class="tab">
-        <h2>해양</h2>
-        <div class="ocean-container-vertical">
-            <!-- 어패류 입력 박스 -->
+<section id="ocean" class="tab">
+    <!-- 하위 탭 -->
+    <div class="sub-tabs">
+        <button class="sub-tab active" onclick="openSubTab('ocean-expert', this)">전문가 입력</button>
+        <button class="sub-tab" onclick="openSubTab('ocean-maxGold', this)">최대 골드 조합</button>
+        <button class="sub-tab" onclick="openSubTab('ocean-crafting', this)">공예품</button>
+    </div>
+
+    <!-- 하위 탭 콘텐츠 -->
+    <div id="ocean-expert" class="sub-tab-content" style="display:block;">
+        <div class="flex-container">
+            <!-- 입력 카드 -->
             <div class="fish-section-box">
-                <h3 class="title-center">보유한 어패류 수량을 입력하세요</h3>
-                <div id="fishSection">
-                    <div class="fish-row">
-                        <div class="fish-label">★굴</div>
-                        <div class="input-area"><input id="굴" type="number" min="0"></div>
-                    </div>
-                    <div class="fish-row">
-                        <div class="fish-label">★소라</div>
-                        <div class="input-area"><input id="소라" type="number" min="0"></div>
-                    </div>
-                    <div class="fish-row">
-                        <div class="fish-label">★문어</div>
-                        <div class="input-area"><input id="문어" type="number" min="0"></div>
-                    </div>
-                    <div class="fish-row">
-                        <div class="fish-label">★미역</div>
-                        <div class="input-area"><input id="미역" type="number" min="0"></div>
-                    </div>
-                    <div class="fish-row">
-                        <div class="fish-label">★성게</div>
-                        <div class="input-area"><input id="성게" type="number" min="0"></div>
-                    </div>
-                </div>
-                <div class="calc-button-area">
-                    <button id="calcBtn" class="classic-btn">계산하기</button>
-                </div>
+                <div class="fish-row"><div class="fish-label">★굴</div><div class="input-area"><input id="ocean-굴" type="number"></div></div>
+                <div class="fish-row"><div class="fish-label">★소라</div><div class="input-area"><input id="ocean-소라" type="number"></div></div>
+                <div class="fish-row"><div class="fish-label">★문어</div><div class="input-area"><input id="ocean-문어" type="number"></div></div>
+                <div class="fish-row"><div class="fish-label">★미역</div><div class="input-area"><input id="ocean-미역" type="number"></div></div>
+                <div class="fish-row"><div class="fish-label">★성게</div><div class="input-area"><input id="ocean-성게" type="number"></div></div>
+
+                <button id="ocean-calcBtn" class="classic-btn">계산하기</button>
+                <button id="ocean-toggleExisting" class="toggle-btn">기존 정수·핵 입력 열기/닫기</button>
             </div>
 
-            <!-- 기존 정수/핵 토글 -->
-            <button id="toggleExisting" class="toggle-btn">기존 정수·핵 보유량 입력 열기/닫기</button>
-            <div id="existingInputs" style="margin-top:10px; display:none;">
-                <h3>정수 보유량</h3>
-                <input id="eG_exist" type="number" placeholder="수호">
-                <input id="eW_exist" type="number" placeholder="파동">
-                <input id="eC_exist" type="number" placeholder="혼란">
-                <input id="eL_exist" type="number" placeholder="생명">
-                <input id="eCo_exist" type="number" placeholder="부식">
-                <h3>핵 보유량</h3>
-                <input id="cWG_exist" type="number" placeholder="물결 수호">
-                <input id="cWP_exist" type="number" placeholder="파동 오염">
-                <input id="cOD_exist" type="number" placeholder="질서 파괴">
-                <input id="cVD_exist" type="number" placeholder="활력 붕괴">
-                <input id="cED_exist" type="number" placeholder="침식 방어">
+            <!-- 기존 정수/핵 입력 영역 -->
+            <div id="ocean-existingInputs">
+                <input id="ocean-eG_exist" type="number" placeholder="수호">
+                <input id="ocean-eW_exist" type="number" placeholder="파동">
+                <input id="ocean-eC_exist" type="number" placeholder="혼란">
+                <input id="ocean-eL_exist" type="number" placeholder="생명">
+                <input id="ocean-eCo_exist" type="number" placeholder="부식">
+                <input id="ocean-cWG_exist" type="number" placeholder="물결 수호">
+                <input id="ocean-cWP_exist" type="number" placeholder="파동 오염">
+                <input id="ocean-cOD_exist" type="number" placeholder="질서 파괴">
+                <input id="ocean-cVD_exist" type="number" placeholder="활력 붕괴">
+                <input id="ocean-cED_exist" type="number" placeholder="침식 방어">
             </div>
 
             <!-- 결과창 -->
-            <div id="result" class="result-box"></div>
+            <div id="ocean-result" class="result-box"></div>
         </div>
-    </section>
+    </div>
+
+    <div id="ocean-maxGold" class="sub-tab-content" style="display:none;">
+        <p>최대 골드 조합 계산기 내용</p>
+    </div>
+
+    <div id="ocean-crafting" class="sub-tab-content" style="display:none;">
+        <p>공예품 관련 계산기 내용</p>
+    </div>
+</section>
 </main>
 </body>
 </html>
