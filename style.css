@@ -1,81 +1,109 @@
+/* ===== 기본 설정 ===== */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
 body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    background-color: #f8f7f7;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI",
+               Roboto, "Noto Sans KR", sans-serif;
+  background-color: #f6f7f9;
+  color: #222;
 }
 
-header {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    background-color: #37393d;
-    padding: 10px 20px;
-    color: white;
-    z-index: 1000;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.12);
+/* ===== 상단 헤더 ===== */
+.top-header {
+  background-color: #ffffff;
+  border-bottom: 1px solid #e5e7eb;
 }
 
-header h1 {
-    margin: 0;
-    font-size: 1.8em;
-    cursor: pointer;
-    user-select: none;
+.header-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 14px 20px;
+  display: flex;
+  align-items: center;
+  gap: 32px;
 }
 
-nav {
-    margin-top: 6px;
-    display: flex;
-    align-items: center;
+.logo {
+  font-size: 20px;
+  font-weight: 800;
 }
 
-#slider {
-    position: absolute;
-    height: 40px;
-    width: 0;
-    background-color: rgba(40,104,255,0.2);
-    border-radius: 6px;
-    z-index: 0;
-    transition: all 0.25s ease;
+/* ===== 메인 네비 ===== */
+.main-nav {
+  display: flex;
+  gap: 20px;
 }
 
-nav a {
-    position: relative;
-    z-index: 1;
-    color: white;
-    text-decoration: none;
-    margin-right: 18px;
-    padding: 7px 14px;
-    border-radius: 6px;
-    cursor: pointer;
-    font-size: 15px;
-    outline: none;
-    display: inline-block;
-    transition: background 0.2s, color 0.2s;
+.main-nav a {
+  text-decoration: none;
+  color: #555;
+  font-weight: 600;
+  padding-bottom: 4px;
 }
 
-nav a.home-btn {
-    font-size: 18px;
-    padding: 6px 12px;
-    margin-right: 18px;
+.main-nav a.active {
+  color: #2563eb;
+  border-bottom: 2px solid #2563eb;
 }
 
-nav a.active {
-    color: white;
-    background: #2868ff;
-    font-weight: bold;
+/* ===== 2차 탭 ===== */
+.sub-header {
+  background-color: #ffffff;
+  border-bottom: 1px solid #e5e7eb;
 }
 
-main {
-    padding: 20px;
-    margin-top: 100px;
+.sub-header-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+  display: flex;
+  gap: 24px;
 }
 
-.tab { display: none; }
+.sub-header-inner a {
+  padding: 14px 0;
+  text-decoration: none;
+  color: #666;
+  font-weight: 600;
+}
 
-@media screen and (max-width: 480px) {
-    header h1 { font-size: 1.5em; }
-    nav a { font-size: 13px; padding: 6px 10px; margin-right: 12px; }
-    nav a.home-btn { font-size: 16px; padding: 5px 10px; margin-right: 15px; }
-    main { padding: 15px; margin-top: 110px; }
+.sub-header-inner a.active {
+  color: #2563eb;
+  border-bottom: 2px solid #2563eb;
+}
+
+/* ===== 메인 콘텐츠 ===== */
+.page {
+  max-width: 1200px;
+  margin: 30px auto;
+  padding: 0 20px;
+}
+
+.content-area {
+  background-color: #ffffff;
+  border-radius: 10px;
+  padding: 24px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.05);
+}
+
+.content-title {
+  font-size: 20px;
+  margin-bottom: 16px;
+}
+
+.tab-content {
+  font-size: 14px;
+  color: #444;
+}
+
+/* ===== 푸터 ===== */
+.footer {
+  text-align: center;
+  padding: 24px;
+  font-size: 13px;
+  color: #888;
 }

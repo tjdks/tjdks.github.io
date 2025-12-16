@@ -1,244 +1,55 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>🍎몽실몽실모잇ㄹ몽실 계산기</title>
-<link rel="stylesheet" href="style.css">
-<link rel="stylesheet" href="calc.css">
-<link rel="stylesheet" href="expert.css">
-<script src="calc.js" defer></script>
-<script src="script.js" defer></script>
-<script src="expert.js" defer></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>몽실몽실</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-<header>
-    <h1 onclick="openTab('home', document.getElementById('tab-home'))">🍎몽실몽실모잇ㄹ몽실 계산기</h1>
-    <nav>
-        <a id="tab-home" class="home-btn active" onclick="openTab('home', this)">홈</a>
-        <a id="tab-mine" onclick="openTab('mine', this)">채광</a>
-        <a id="tab-farm" onclick="openTab('farm', this)">재배</a>
-        <a id="tab-ocean" onclick="openTab('ocean', this)">해양</a>
-    </nav>
-</header>
 
-<main>
-<section id="home" class="tab" style="display:block;">
-    <h2>홈</h2>
-    <p>202512114.전문가프리미엄한정가 적용</p>
-</section>
+  <!-- ===== 상단 헤더 ===== -->
+  <header class="top-header">
+    <div class="header-inner">
 
-<section id="mine" class="tab">
-    <h2>채광</h2>
-    <p>채광 계산기</p>
-</section>
+      <div class="logo">몽실몽실</div>
 
-<section id="farm" class="tab">
-    <h2>재배</h2>
-    <p>재배 계산기</p>
-</section>
+      <nav class="main-nav">
+        <a href="index.html">홈</a>
+        <a href="mining.html">채광</a>
+        <a href="farming.html">재배</a>
+        <a href="ocean.html">해양</a>
+      </nav>
 
-<section id="ocean" class="tab">
-    <!-- 하위 탭 -->
-    <div class="sub-tabs">
-        <button class="sub-tab active" onclick="openSubTab('ocean-expert', this)">전문가 </button>
-        <button class="sub-tab" onclick="openSubTab('ocean-maxGold', this)">골드 수익 최적화</button>
-        <button class="sub-tab" onclick="openSubTab('ocean-crafting', this)">공예품</button>
     </div>
-<!-- 전문가 입력 탭-->
-<div id="ocean-expert" class="sub-tab-content" style="display:block;">
-    <div class="flex-container">
-        <div class="fish-section-box">
+  </header>
 
-            <h3 style="margin-bottom: 12px;">현재 해양 전문가 세팅</h3>
-
-            <!-- 🎣 낚싯대 스펙 강조 박스 -->
-            <div class="expert-rod-box">
-                <div class="expert-rod-title">
-                </div>
-
-                <div class="fish-row">
-                    <div class="fish-label">현재 낚싯대 스펙</div>
-                    <div class="input-area">
-                        <input id="expert-rod" type="number" placeholder="예 : 8">
-                    </div>
-                </div>
-            </div>
-            <!-- 🎣 낚싯대 스펙 끝 -->
-            <hr>
-            
-            <div class="fish-row expert-clam">
-                <div class="fish-label">
-                    조개 좀 사조개
-                    <span class="info-btn" onclick="toggleDesc('desc-clam')">ⓘ</span>
-                </div>
-                <div class="input-area">
-                    <input id="expert-clam-level" type="number" placeholder="LV">
-                </div>
-            </div>
-
-            <div id="desc-clam" class="expert-desc">
-                <ul style="padding-left: 16px; margin: 0;">
-                    <li><b>LV 1</b> – 공예품 판매가 +5%</li>
-                    <li><b>LV 2</b> – 공예품 판매가 +7%</li>
-                    <li><b>LV 3</b> – 공예품 판매가 +10%</li>
-                    <li><b>LV 4</b> – 공예품 판매가 +15%</li>
-                    <li><b>LV 5</b> – 공예품 판매가 +20%</li>
-                    <li><b>LV 6</b> – 공예품 판매가 +30%</li>
-                </ul>
-            </div>
-
-            <div class="fish-row expert-premium">
-                <div class="fish-label">
-                    프리미엄 한정가
-                    <span class="info-btn" onclick="toggleDesc('desc-premium')">ⓘ</span>
-                </div>
-                <div class="input-area">
-                    <input id="expert-premium-price" type="number" placeholder="LV">
-                </div>
-            </div>
-
-            <div id="desc-premium" class="expert-desc">
-                <ul style="padding-left: 16px; margin: 0;">
-                    <li><b>LV 1</b> – 연금품 판매가 +5%</li>
-                    <li><b>LV 2</b> – 연금품 판매가 +7%</li>
-                    <li><b>LV 3</b> – 연금품 판매가 +10%</li>
-                    <li><b>LV 4</b> – 연금품 판매가 +15%</li>
-                    <li><b>LV 5</b> – 연금품 판매가 +20%</li>
-                    <li><b>LV 6</b> – 연금품 판매가 +30%</li>
-                </ul>
-            </div>
-
-            
-
-            <div class="fish-row expert-storm">
-                <div class="fish-label">
-                    폭풍의 물질꾼
-                    <span class="info-btn" onclick="toggleDesc('desc-storm')">ⓘ</span>
-                </div>
-                <div class="input-area">
-                    <input id="expert-storm" type="number" placeholder="LV">
-                </div>
-            </div>
-
-            <div id="desc-storm" class="expert-desc">
-                <ul>
-                    <li><b>LV 1</b> – 비 오는 날 어패류 1% 확률 추가 드롭</li>
-                    <li><b>LV 2</b> – 비 오는 날 어패류 3% 확률 추가 드롭</li>
-                    <li><b>LV 3</b> – 비 오는 날 어패류 5% 확률 추가 드롭</li>
-                    <li><b>LV 4</b> – 비 오는 날 어패류 7% 확률 추가 드롭</li>
-                    <li><b>LV 5</b> – 비 오는 날 어패류 10% 확률 추가 드롭</li>
-                </ul>
-            </div>
-
-            <div class="fish-row expert-star">
-                <div class="fish-label">
-                    별별별!
-                    <span class="info-btn" onclick="toggleDesc('desc-star')">ⓘ</span>
-                </div>
-                <div class="input-area">
-                    <input id="expert-star" type="number" placeholder="LV">
-                </div>
-            </div>
-
-            <div id="desc-star" class="expert-desc">
-                <ul>
-                    <li><b>LV 1</b> – 수중 어획 시 3성 등급 어패류 등장 확률 +1%</li>
-                    <li><b>LV 2</b> – 수중 어획 시 3성 등급 어패류 등장 확률 +2%</li>
-                    <li><b>LV 3</b> – 수중 어획 시 3성 등급 어패류 등장 확률 +3%</li>
-                    <li><b>LV 4</b> – 수중 어획 시 3성 등급 어패류 등장 확률 +4%</li>
-                    <li><b>LV 5</b> – 수중 어획 시 3성 등급 어패류 등장 확률 +5%</li>
-                    <li><b>LV 6</b> – 수중 어획 시 3성 등급 어패류 등장 확률 +7%</li>
-                </ul>
-            </div>
-
-            <div class="fish-row expert-refill">
-                <div class="fish-label">
-                    조개 무한리필
-                    <span class="info-btn" onclick="toggleDesc('desc-clam-refill')">ⓘ</span>
-                </div>
-                <div class="input-area">
-                    <input id="expert-clam-refill" type="number" placeholder="LV">
-                </div>
-            </div>
-
-            <div id="desc-clam-refill" class="expert-desc">
-                <ul>
-                    <li><b>LV 2</b> – 조개 등장 확률 +1.5%</li>
-                    <li><b>LV 1</b> – 조개 등장 확률 +1%</li>
-                    <li><b>LV 3</b> – 조개 등장 확률 +2%</li>
-                    <li><b>LV 4</b> – 조개 등장 확률 +2.5%</li>
-                    <li><b>LV 5</b> – 조개 등장 확률 +3%</li>
-                    <li><b>LV 6</b> – 조개 등장 확률 +3.5%</li>
-                    <li><b>LV 7</b> – 조개 등장 확률 +4%</li>
-                    <li><b>LV 8</b> – 조개 등장 확률 +4.5%</li>
-                    <li><b>LV 9</b> – 조개 등장 확률 +5%</li>
-                    <li><b>LV 10</b> – 조개 등장 확률 +7%</li>
-                </ul>
-            </div>
-
-        </div>
+  <!-- ===== 2차 탭 (하위 탭) ===== -->
+  <div class="sub-header">
+    <div class="sub-header-inner">
+      <!-- 예시: 채광 페이지 -->
+      <a href="#" class="active" data-target="tab-info">내 정보</a>
     </div>
-</div>
+  </div>
 
-<!-- 최대 골드 조합 탭 -->
-<div id="ocean-maxGold" class="sub-tab-content" style="display:none;">
-    <div class="flex-container">
-        <!-- 입력 카드 -->
-        <div class="fish-section-box">
-            <div class="fish-row">
-                <div class="fish-label">굴★</div>
-                <div class="input-area"><input id="ocean-굴" type="number"></div>
-            </div>
-            <div class="fish-row">
-                <div class="fish-label">소라★</div>
-                <div class="input-area"><input id="ocean-소라" type="number"></div>
-            </div>
-            <div class="fish-row">
-                <div class="fish-label">문어★</div>
-                <div class="input-area"><input id="ocean-문어" type="number"></div>
-            </div>
-            <div class="fish-row">
-                <div class="fish-label">미역★</div>
-                <div class="input-area"><input id="ocean-미역" type="number"></div>
-            </div>
-            <div class="fish-row">
-                <div class="fish-label">성게★</div>
-                <div class="input-area"><input id="ocean-성게" type="number"></div>
-            </div>
+  <!-- ===== 메인 콘텐츠 ===== -->
+    <main class="page">
+    <section class="content-area">
 
-            <button id="ocean-calcBtn" class="classic-btn">계산하기</button>
-            <button id="ocean-toggleExisting" class="toggle-btn">기존 정수·핵 입력</button>
+        <div id="tab-info" class="tab-content">
+        <h2 class="content-title">내 정보</h2>
+        <p>
+            보유 스태미나, 예상 수익, 추천 활동 요약
+        </p>
         </div>
 
-        <!-- 기존 정수/핵 입력 -->
-        <div id="ocean-existingInputs">
-            <input id="ocean-eG_exist" type="number" placeholder="수호">
-            <input id="ocean-eW_exist" type="number" placeholder="파동">
-            <input id="ocean-eC_exist" type="number" placeholder="혼란">
-            <input id="ocean-eL_exist" type="number" placeholder="생명">
-            <input id="ocean-eCo_exist" type="number" placeholder="부식">
-            <hr>
-            <input id="ocean-cWG_exist" type="number" placeholder="물결 수호">
-            <input id="ocean-cWP_exist" type="number" placeholder="파동 오염">
-            <input id="ocean-cOD_exist" type="number" placeholder="질서 파괴">
-            <input id="ocean-cVD_exist" type="number" placeholder="활력 붕괴">
-            <input id="ocean-cED_exist" type="number" placeholder="침식 방어">
-        </div>
+    </section>
+    </main>
 
-        <!-- 결과창 -->
-        <div id="ocean-result" class="result-box"></div>
-    </div>
-</div>
+  <footer class="footer">
+    © 몽실몽실
+  </footer>
 
-    <div id="ocean-maxGold" class="sub-tab-content" style="display:none;">
-        <p>최대 골드 조합 계산기 내용</p>
-    </div>
-
-    <div id="ocean-crafting" class="sub-tab-content" style="display:none;">
-        <p>공예품 관련 계산기 내용</p>
-    </div>
-</section>
-</main>
+  <script src="script.js"></script>
 </body>
 </html>
