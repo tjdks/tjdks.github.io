@@ -35,8 +35,6 @@ const CORE_TO_FISH = {
 
 function calculate1Star(input) {
     let best = { gold: -1, A: 0, K: 0, L: 0 };
-
-    // 1성 최적화: 가능한 핵 수 범위 계산
     const maxA = input.guard + input.decay;
     const maxK = input.wave + input.chaos;
     const maxL = input.decay;
@@ -95,14 +93,10 @@ function run1StarOptimization() {
     });
     if (!r) return alert("재료 부족");
 
-    // 🔹 프리미엄 한정가 LV 가져오기
-    const premiumLV = +document.getElementById("info-expert-premium-price").value;
-
-    // 🔹 LV별 증가율 정의
+    const premiumLV = +document.getElementById("expert-premium-price").value;
     const PREMIUM_PRICE_RATE = { 1: 0.05, 2: 0.07, 3: 0.10, 4: 0.15, 5: 0.20, 6: 0.30 };
     const rate = PREMIUM_PRICE_RATE[premiumLV] || 0;
 
-    // 🔹 최종 골드 계산
     const finalGold = Math.floor(r.best.gold * (1 + rate));
 
     document.getElementById("result-gold-1").textContent = finalGold;
@@ -121,85 +115,82 @@ function run1StarOptimization() {
 }
 
 /*************************************************
- * 2성 계산기
+ * 2️⃣ 2성 계산기
  *************************************************/
-const GOLD_2STAR = { CORE:5702, POTION:5760, WING:5840 };
+const GOLD_2STAR = { CORE: 5702, POTION: 5760, WING: 5840 };
 
-function calculate2Star(input){
-    let best={gold:-1,CORE:0,POTION:0,WING:0};
-    let limit = Math.max(10, input.guard+input.wave+input.chaos+input.life+input.decay);
+function calculate2Star(input) {
+    let best = { gold: -1, CORE: 0, POTION: 0, WING: 0 };
+    let limit = Math.max(10, input.guard + input.wave + input.chaos + input.life + input.decay);
 
-    for(let CORE=0; CORE<=limit; CORE++){
-        for(let POTION=0; POTION<=limit; POTION++){
-            for(let WING=0; WING<=limit; WING++){
+    for (let CORE = 0; CORE <= limit; CORE++) {
+        for (let POTION = 0; POTION <= limit; POTION++) {
+            for (let WING = 0; WING <= limit; WING++) {
                 let crystal = {
-                    vital: CORE+WING,
-                    erosion: CORE+POTION,
+                    vital: CORE + WING,
+                    erosion: CORE + POTION,
                     defense: WING,
-                    regen: CORE+POTION,
-                    poison: POTION+WING
+                    regen: CORE + POTION,
+                    poison: POTION + WING
                 };
                 let ess = {
-                    guard: crystal.vital+crystal.defense,
-                    wave: crystal.erosion+crystal.regen,
-                    chaos: crystal.defense+crystal.poison,
-                    life: crystal.vital+crystal.regen,
-                    decay: crystal.erosion+crystal.poison
+                    guard: crystal.vital + crystal.defense,
+                    wave: crystal.erosion + crystal.regen,
+                    chaos: crystal.defense + crystal.poison,
+                    life: crystal.vital + crystal.regen,
+                    decay: crystal.erosion + crystal.poison
                 };
-                if(ess.guard>input.guard||ess.wave>input.wave||ess.chaos>input.chaos||ess.life>input.life||ess.decay>input.decay) continue;
-                let gold = CORE*GOLD_2STAR.CORE + POTION*GOLD_2STAR.POTION + WING*GOLD_2STAR.WING;
-                if(gold>best.gold) best={gold,CORE,POTION,WING};
+                if (ess.guard > input.guard || ess.wave > input.wave || ess.chaos > input.chaos || ess.life > input.life || ess.decay > input.decay)
+                    continue;
+                let gold = CORE * GOLD_2STAR.CORE + POTION * GOLD_2STAR.POTION + WING * GOLD_2STAR.WING;
+                if (gold > best.gold) best = { gold, CORE, POTION, WING };
             }
         }
     }
-    if(best.gold<0) return null;
+    if (best.gold < 0) return null;
 
     let crystalNeed = {
-        vital: best.CORE+best.WING,
-        erosion: best.CORE+best.POTION,
+        vital: best.CORE + best.WING,
+        erosion: best.CORE + best.POTION,
         defense: best.WING,
-        regen: best.CORE+best.POTION,
-        poison: best.POTION+best.WING
+        regen: best.CORE + best.POTION,
+        poison: best.POTION + best.WING
     };
     let essNeed = {
-        guard: crystalNeed.vital+crystalNeed.defense,
-        wave: crystalNeed.erosion+crystalNeed.regen,
-        chaos: crystalNeed.defense+crystalNeed.poison,
-        life: crystalNeed.vital+crystalNeed.regen,
-        decay: crystalNeed.erosion+crystalNeed.poison
+        guard: crystalNeed.vital + crystalNeed.defense,
+        wave: crystalNeed.erosion + crystalNeed.regen,
+        chaos: crystalNeed.defense + crystalNeed.poison,
+        life: crystalNeed.vital + crystalNeed.regen,
+        decay: crystalNeed.erosion + crystalNeed.poison
     };
     let materialNeed = {
-        seaweed: 2*(essNeed.guard+essNeed.wave+essNeed.chaos+essNeed.life+essNeed.decay),
-        ink: crystalNeed.vital+crystalNeed.erosion+crystalNeed.defense+crystalNeed.regen+crystalNeed.poison
+        seaweed: 2 * (essNeed.guard + essNeed.wave + essNeed.chaos + essNeed.life + essNeed.decay),
+        ink: crystalNeed.vital + crystalNeed.erosion + crystalNeed.defense + crystalNeed.regen + crystalNeed.poison
     };
     let mineralNeed = {
-        lapis: crystalNeed.vital*2,
-        redstone: crystalNeed.erosion*2,
-        iron: crystalNeed.defense*2,
-        gold: crystalNeed.regen*2,
-        diamond: crystalNeed.poison*2
+        lapis: crystalNeed.vital * 2,
+        redstone: crystalNeed.erosion * 2,
+        iron: crystalNeed.defense * 2,
+        gold: crystalNeed.regen * 2,
+        diamond: crystalNeed.poison * 2
     };
     return { best, essNeed, crystalNeed, materialNeed, mineralNeed };
 }
 
-function run2StarOptimization(){
+function run2StarOptimization() {
     const r = calculate2Star({
-        guard:+document.getElementById("input-guard-2").value,
-        wave:+document.getElementById("input-wave-2").value,
-        chaos:+document.getElementById("input-chaos-2").value,
-        life:+document.getElementById("input-life-2").value,
-        decay:+document.getElementById("input-decay-2").value
+        guard: +document.getElementById("input-guard-2").value,
+        wave: +document.getElementById("input-wave-2").value,
+        chaos: +document.getElementById("input-chaos-2").value,
+        life: +document.getElementById("input-life-2").value,
+        decay: +document.getElementById("input-decay-2").value
     });
-    if(!r) return alert("재료 부족");
+    if (!r) return alert("재료 부족");
 
-    // 🔹 프리미엄 한정가 LV 가져오기
-    const premiumLV = +document.getElementById("info-expert-premium-price").value;
-
-    // 🔹 LV별 증가율 정의
+    const premiumLV = +document.getElementById("expert-premium-price").value;
     const PREMIUM_PRICE_RATE = { 1: 0.05, 2: 0.07, 3: 0.10, 4: 0.15, 5: 0.20, 6: 0.30 };
     const rate = PREMIUM_PRICE_RATE[premiumLV] || 0;
 
-    // 🔹 최종 골드 계산
     const finalGold = Math.floor(r.best.gold * (1 + rate));
 
     document.getElementById("result-gold-2").textContent = finalGold;
@@ -212,94 +203,96 @@ function run2StarOptimization(){
     document.getElementById("result-core-2").textContent =
         `활기 보존 ${r.crystalNeed.vital}, 파도 침식 ${r.crystalNeed.erosion}, 방어 오염 ${r.crystalNeed.defense}, 격류 재생 ${r.crystalNeed.regen}, 맹독 혼란 ${r.crystalNeed.poison}`;
     document.getElementById("result-material-2").textContent =
-        `해초 ${r.materialNeed.seaweed}, 먹물 주머니 ${r.materialNeed.ink}`;
+        `해초 ${r.materialNeed.seaweed}, 먹물 ${r.materialNeed.ink}`;
     document.getElementById("result-extra-2").textContent =
-        `청금석 블록 ${r.mineralNeed.lapis}, 레드스톤 블록 ${r.mineralNeed.redstone}, 철 주괴 ${r.mineralNeed.iron}, 금 주괴 ${r.mineralNeed.gold}, 다이아 ${r.mineralNeed.diamond}`;
+        `청금석 ${r.mineralNeed.lapis}, 레드스톤 ${r.mineralNeed.redstone}, 철 ${r.mineralNeed.iron}, 금 ${r.mineralNeed.gold}, 다이아 ${r.mineralNeed.diamond}`;
 }
 
 /*************************************************
- * 3성 계산기
+ * 3️⃣ 3성 계산기
  *************************************************/
-const GOLD_3STAR = { AQUA:8230, NAUTILUS:8326, SPINE:8379 };
+const GOLD_3STAR = { AQUA: 8230, NAUTILUS: 8326, SPINE: 8379 };
 
-function calculate3Star(input){
-    let best={gold:-1,AQUA:0,NAUTILUS:0,SPINE:0};
-    let limit=Math.max(10,input.guard+input.wave+input.chaos+input.life+input.decay);
+function calculate3Star(input) {
+    let best = { gold: -1, AQUA: 0, NAUTILUS: 0, SPINE: 0 };
+    let limit = Math.max(10, input.guard + input.wave + input.chaos + input.life + input.decay);
 
-    for(let AQUA=0; AQUA<=limit; AQUA++){
-        for(let NAUTILUS=0; NAUTILUS<=limit; NAUTILUS++){
-            for(let SPINE=0; SPINE<=limit; SPINE++){
-                let potion={
-                    immortal:AQUA+NAUTILUS,
-                    barrier:AQUA+NAUTILUS,
-                    poison:AQUA+SPINE,
-                    frenzy:NAUTILUS+SPINE,
-                    corrupt:SPINE
+    for (let AQUA = 0; AQUA <= limit; AQUA++) {
+        for (let NAUTILUS = 0; NAUTILUS <= limit; NAUTILUS++) {
+            for (let SPINE = 0; SPINE <= limit; SPINE++) {
+                let potion = {
+                    immortal: AQUA + NAUTILUS,
+                    barrier: AQUA + NAUTILUS,
+                    poison: AQUA + SPINE,
+                    frenzy: NAUTILUS + SPINE,
+                    corrupt: SPINE
                 };
-                let elixir={
-                    guard:potion.immortal+potion.barrier,
-                    wave:potion.barrier+potion.poison,
-                    chaos:potion.corrupt+potion.frenzy,
-                    life:potion.immortal+potion.frenzy,
-                    decay:potion.corrupt+potion.poison
+                let elixir = {
+                    guard: potion.immortal + potion.barrier,
+                    wave: potion.barrier + potion.poison,
+                    chaos: potion.corrupt + potion.frenzy,
+                    life: potion.immortal + potion.frenzy,
+                    decay: potion.corrupt + potion.poison
                 };
-                if(elixir.guard>input.guard||elixir.wave>input.wave||elixir.chaos>input.chaos||elixir.life>input.life||elixir.decay>input.decay) continue;
-                let gold=AQUA*GOLD_3STAR.AQUA + NAUTILUS*GOLD_3STAR.NAUTILUS + SPINE*GOLD_3STAR.SPINE;
-                if(gold>best.gold) best={gold,AQUA,NAUTILUS,SPINE};
+                if (
+                    elixir.guard > input.guard ||
+                    elixir.wave > input.wave ||
+                    elixir.chaos > input.chaos ||
+                    elixir.life > input.life ||
+                    elixir.decay > input.decay
+                ) continue;
+                let gold = AQUA * GOLD_3STAR.AQUA + NAUTILUS * GOLD_3STAR.NAUTILUS + SPINE * GOLD_3STAR.SPINE;
+                if (gold > best.gold) best = { gold, AQUA, NAUTILUS, SPINE };
             }
         }
     }
-    if(best.gold<0) return null;
+    if (best.gold < 0) return null;
 
-    let potionNeed={ immortal:best.AQUA+best.NAUTILUS, barrier:best.AQUA+best.NAUTILUS, poison:best.AQUA+best.SPINE, frenzy:best.NAUTILUS+best.SPINE, corrupt:best.SPINE };
-    let elixirNeed={
-        guard:potionNeed.immortal+potionNeed.barrier,
-        wave:potionNeed.barrier+potionNeed.poison,
-        chaos:potionNeed.corrupt+potionNeed.frenzy,
-        life:potionNeed.immortal+potionNeed.frenzy,
-        decay:potionNeed.corrupt+potionNeed.poison
+    let potionNeed = { immortal: best.AQUA + best.NAUTILUS, barrier: best.AQUA + best.NAUTILUS, poison: best.AQUA + best.SPINE, frenzy: best.NAUTILUS + best.SPINE, corrupt: best.SPINE };
+    let elixirNeed = {
+        guard: potionNeed.immortal + potionNeed.barrier,
+        wave: potionNeed.barrier + potionNeed.poison,
+        chaos: potionNeed.corrupt + potionNeed.frenzy,
+        life: potionNeed.immortal + potionNeed.frenzy,
+        decay: potionNeed.corrupt + potionNeed.poison
     };
-    let materialNeed={
-        seaSquirt:3*(elixirNeed.guard+elixirNeed.wave+elixirNeed.chaos+elixirNeed.life+elixirNeed.decay),
-        bottle:5*(elixirNeed.guard+elixirNeed.wave+elixirNeed.chaos+elixirNeed.life+elixirNeed.decay),
-        glowInk:potionNeed.immortal+potionNeed.barrier+potionNeed.poison+potionNeed.frenzy+potionNeed.corrupt,
-        glowBerry:potionNeed.immortal+potionNeed.barrier+potionNeed.poison+potionNeed.frenzy+potionNeed.corrupt
+    let materialNeed = {
+        seaSquirt: 3 * (elixirNeed.guard + elixirNeed.wave + elixirNeed.chaos + elixirNeed.life + elixirNeed.decay),
+        bottle: 5 * (elixirNeed.guard + elixirNeed.wave + elixirNeed.chaos + elixirNeed.life + elixirNeed.decay),
+        glowInk: potionNeed.immortal + potionNeed.barrier + potionNeed.poison + potionNeed.frenzy + potionNeed.corrupt,
+        glowBerry: potionNeed.immortal + potionNeed.barrier + potionNeed.poison + potionNeed.frenzy + potionNeed.corrupt
     };
-    let blockNeed={
-        netherrack:elixirNeed.guard*32,
-        magma:elixirNeed.wave*16,
-        soulSand:elixirNeed.chaos*16,
-        crimson:elixirNeed.life*8,
-        warped:elixirNeed.decay*8
+    let blockNeed = {
+        netherrack: elixirNeed.guard * 32,
+        magma: elixirNeed.wave * 16,
+        soulSand: elixirNeed.chaos * 16,
+        crimson: elixirNeed.life * 8,
+        warped: elixirNeed.decay * 8
     };
-    let flowerNeed={
-        cornflower:potionNeed.immortal*2,
-        dandelion:potionNeed.barrier*2,
-        daisy:potionNeed.corrupt*2,
-        poppy:potionNeed.frenzy*2,
-        azure:potionNeed.poison*2
+    let flowerNeed = {
+        cornflower: potionNeed.immortal * 2,
+        dandelion: potionNeed.barrier * 2,
+        daisy: potionNeed.corrupt * 2,
+        poppy: potionNeed.frenzy * 2,
+        azure: potionNeed.poison * 2
     };
     return { best, elixirNeed, potionNeed, materialNeed, blockNeed, flowerNeed };
 }
 
-function run3StarOptimization(){
+function run3StarOptimization() {
     const r = calculate3Star({
-        guard:+document.getElementById("input-oyster-3").value,
-        wave:+document.getElementById("input-conch-3").value,
-        chaos:+document.getElementById("input-octopus-3").value,
-        life:+document.getElementById("input-seaweed-3").value,
-        decay:+document.getElementById("input-urchin-3").value
+        guard: +document.getElementById("input-oyster-3").value,
+        wave: +document.getElementById("input-conch-3").value,
+        chaos: +document.getElementById("input-octopus-3").value,
+        life: +document.getElementById("input-seaweed-3").value,
+        decay: +document.getElementById("input-urchin-3").value
     });
-    if(!r) return alert("재료 부족");
+    if (!r) return alert("재료 부족");
 
-    // 🔹 프리미엄 한정가 LV 가져오기
-    const premiumLV = +document.getElementById("info-expert-premium-price").value;
-
-    // 🔹 LV별 증가율 정의
+    const premiumLV = +document.getElementById("expert-premium-price").value;
     const PREMIUM_PRICE_RATE = { 1: 0.05, 2: 0.07, 3: 0.10, 4: 0.15, 5: 0.20, 6: 0.30 };
     const rate = PREMIUM_PRICE_RATE[premiumLV] || 0;
 
-    // 🔹 최종 골드 계산
     const finalGold = Math.floor(r.best.gold * (1 + rate));
 
     document.getElementById("result-gold-3").textContent = finalGold;
@@ -310,45 +303,47 @@ function run3StarOptimization(){
     document.getElementById("result-essence-3").textContent =
         `수호 ${r.elixirNeed.guard}, 파동 ${r.elixirNeed.wave}, 혼란 ${r.elixirNeed.chaos}, 생명 ${r.elixirNeed.life}, 부식 ${r.elixirNeed.decay}`;
     document.getElementById("result-core-3").textContent =
-        `불멸 재생 ${r.potionNeed.immortal}, 파동 장벽 ${r.potionNeed.barrier}, 타락 침식 ${r.potionNeed.corrupt}, 생명 광란 ${r.potionNeed.frenzy}, 맹독 파동 ${r.potionNeed.poison}`;
+        `불멸 재생 ${r.potionNeed.immortal}, 장벽 보호 ${r.potionNeed.barrier}, 맹독 ${r.potionNeed.poison}, 광란 ${r.potionNeed.frenzy}, 부패 ${r.potionNeed.corrupt}`;
     document.getElementById("result-material-3").textContent =
-        `불우렁쉥이 ${r.materialNeed.seaSquirt}, 유리병 ${r.materialNeed.bottle}, 발광먹물주머니 ${r.materialNeed.glowInk}, 발광열매 ${r.materialNeed.glowBerry}`;
+        `해삼 ${r.materialNeed.seaSquirt}, 병 ${r.materialNeed.bottle}, 발광 먹물 ${r.materialNeed.glowInk}, 발광 열매 ${r.materialNeed.glowBerry}`;
     document.getElementById("result-block-3").textContent =
-        `네더렉 ${r.blockNeed.netherrack}, 마그마 ${r.blockNeed.magma}, 영혼모래 ${r.blockNeed.soulSand}, 진홍빛자루 ${r.blockNeed.crimson}, 뒤틀린자루 ${r.blockNeed.warped}`;
+        `네더랙 ${r.blockNeed.netherrack}, 마그마 ${r.blockNeed.magma}, 소울샌드 ${r.blockNeed.soulSand}, 크림슨 ${r.blockNeed.crimson}, 워프드 ${r.blockNeed.warped}`;
     document.getElementById("result-flower-3").textContent =
-        `수레국화 ${r.flowerNeed.cornflower}, 민들레 ${r.flowerNeed.dandelion}, 데이지 ${r.flowerNeed.daisy}, 양귀비 ${r.flowerNeed.poppy}, 선애기별꽃 ${r.flowerNeed.azure}`;
+        `콘플라워 ${r.flowerNeed.cornflower}, 민들레 ${r.flowerNeed.dandelion}, 데이지 ${r.flowerNeed.daisy}, 양귀비 ${r.flowerNeed.poppy}, 아쥬르 ${r.flowerNeed.azure}`;
 }
 
+/*************************************************
+ * 이벤트 등록
+ *************************************************/
+document.addEventListener("DOMContentLoaded", () => {
+    const premiumInput = document.getElementById("info-expert-premium-price");
+    if (premiumInput) {
+        premiumInput.addEventListener("input", () => {
+            const visibleStar = document.querySelector(".star-level:not([style*='display: none'])");
+            if (!visibleStar) return;
+            const starId = visibleStar.id;
+            if (starId === "star-1") run1StarOptimization();
+            else if (starId === "star-2") run2StarOptimization();
+            else if (starId === "star-3") run3StarOptimization();
+        });
+    }
 
-
-/* ========================= 전문가  ========================= */
-
-const PREMIUM_PRICE_RATE = {
-    1: 0.05,
-    2: 0.07,
-    3: 0.10,
-    4: 0.15,
-    5: 0.20,
-    6: 0.30
-};
-
-function getPremiumRate(lv) {
-    return PREMIUM_PRICE_RATE[lv] || 0;
-}
-
-// 정보탭 프리미엄 LV input
-const premiumInput = document.getElementById("info-expert-premium-price");
-
-premiumInput.addEventListener("input", () => {
-    const rate = getPremiumRate(+premiumInput.value);
-
-    // 현재 표시된 성급 계산기 확인
-    const visibleStar = document.querySelector(".star-level:not([style*='display: none'])");
-    if (!visibleStar) return;
-
-    const starId = visibleStar.id;
-    
-    if (starId === "star-1") run1StarOptimization();
-    else if (starId === "star-2") run2StarOptimization();
-    else if (starId === "star-3") run3StarOptimization();
+    // 탭별 실행 버튼
+    const btn1 = document.getElementById("btn-run-1");
+    if (btn1) btn1.addEventListener("click", run1StarOptimization);
+    const btn2 = document.getElementById("btn-run-2");
+    if (btn2) btn2.addEventListener("click", run2StarOptimization);
+    const btn3 = document.getElementById("btn-run-3");
+    if (btn3) btn3.addEventListener("click", run3StarOptimization);
 });
+
+// i 버튼 클릭 시 설명 토글
+function toggleDesc(id) {
+    const elem = document.getElementById(id);
+    if (!elem) return;
+    if (elem.style.display === 'none' || elem.style.display === '') {
+        elem.style.display = 'block';
+    } else {
+        elem.style.display = 'none';
+    }
+}

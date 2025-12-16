@@ -169,6 +169,10 @@ button:hover {
    정보탭 전문가 입력 UI
    =============================== */
 
+   
+
+
+
 #tab-info #info-expert {
     background-color: #f7f9fc; /* 살짝 밝은 배경 */
     border: 1px solid #d1d9e6; /* 테두리 강조 */
@@ -225,6 +229,45 @@ button:hover {
     outline: none;
 }
 
+/* 모든 number input 화살표 제거 */
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+input[type=number] {
+    -moz-appearance: textfield; /* Firefox */
+}
+
+
+
+
+/* ===========정보토글==============*/
+   
+
+
+.info-btn {
+    margin-left: 6px;
+    font-size: 13px;
+    cursor: pointer;
+    color: #2563eb;
+    user-select: none;
+}
+
+/* 설명 박스 */
+.expert-desc {
+    width: 100%;
+    margin: 6px 0 12px 0;
+    padding: 8px 10px;
+    font-size: 12px;
+    color: #4b5563;
+    background-color: #f9fafb;
+    border-left: 3px solid #2563eb;
+    border-radius: 6px;
+    display: none;
+    line-height: 1.5;
+}
 
 /* =========================
    반응형
