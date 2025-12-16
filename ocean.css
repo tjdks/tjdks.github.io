@@ -165,6 +165,67 @@ button:hover {
     line-height: 1.6;
 }
 
+/* ===============================
+   정보탭 전문가 입력 UI
+   =============================== */
+
+#tab-info #info-expert {
+    background-color: #f7f9fc; /* 살짝 밝은 배경 */
+    border: 1px solid #d1d9e6; /* 테두리 강조 */
+    border-radius: 12px;
+    padding: 20px;
+    max-width: 600px;
+    margin-top: 20px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+#tab-info #info-expert h3 {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #2a3f54;
+    margin-bottom: 16px;
+}
+
+/* 행 스타일 */
+#tab-info #info-expert .fish-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 12px;
+}
+
+/* 레이블 스타일 */
+#tab-info #info-expert .fish-label {
+    font-size: 0.95rem;
+    color: #34495e;
+    flex: 1;
+}
+
+/* 입력창 스타일 */
+#tab-info #info-expert .input-area {
+    flex: 1;
+    display: flex;
+    justify-content: flex-end;
+}
+
+#tab-info #info-expert .input-area input {
+    width: 80px;
+    padding: 6px 10px;
+    font-size: 0.95rem;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    text-align: right;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+/* 입력창 포커스 효과 */
+#tab-info #info-expert .input-area input:focus {
+    border-color: #4a90e2;
+    box-shadow: 0 0 4px rgba(74,144,226,0.3);
+    outline: none;
+}
+
+
 /* =========================
    반응형
 ========================= */
@@ -178,4 +239,20 @@ button:hover {
         align-items: flex-start;
         gap: 6px;
     }
+
+        #tab-info #info-expert .fish-row {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    #tab-info #info-expert .input-area {
+        width: 100%;
+        justify-content: flex-start;
+        margin-top: 6px;
+    }
+
+    #tab-info #info-expert .input-area input {
+        width: 100%;
+    }
+
 }

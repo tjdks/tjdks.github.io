@@ -95,7 +95,17 @@ function run1StarOptimization() {
     });
     if (!r) return alert("재료 부족");
 
-    document.getElementById("result-gold-1").textContent = r.best.gold;
+    // 🔹 프리미엄 한정가 LV 가져오기
+    const premiumLV = +document.getElementById("info-expert-premium-price").value;
+
+    // 🔹 LV별 증가율 정의
+    const PREMIUM_PRICE_RATE = { 1: 0.05, 2: 0.07, 3: 0.10, 4: 0.15, 5: 0.20, 6: 0.30 };
+    const rate = PREMIUM_PRICE_RATE[premiumLV] || 0;
+
+    // 🔹 최종 골드 계산
+    const finalGold = Math.floor(r.best.gold * (1 + rate));
+
+    document.getElementById("result-gold-1").textContent = finalGold;
     document.getElementById("result-acutis-1").textContent = r.best.A;
     document.getElementById("result-frenzy-1").textContent = r.best.K;
     document.getElementById("result-feather-1").textContent = r.best.L;
@@ -182,17 +192,28 @@ function run2StarOptimization(){
     });
     if(!r) return alert("재료 부족");
 
-    document.getElementById("result-gold-2").textContent=r.best.gold;
-    document.getElementById("result-acutis-2").textContent=r.best.CORE;
-    document.getElementById("result-frenzy-2").textContent=r.best.POTION;
-    document.getElementById("result-feather-2").textContent=r.best.WING;
-    document.getElementById("result-essence-2").textContent=
+    // 🔹 프리미엄 한정가 LV 가져오기
+    const premiumLV = +document.getElementById("info-expert-premium-price").value;
+
+    // 🔹 LV별 증가율 정의
+    const PREMIUM_PRICE_RATE = { 1: 0.05, 2: 0.07, 3: 0.10, 4: 0.15, 5: 0.20, 6: 0.30 };
+    const rate = PREMIUM_PRICE_RATE[premiumLV] || 0;
+
+    // 🔹 최종 골드 계산
+    const finalGold = Math.floor(r.best.gold * (1 + rate));
+
+    document.getElementById("result-gold-2").textContent = finalGold;
+    document.getElementById("result-acutis-2").textContent = r.best.CORE;
+    document.getElementById("result-frenzy-2").textContent = r.best.POTION;
+    document.getElementById("result-feather-2").textContent = r.best.WING;
+
+    document.getElementById("result-essence-2").textContent =
         `수호 ${r.essNeed.guard}, 파동 ${r.essNeed.wave}, 혼란 ${r.essNeed.chaos}, 생명 ${r.essNeed.life}, 부식 ${r.essNeed.decay}`;
-    document.getElementById("result-core-2").textContent=
+    document.getElementById("result-core-2").textContent =
         `활기 보존 ${r.crystalNeed.vital}, 파도 침식 ${r.crystalNeed.erosion}, 방어 오염 ${r.crystalNeed.defense}, 격류 재생 ${r.crystalNeed.regen}, 맹독 혼란 ${r.crystalNeed.poison}`;
-    document.getElementById("result-material-2").textContent=
+    document.getElementById("result-material-2").textContent =
         `해초 ${r.materialNeed.seaweed}, 먹물 주머니 ${r.materialNeed.ink}`;
-    document.getElementById("result-extra-2").textContent=
+    document.getElementById("result-extra-2").textContent =
         `청금석 블록 ${r.mineralNeed.lapis}, 레드스톤 블록 ${r.mineralNeed.redstone}, 철 주괴 ${r.mineralNeed.iron}, 금 주괴 ${r.mineralNeed.gold}, 다이아 ${r.mineralNeed.diamond}`;
 }
 
@@ -262,7 +283,7 @@ function calculate3Star(input){
 }
 
 function run3StarOptimization(){
-    const r=calculate3Star({
+    const r = calculate3Star({
         guard:+document.getElementById("input-oyster-3").value,
         wave:+document.getElementById("input-conch-3").value,
         chaos:+document.getElementById("input-octopus-3").value,
@@ -271,18 +292,63 @@ function run3StarOptimization(){
     });
     if(!r) return alert("재료 부족");
 
-    document.getElementById("result-gold-3").textContent=r.best.gold;
-    document.getElementById("result-aqua-3").textContent=r.best.AQUA;
-    document.getElementById("result-nautilus-3").textContent=r.best.NAUTILUS;
-    document.getElementById("result-spine-3").textContent=r.best.SPINE;
-    document.getElementById("result-essence-3").textContent=
+    // 🔹 프리미엄 한정가 LV 가져오기
+    const premiumLV = +document.getElementById("info-expert-premium-price").value;
+
+    // 🔹 LV별 증가율 정의
+    const PREMIUM_PRICE_RATE = { 1: 0.05, 2: 0.07, 3: 0.10, 4: 0.15, 5: 0.20, 6: 0.30 };
+    const rate = PREMIUM_PRICE_RATE[premiumLV] || 0;
+
+    // 🔹 최종 골드 계산
+    const finalGold = Math.floor(r.best.gold * (1 + rate));
+
+    document.getElementById("result-gold-3").textContent = finalGold;
+    document.getElementById("result-aqua-3").textContent = r.best.AQUA;
+    document.getElementById("result-nautilus-3").textContent = r.best.NAUTILUS;
+    document.getElementById("result-spine-3").textContent = r.best.SPINE;
+
+    document.getElementById("result-essence-3").textContent =
         `수호 ${r.elixirNeed.guard}, 파동 ${r.elixirNeed.wave}, 혼란 ${r.elixirNeed.chaos}, 생명 ${r.elixirNeed.life}, 부식 ${r.elixirNeed.decay}`;
-    document.getElementById("result-core-3").textContent=
+    document.getElementById("result-core-3").textContent =
         `불멸 재생 ${r.potionNeed.immortal}, 파동 장벽 ${r.potionNeed.barrier}, 타락 침식 ${r.potionNeed.corrupt}, 생명 광란 ${r.potionNeed.frenzy}, 맹독 파동 ${r.potionNeed.poison}`;
-    document.getElementById("result-material-3").textContent=
+    document.getElementById("result-material-3").textContent =
         `불우렁쉥이 ${r.materialNeed.seaSquirt}, 유리병 ${r.materialNeed.bottle}, 발광먹물주머니 ${r.materialNeed.glowInk}, 발광열매 ${r.materialNeed.glowBerry}`;
-    document.getElementById("result-block-3").textContent=
+    document.getElementById("result-block-3").textContent =
         `네더렉 ${r.blockNeed.netherrack}, 마그마 ${r.blockNeed.magma}, 영혼모래 ${r.blockNeed.soulSand}, 진홍빛자루 ${r.blockNeed.crimson}, 뒤틀린자루 ${r.blockNeed.warped}`;
-    document.getElementById("result-flower-3").textContent=
+    document.getElementById("result-flower-3").textContent =
         `수레국화 ${r.flowerNeed.cornflower}, 민들레 ${r.flowerNeed.dandelion}, 데이지 ${r.flowerNeed.daisy}, 양귀비 ${r.flowerNeed.poppy}, 선애기별꽃 ${r.flowerNeed.azure}`;
 }
+
+
+
+/* ========================= 전문가  ========================= */
+
+const PREMIUM_PRICE_RATE = {
+    1: 0.05,
+    2: 0.07,
+    3: 0.10,
+    4: 0.15,
+    5: 0.20,
+    6: 0.30
+};
+
+function getPremiumRate(lv) {
+    return PREMIUM_PRICE_RATE[lv] || 0;
+}
+
+// 정보탭 프리미엄 LV input
+const premiumInput = document.getElementById("info-expert-premium-price");
+
+premiumInput.addEventListener("input", () => {
+    const rate = getPremiumRate(+premiumInput.value);
+
+    // 현재 표시된 성급 계산기 확인
+    const visibleStar = document.querySelector(".star-level:not([style*='display: none'])");
+    if (!visibleStar) return;
+
+    const starId = visibleStar.id;
+    
+    if (starId === "star-1") run1StarOptimization();
+    else if (starId === "star-2") run2StarOptimization();
+    else if (starId === "star-3") run3StarOptimization();
+});
