@@ -10,7 +10,7 @@ function add(target, src, mul = 1) {
 /*************************************************
  * 1️⃣ 1성 계산기
  *************************************************/
-const GOLD_1STAR = { A: 2643, K: 2682, L: 2763 };
+const GOLD_1STAR = { A: 3436, K: 3486, L: 3592 };
 const CORE_TO_ESSENCE = {
     WG: { guard: 1, wave: 1 },
     WP: { wave: 1, chaos: 1 },
@@ -94,7 +94,7 @@ function run1StarOptimization() {
     if (!r) return alert("재료 부족");
 
     const premiumLV = +document.getElementById("info-expert-premium-price").value;
-    const PREMIUM_PRICE_RATE = { 1: 0.05, 2: 0.07, 3: 0.10, 4: 0.15, 5: 0.20, 6: 0.30 };
+    const PREMIUM_PRICE_RATE = { 1: 0.05, 2: 0.07, 3: 0.10, 4: 0.15, 5: 0.20, 6: 0.30, 7: 0.40, 8: 0.50 };
     const rate = PREMIUM_PRICE_RATE[premiumLV] || 0;
 
     const finalGold = Math.floor(r.best.gold * (1 + rate));
@@ -117,7 +117,7 @@ function run1StarOptimization() {
 /*************************************************
  * 2️⃣ 2성 계산기
  *************************************************/
-const GOLD_2STAR = { CORE: 5702, POTION: 5760, WING: 5840 };
+const GOLD_2STAR = { CORE: 7413, POTION: 7487, WING: 7592 };
 
 function calculate2Star(input) {
     let best = { gold: -1, CORE: 0, POTION: 0, WING: 0 };
@@ -188,7 +188,7 @@ function run2StarOptimization() {
     if (!r) return alert("재료 부족");
 
     const premiumLV = +document.getElementById("info-expert-premium-price").value;
-    const PREMIUM_PRICE_RATE = { 1: 0.05, 2: 0.07, 3: 0.10, 4: 0.15, 5: 0.20, 6: 0.30 };
+    const PREMIUM_PRICE_RATE = { 1: 0.05, 2: 0.07, 3: 0.10, 4: 0.15, 5: 0.20, 6: 0.30, 7: 0.40, 8: 0.50 };
     const rate = PREMIUM_PRICE_RATE[premiumLV] || 0;
 
     const finalGold = Math.floor(r.best.gold * (1 + rate));
@@ -205,13 +205,20 @@ function run2StarOptimization() {
     document.getElementById("result-material-2").textContent =
         `해초 ${r.materialNeed.seaweed}, 먹물 ${r.materialNeed.ink}`;
     document.getElementById("result-extra-2").textContent =
-        `청금석 ${r.mineralNeed.lapis}, 레드스톤 ${r.mineralNeed.redstone}, 철 ${r.mineralNeed.iron}, 금 ${r.mineralNeed.gold}, 다이아 ${r.mineralNeed.diamond}`;
+        `청금석 블록 ${r.mineralNeed.lapis}, 레드스톤 블록 ${r.mineralNeed.redstone}, 철 ${r.mineralNeed.iron}, 금 ${r.mineralNeed.gold}, 다이아 ${r.mineralNeed.diamond}`;
 }
 
 /*************************************************
  * 3️⃣ 3성 계산기
  *************************************************/
-const GOLD_3STAR = { AQUA: 8230, NAUTILUS: 8326, SPINE: 8379 };
+const GOLD_3STAR = { AQUA: 10699, NAUTILUS: 10824, SPINE: 10892 }; // 가격 업데이트
+const ELIXER_MATERIALS = {
+    "불멸 재생의 영약 ★★★": ["수호의 엘릭서 ★★★","생명의 엘릭서 ★★★","발광 먹물 주머니","발광 열매","수레국화"],
+    "파동 장벽의 영약 ★★★": ["파동의 엘릭서 ★★★","수호의 엘릭서 ★★★","발광 먹물 주머니","발광 열매","민들레"],
+    "타락 침식의 영약 ★★★": ["혼란의 엘릭서 ★★★","부식의 엘릭서 ★★★","발광 먹물 주머니","발광 열매","데이지"],
+    "생명 광란의 영약 ★★★": ["생명의 엘릭서 ★★★","혼란의 엘릭서 ★★★","발광 먹물 주머니","발광 열매","양귀비"],
+    "맹독 파동의 영약 ★★★": ["부식의 엘릭서 ★★★","파동의 엘릭서 ★★★","발광 먹물 주머니","발광 열매","선애기별꽃"]
+};
 
 function calculate3Star(input) {
     let best = { gold: -1, AQUA: 0, NAUTILUS: 0, SPINE: 0 };
@@ -290,7 +297,7 @@ function run3StarOptimization() {
     if (!r) return alert("재료 부족");
 
     const premiumLV = +document.getElementById("info-expert-premium-price").value;
-    const PREMIUM_PRICE_RATE = { 1: 0.05, 2: 0.07, 3: 0.10, 4: 0.15, 5: 0.20, 6: 0.30 };
+    const PREMIUM_PRICE_RATE = { 1: 0.05, 2: 0.07, 3: 0.10, 4: 0.15, 5: 0.20, 6: 0.30, 7: 0.40, 8: 0.50 };
     const rate = PREMIUM_PRICE_RATE[premiumLV] || 0;
 
     const finalGold = Math.floor(r.best.gold * (1 + rate));
@@ -303,77 +310,133 @@ function run3StarOptimization() {
     document.getElementById("result-essence-3").textContent =
         `수호 ${r.elixirNeed.guard}, 파동 ${r.elixirNeed.wave}, 혼란 ${r.elixirNeed.chaos}, 생명 ${r.elixirNeed.life}, 부식 ${r.elixirNeed.decay}`;
     document.getElementById("result-core-3").textContent =
-        `불멸 재생 ${r.potionNeed.immortal}, 장벽 보호 ${r.potionNeed.barrier}, 맹독 ${r.potionNeed.poison}, 광란 ${r.potionNeed.frenzy}, 부패 ${r.potionNeed.corrupt}`;
+        `불멸 재생 ${r.potionNeed.immortal}, 파동 장벽 ${r.potionNeed.barrier}, 타락 침식 ${r.potionNeed.poison}, 생명 광란 ${r.potionNeed.frenzy}, 맹독 파동 ${r.potionNeed.corrupt}`;
     document.getElementById("result-material-3").textContent =
-        `해삼 ${r.materialNeed.seaSquirt}, 병 ${r.materialNeed.bottle}, 발광 먹물 ${r.materialNeed.glowInk}, 발광 열매 ${r.materialNeed.glowBerry}`;
+        `불우렁쉥이 ${r.materialNeed.seaSquirt}, 유리병 ${r.materialNeed.bottle}, 발광 먹물 ${r.materialNeed.glowInk}, 발광 열매 ${r.materialNeed.glowBerry}`;
     document.getElementById("result-block-3").textContent =
-        `네더랙 ${r.blockNeed.netherrack}, 마그마 ${r.blockNeed.magma}, 소울샌드 ${r.blockNeed.soulSand}, 크림슨 ${r.blockNeed.crimson}, 워프드 ${r.blockNeed.warped}`;
+        `네더렉 ${r.blockNeed.netherrack}, 마그마 ${r.blockNeed.magma}, 소울샌드 ${r.blockNeed.soulSand}, 진흥빛자루 ${r.blockNeed.crimson}, 뒤틀린자루 ${r.blockNeed.warped}`;
     document.getElementById("result-flower-3").textContent =
-        `콘플라워 ${r.flowerNeed.cornflower}, 민들레 ${r.flowerNeed.dandelion}, 데이지 ${r.flowerNeed.daisy}, 양귀비 ${r.flowerNeed.poppy}, 아쥬르 ${r.flowerNeed.azure}`;
+        `수레국화 ${r.flowerNeed.cornflower}, 민들레 ${r.flowerNeed.dandelion}, 데이지 ${r.flowerNeed.daisy}, 양귀비 ${r.flowerNeed.poppy}, 선애기별꽃 ${r.flowerNeed.azure}`;
 }
 
 /*************************************************
- * 4️⃣ 스태미나 계산기
+ * 4️⃣ 스태미나 계산기 (정보탭 전문가 반영)
  *************************************************/
+
+// 낚싯대 강화 단계별 드롭 수와 기본 조개 확률
+const rodData = {
+    1: { drop: 1, clamRate: 0 },
+    2: { drop: 1, clamRate: 0.01 },
+    3: { drop: 2, clamRate: 0.01 },
+    4: { drop: 2, clamRate: 0.01 },
+    5: { drop: 2, clamRate: 0.02 },
+    6: { drop: 3, clamRate: 0.02 },
+    7: { drop: 3, clamRate: 0.02 },
+    8: { drop: 3, clamRate: 0.03 },
+    9: { drop: 4, clamRate: 0.03 },
+    10:{ drop: 4, clamRate: 0.03 },
+    11:{ drop: 4, clamRate: 0.05 },
+    12:{ drop: 5, clamRate: 0.05 },
+    13:{ drop: 5, clamRate: 0.05 },
+    14:{ drop: 5, clamRate: 0.05 },
+    15:{ drop: 6, clamRate: 0.10 },
+};
+
 function runStaminaSimulation() {
-    // input 값 가져오기
-    const stamina = +document.getElementById("input-stamina").value;
+    const stamina = +document.getElementById("input-stamina").value || 0;
     const item = document.getElementById("stamina-item-select").value;
 
     if (!stamina) return alert("스태미나를 입력해주세요.");
 
-    // 여기서 기존 로직으로 1,2,3성 확률/아이템 계산
-    // 예시: 1성만 계산
-    const result = {
-        "1성": Math.floor(stamina * 0.5),
-        "2성": Math.floor(stamina * 0.3),
-        "3성": Math.floor(stamina * 0.2),
-        "조개": Math.floor(stamina * 0.1)
-    };
+    // 정보탭 전문가 값 가져오기
+    const rodLV = +document.getElementById("info-expert-rod")?.value || 1;
+    const stormLV = +document.getElementById("expert-storm")?.value || 0;
+    const starLV = +document.getElementById("expert-star")?.value || 0;
+    const clamLV = +document.getElementById("expert-clam-refill")?.value || 0;
 
-    let html = `<ul>
-        <li>1성 ${item}: ${result["1성"]}</li>
-        <li>2성 ${item}: ${result["2성"]}</li>
-        <li>3성 ${item}: ${result["3성"]}</li>
-        <li>조개: ${result["조개"]}</li>
-    </ul>`;
+    const staminaPerGather = 15;
+    const gatherCount = Math.floor(stamina / staminaPerGather);
 
+    // 낚싯대 드롭 수와 조개 확률
+    const rodInfo = rodData[rodLV] || { drop: 1, clamRate: 0 };
+    let totalDrops = gatherCount * rodInfo.drop;
+
+    // 폭풍의 물질꾼: 비 오는 날만 적용 (여기선 가정으로 true)
+    const isRain = true;
+    if (stormLV > 0 && isRain) {
+        // 레벨에 따라 추가 % 적용: LV1=1%, LV2=3%, LV3=5%, LV4=7%, LV5=10%
+        const stormBonus = [0, 0.01, 0.03, 0.05, 0.07, 0.10];
+        totalDrops = Math.floor(totalDrops * (1 + (stormBonus[stormLV] || 0)));
+    }
+
+    // 등급 확률
+    const rate3 = 0.1 + 0.01 * starLV; // 별별별! 적용
+    const rate2 = 0.3;
+    const rate1 = 1 - rate2 - rate3;
+
+    // 등급별 수량
+    const count1 = Math.floor(totalDrops * rate1);
+    const count2 = Math.floor(totalDrops * rate2);
+    const count3 = Math.floor(totalDrops * rate3);
+
+    // 조개 등장 확률: 낚싯대 + 조개 무한리필
+    const clamRatePerLV = [0, 0.01, 0.015, 0.02, 0.025, 0.03, 0.035, 0.04, 0.045, 0.05, 0.07];
+    const clamRate = (rodInfo.clamRate || 0) + (clamRatePerLV[clamLV] || 0);
+    const clamCount = Math.floor(gatherCount * clamRate);
+
+    // 결과 출력
+    const html = `
+        <ul>
+            <li>1성 ${item}: ${count1}</li>
+            <li>2성 ${item}: ${count2}</li>
+            <li>3성 ${item}: ${count3}</li>
+            <li>조개: ${clamCount}</li>
+        </ul>
+    `;
     document.getElementById("stamina-item-list").innerHTML = html;
+
+    // 전문가 요약 업데이트
+    updateStaminaExpertSummary();
+}
+
+function updateStaminaExpertSummary() {
+    const rodLV = +document.getElementById("info-expert-rod")?.value || 1;
+    const stormLV = +document.getElementById("expert-storm")?.value || 0;
+    const starLV = +document.getElementById("expert-star")?.value || 0;
+    const clamLV = +document.getElementById("expert-clam-refill")?.value || 0;
+
+    const summaryElem = document.getElementById("stamina-expert-summary");
+    if (summaryElem) {
+        summaryElem.textContent = `(폭풍 ${stormLV}LV, 별별별 ${starLV}LV, 조개 무한리필 ${clamLV}LV, 낚싯대 ${rodLV}강 적용)`;
+    }
 }
 
 /*************************************************
  * 이벤트 등록
  *************************************************/
 document.addEventListener("DOMContentLoaded", () => {
-    // 프리미엄 LV 변경 시 자동 계산
-    const premiumInput = document.getElementById("info-expert-premium-price");
-    if (premiumInput) {
-        premiumInput.addEventListener("input", () => {
-            const visibleStar = document.querySelector(".star-level:not([style*='display: none'])");
-            if (!visibleStar) return;
-            const starId = visibleStar.id;
-            if (starId === "star-1") run1StarOptimization();
-            else if (starId === "star-2") run2StarOptimization();
-            else if (starId === "star-3") run3StarOptimization();
-        });
-    }
-
-    // 기존 계산기 버튼 이벤트 연결
-    document.getElementById("btn-run-1")?.addEventListener("click", run1StarOptimization);
-    document.getElementById("btn-run-2")?.addEventListener("click", run2StarOptimization);
-    document.getElementById("btn-run-3")?.addEventListener("click", run3StarOptimization);
-
-    // 🔹 스태미나 계산기 버튼 이벤트 추가
+    // 스태미나 계산 버튼
     document.getElementById("stamina-calc-btn")?.addEventListener("click", runStaminaSimulation);
+
+    // 전문가 입력 변경 시 요약 업데이트
+    const expertInputs = [
+        "info-expert-rod",
+        "expert-storm",
+        "expert-star",
+        "expert-clam-refill"
+    ];
+    expertInputs.forEach(id => {
+        const input = document.getElementById(id);
+        if (input) input.addEventListener("input", updateStaminaExpertSummary);
+    });
+
+    // 초기 요약 반영
+    updateStaminaExpertSummary();
 });
 
-// i 버튼 클릭 시 설명 토글
+// i 버튼 클릭 설명 토글
 function toggleDesc(id) {
     const elem = document.getElementById(id);
     if (!elem) return;
-    if (elem.style.display === 'none' || elem.style.display === '') {
-        elem.style.display = 'block';
-    } else {
-        elem.style.display = 'none';
-    }
+    elem.style.display = (elem.style.display === 'none' || elem.style.display === '') ? 'block' : 'none';
 }
