@@ -97,9 +97,15 @@ function run1StarOptimization() {
     const PREMIUM_PRICE_RATE = { 1: 0.05, 2: 0.07, 3: 0.10, 4: 0.15, 5: 0.20, 6: 0.30, 7: 0.40, 8: 0.50 };
     const rate = PREMIUM_PRICE_RATE[premiumLV] || 0;
 
+    // 최종 골드 계산
     const finalGold = Math.floor(r.best.gold * (1 + rate));
-
     document.getElementById("result-gold-1").textContent = finalGold;
+
+    // 프리미엄 보너스 퍼센트 표시
+    const bonusText = premiumLV ? `+${Math.floor(rate * 100)}%` : '+0%';
+    document.getElementById("result-premium-bonus-1").textContent = bonusText;
+
+    // 재료 결과 표시
     document.getElementById("result-acutis-1").textContent = r.best.A;
     document.getElementById("result-frenzy-1").textContent = r.best.K;
     document.getElementById("result-feather-1").textContent = r.best.L;
@@ -194,6 +200,11 @@ function run2StarOptimization() {
     const finalGold = Math.floor(r.best.gold * (1 + rate));
 
     document.getElementById("result-gold-2").textContent = finalGold;
+    
+    // 프리미엄 보너스 퍼센트 표시
+    const bonusText = premiumLV ? `+${Math.floor(rate * 100)}%` : '+0%';
+    document.getElementById("result-premium-bonus-2").textContent = bonusText;
+
     document.getElementById("result-acutis-2").textContent = r.best.CORE;
     document.getElementById("result-frenzy-2").textContent = r.best.POTION;
     document.getElementById("result-feather-2").textContent = r.best.WING;
@@ -303,6 +314,11 @@ function run3StarOptimization() {
     const finalGold = Math.floor(r.best.gold * (1 + rate));
 
     document.getElementById("result-gold-3").textContent = finalGold;
+
+    // 프리미엄 보너스 퍼센트 표시
+    const bonusText = premiumLV ? `+${Math.floor(rate * 100)}%` : '+0%';
+    document.getElementById("result-premium-bonus-3").textContent = bonusText;
+
     document.getElementById("result-aqua-3").textContent = r.best.AQUA;
     document.getElementById("result-nautilus-3").textContent = r.best.NAUTILUS;
     document.getElementById("result-spine-3").textContent = r.best.SPINE;
