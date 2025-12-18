@@ -1,5 +1,5 @@
 /*************************************************
- * 4️⃣ 스태미나 계산기 (정보탭 전문가 반영)
+ * 4️⃣ 스태미나 계산기 (정보탭 전문가 반영, 정수 평균값)
  *************************************************/
 
 // 낚싯대 강화 단계별 드롭 수와 기본 조개 확률
@@ -27,7 +27,7 @@ window.runStaminaSimulation = function runStaminaSimulation() {
 
     if (!stamina) return alert("스태미나를 입력해주세요.");
 
-    // 정보탭 전문가 값 가져오기
+    // 전문가 값 가져오기
     const rodLV = +document.getElementById("info-expert-rod")?.value || 1;
     const stormLV = +document.getElementById("expert-storm")?.value || 0;
     const starLV = +document.getElementById("expert-star")?.value || 0;
@@ -43,20 +43,38 @@ window.runStaminaSimulation = function runStaminaSimulation() {
     // 폭풍의 물질꾼: 비 오는 날만 적용 (여기선 가정으로 true)
     const isRain = true;
     if (stormLV > 0 && isRain) {
-        // 레벨에 따라 추가 % 적용: LV1=1%, LV2=3%, LV3=5%, LV4=7%, LV5=10%
         const stormBonus = [0, 0.01, 0.03, 0.05, 0.07, 0.10];
         totalDrops = Math.floor(totalDrops * (1 + (stormBonus[stormLV] || 0)));
     }
 
     // 등급 확률
-    const rate3 = 0.1 + 0.01 * starLV; // 별별별! 적용
-    const rate2 = 0.3;
-    const rate1 = 1 - rate2 - rate3;
+    const rate3 = 0.1 + 0.01 * starLV; // 3성
+    const rate2 = 0.3;                  // 2성
+    const rate1 = 1 - rate2 - rate3;    // 1성
 
-    // 등급별 수량
-    const count1 = Math.floor(totalDrops * rate1);
-    const count2 = Math.floor(totalDrops * rate2);
-    const count3 = Math.floor(totalDrops * rate3);
+    // 소수 기반으로 초기 계산
+    let raw1 = totalDrops * rate1;
+    let raw2 = totalDrops * rate2;
+    let raw3 = totalDrops * rate3;
+
+    // 정수로 변환 (버림)
+    let count1 = Math.floor(raw1);
+    let count2 = Math.floor(raw2);
+    let count3 = Math.floor(raw3);
+
+    // 남은 개수(totalDrops - sum) 나머지 처리: 확률 높은 순서대로 배분
+    let remainder = totalDrops - (count1 + count2 + count3);
+    const probOrder = [
+        { count: 'count3', frac: raw3 - count3 },
+        { count: 'count2', frac: raw2 - count2 },
+        { count: 'count1', frac: raw1 - count1 }
+    ].sort((a,b)=>b.frac - a.frac);
+
+    for (let i = 0; i < remainder; i++) {
+        if (probOrder[i % 3].count === 'count3') count3++;
+        else if (probOrder[i % 3].count === 'count2') count2++;
+        else count1++;
+    }
 
     // 조개 등장 확률: 낚싯대 + 조개 무한리필
     const clamRatePerLV = [0, 0.01, 0.015, 0.02, 0.025, 0.03, 0.035, 0.04, 0.045, 0.05, 0.07];
@@ -65,17 +83,14 @@ window.runStaminaSimulation = function runStaminaSimulation() {
 
     // 결과 출력
     const html = `
-        <ul>
-            <li>1성 ${item}: ${count1}</li>
-            <li>2성 ${item}: ${count2}</li>
-            <li>3성 ${item}: ${count3}</li>
-            <li>조개: ${clamCount}</li>
-        </ul>
+        <div class="stamina-result-products">
+            <div>${item}★ <span>${count1}</span></div>
+            <div>${item}★★ <span>${count2}</span></div>
+            <div>${item}★★★ <span>${count3}</span></div>
+            <div>조개 <span>${clamCount}</span></div>
+        </div>
     `;
     document.getElementById("stamina-item-list").innerHTML = html;
-
-    // 전문가 요약 업데이트
-    updateStaminaExpertSummary();
 }
 
 window.updateStaminaExpertSummary = function updateStaminaExpertSummary() {

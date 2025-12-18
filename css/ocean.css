@@ -382,6 +382,8 @@ input[type=number] {
     box-sizing: border-box;
 }
 
+
+
 /* 계산 버튼 */
 .stamina-button-wrapper {
     text-align: center;
@@ -405,43 +407,34 @@ input[type=number] {
     background: #1558b0;
 }
 
-/* 결과 영역 */
-.stamina-result-card {
-    margin-top: 16px;
-    padding: 18px;
-    background: #f8f9fb;
-    border-radius: 16px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.06);
-}
-
-.stamina-result-card h4 {
-    margin-top: 0;
-    margin-bottom: 12px;
-}
-
-/* 결과 항목: 어패류 / 조개 */
-.stamina-result-items {
+/* 스태미나 결과 항목: 제작 결과 느낌 */
+.stamina-result-products {
     display: grid;
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
     gap: 12px;
+    margin-top: 12px;
     text-align: center;
 }
 
-.stamina-result-items div {
-    background: #ffffff;
+/* 개별 카드 */
+.stamina-result-products div {
+    background: #f8f9fb; /* 카드 배경 */
     border-radius: 12px;
-    padding: 12px 8px;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+    padding: 14px 10px;
+    font-size: 0.85rem;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.04);
+    transition: transform 0.2s ease, box-shadow 0.3s ease, background 0.3s ease;
 }
 
-.stamina-result-items span {
+
+/* 수량 강조 */
+.stamina-result-products span {
     display: block;
     margin-top: 6px;
-    font-size: 1.1rem;
+    font-size: 1.2rem;
     font-weight: 700;
     color: #1e6fd9;
 }
-
 
 
 /* =========================
