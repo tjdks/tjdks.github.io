@@ -27,7 +27,14 @@ document.addEventListener('DOMContentLoaded', () => {
     // ===== 계산 함수 =====
     window.calculate3Star = function(input) {
         let best = { gold: -1, AQUA: 0, NAUTILUS: 0, SPINE: 0 };
-        let limit = Math.max(10, input.guard + input.wave + input.chaos + input.life + input.decay);
+        // 최적화: 각 아이템이 최소 2개 엘릭서 필요 → 입력값의 1/2이 상한
+        let limit = Math.ceil(Math.max(
+            input.guard / 2,
+            input.wave / 2,
+            input.chaos / 2,
+            input.life / 2,
+            input.decay / 2
+        )) + 5;
 
         for (let AQUA = 0; AQUA <= limit; AQUA++) {
             for (let NAUTILUS = 0; NAUTILUS <= limit; NAUTILUS++) {
