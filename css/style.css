@@ -43,8 +43,9 @@ body {
   text-decoration: none;
   color: #555;
   font-weight: 600;
-  padding-bottom: 8px;
+  padding-bottom: 1px;
   transition: color 0.25s ease;
+  
 }
 
 .main-nav a::after {
