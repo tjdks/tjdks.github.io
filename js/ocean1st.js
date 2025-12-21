@@ -33,16 +33,18 @@ document.addEventListener('DOMContentLoaded', () => {
     const advancedSwitcher = document.getElementById('switcher-advanced');
 
     // ===== 고급 입력 모드 토글 =====
-    advancedSwitcher?.addEventListener('change', function() {
-        const advancedInputs = document.getElementById('advanced-inputs-1');
-        if (advancedInputs) {
-            if (this.checked) {
-                advancedInputs.classList.add('active');
-            } else {
-                advancedInputs.classList.remove('active');
+    if (advancedSwitcher) {
+        advancedSwitcher.addEventListener('change', function() {
+            const advancedInputs = document.getElementById('advanced-inputs-1');
+            if (advancedInputs) {
+                if (this.checked) {
+                    advancedInputs.classList.add('active');
+                } else {
+                    advancedInputs.classList.remove('active');
+                }
             }
-        }
-    });
+        });
+    }
 
     // ===== 유틸 함수 =====
     function add(target, src, mul = 1) {
@@ -59,22 +61,26 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // ===== 계산 함수 (고급 입력 지원) =====
     window.calculate1Star = function(input) {
-        // 고급 모드 여부 확인
         const isAdvanced = Number.isFinite(input.coreWG) && input.coreWG >= 0;
 
         let best = { gold: -1, A: 0, K: 0, L: 0 };
-        
+
         // 보유 핵을 정수로 환산
         let essFromCore = { guard: 0, wave: 0, chaos: 0, life: 0, decay: 0 };
         if (isAdvanced) {
-            essFromCore.guard = input.coreWG * CORE_TO_ESSENCE.WG.guard + input.coreED * CORE_TO_ESSENCE.ED.guard;
-            essFromCore.wave = input.coreWG * CORE_TO_ESSENCE.WG.wave + input.coreWP * CORE_TO_ESSENCE.WP.wave;
-            essFromCore.chaos = input.coreWP * CORE_TO_ESSENCE.WP.chaos + input.coreOD * CORE_TO_ESSENCE.OD.chaos;
-            essFromCore.life = input.coreOD * CORE_TO_ESSENCE.OD.life + input.coreVD * CORE_TO_ESSENCE.VD.life;
-            essFromCore.decay = input.coreVD * CORE_TO_ESSENCE.VD.decay + input.coreED * CORE_TO_ESSENCE.ED.decay;
+            essFromCore.guard += input.coreWG * 1;
+            essFromCore.wave += input.coreWG * 1;
+            essFromCore.wave += input.coreWP * 1;
+            essFromCore.chaos += input.coreWP * 1;
+            essFromCore.chaos += input.coreOD * 1;
+            essFromCore.life += input.coreOD * 1;
+            essFromCore.life += input.coreVD * 1;
+            essFromCore.decay += input.coreVD * 1;
+            essFromCore.decay += input.coreED * 1;
+            essFromCore.guard += input.coreED * 1;
         }
 
-        // 총 보유 정수 = 어패류 + 보유 정수 + 핵에서 나온 정수
+        // 총 보유 정수
         const totalEss = {
             guard: input.guard + (input.essGuard || 0) + essFromCore.guard,
             wave: input.wave + (input.essWave || 0) + essFromCore.wave,
@@ -106,7 +112,6 @@ document.addEventListener('DOMContentLoaded', () => {
                         decay: CORE_TO_ESSENCE.VD.decay * coreUsed.VD + CORE_TO_ESSENCE.ED.decay * coreUsed.ED
                     };
 
-                    // 총 보유 정수와 비교
                     if (
                         ess.guard > totalEss.guard ||
                         ess.wave > totalEss.wave ||
@@ -144,7 +149,6 @@ document.addEventListener('DOMContentLoaded', () => {
         let finalEssNeed = { guard: 0, wave: 0, chaos: 0, life: 0, decay: 0 };
 
         if (isAdvanced) {
-            // 제작해야 할 핵 (총 필요량 - 보유량)
             coreToMake = {
                 WG: Math.max(0, coreNeed.WG - input.coreWG),
                 WP: Math.max(0, coreNeed.WP - input.coreWP),
@@ -153,18 +157,16 @@ document.addEventListener('DOMContentLoaded', () => {
                 ED: Math.max(0, coreNeed.ED - input.coreED)
             };
 
-            // 제작할 핵에 필요한 정수
             for (let c in coreToMake) {
                 add(essToMake, CORE_TO_ESSENCE[c], coreToMake[c]);
             }
 
-            // 제작해야 할 정수 (핵 제작용 정수 - 보유 정수)
             finalEssNeed = {
-                guard: Math.max(0, (essToMake.guard || 0) - input.essGuard),
-                wave: Math.max(0, (essToMake.wave || 0) - input.essWave),
-                chaos: Math.max(0, (essToMake.chaos || 0) - input.essChaos),
-                life: Math.max(0, (essToMake.life || 0) - input.essLife),
-                decay: Math.max(0, (essToMake.decay || 0) - input.essDecay)
+                guard: Math.max(0, (essToMake.guard || 0) - (input.essGuard + essFromCore.guard)),
+                wave: Math.max(0, (essToMake.wave || 0) - (input.essWave + essFromCore.wave)),
+                chaos: Math.max(0, (essToMake.chaos || 0) - (input.essChaos + essFromCore.chaos)),
+                life: Math.max(0, (essToMake.life || 0) - (input.essLife + essFromCore.life)),
+                decay: Math.max(0, (essToMake.decay || 0) - (input.essDecay + essFromCore.decay))
             };
         }
 
@@ -193,8 +195,7 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById("result-frenzy-1").textContent = setSwitcher.checked ? formatSet(r.best.K) : r.best.K;
         document.getElementById("result-feather-1").textContent = setSwitcher.checked ? formatSet(r.best.L) : r.best.L;
 
-        // 고급 모드일 경우 "제작할" 정수/핵 표시
-        const isAdvanced = advancedSwitcher?.checked;
+        const isAdvanced = advancedSwitcher && advancedSwitcher.checked;
         const essData = isAdvanced ? r.finalEssNeed : r.essNeed;
         const coreData = isAdvanced ? r.coreToMake : r.coreNeed;
 
@@ -212,28 +213,47 @@ document.addEventListener('DOMContentLoaded', () => {
             `활력 붕괴 ${setSwitcher.checked ? formatSet(coreData.VD || 0) : (coreData.VD || 0)}, ` +
             `침식 방어 ${setSwitcher.checked ? formatSet(coreData.ED || 0) : (coreData.ED || 0)}`;
 
+        // 블록: 제작할 정수에 필요한 블록만
+        const blockNeedCalc = isAdvanced ? essData : r.essNeed;
+        const finalBlockNeed = {
+            clay: (blockNeedCalc.guard || 0) * 1,
+            sand: (blockNeedCalc.wave || 0) * 3,
+            dirt: (blockNeedCalc.chaos || 0) * 4,
+            gravel: (blockNeedCalc.life || 0) * 2,
+            granite: (blockNeedCalc.decay || 0) * 1
+        };
+
         document.getElementById("result-block-1").textContent =
-            `점토 ${setSwitcher.checked ? formatSet(r.blockNeed.clay || 0) : (r.blockNeed.clay || 0)}, ` +
-            `모래 ${setSwitcher.checked ? formatSet(r.blockNeed.sand || 0) : (r.blockNeed.sand || 0)}, ` +
-            `흙 ${setSwitcher.checked ? formatSet(r.blockNeed.dirt || 0) : (r.blockNeed.dirt || 0)}, ` +
-            `자갈 ${setSwitcher.checked ? formatSet(r.blockNeed.gravel || 0) : (r.blockNeed.gravel || 0)}, ` +
-            `화강암 ${setSwitcher.checked ? formatSet(r.blockNeed.granite || 0) : (r.blockNeed.granite || 0)}`;
+            `점토 ${setSwitcher.checked ? formatSet(finalBlockNeed.clay) : finalBlockNeed.clay}, ` +
+            `모래 ${setSwitcher.checked ? formatSet(finalBlockNeed.sand) : finalBlockNeed.sand}, ` +
+            `흙 ${setSwitcher.checked ? formatSet(finalBlockNeed.dirt) : finalBlockNeed.dirt}, ` +
+            `자갈 ${setSwitcher.checked ? formatSet(finalBlockNeed.gravel) : finalBlockNeed.gravel}, ` +
+            `화강암 ${setSwitcher.checked ? formatSet(finalBlockNeed.granite) : finalBlockNeed.granite}`;
+
+        // 물고기: 제작할 핵에 필요한 물고기만
+        const fishNeedCalc = isAdvanced ? coreData : r.coreNeed;
+        const finalFishNeed = {
+            shrimp: fishNeedCalc.WG || 0,
+            domi: fishNeedCalc.WP || 0,
+            herring: fishNeedCalc.OD || 0,
+            goldfish: fishNeedCalc.VD || 0,
+            bass: fishNeedCalc.ED || 0
+        };
 
         document.getElementById("result-fish-1").textContent =
-            `새우 ${setSwitcher.checked ? formatSet(r.fishNeed.shrimp || 0) : (r.fishNeed.shrimp || 0)}, ` +
-            `도미 ${setSwitcher.checked ? formatSet(r.fishNeed.domi || 0) : (r.fishNeed.domi || 0)}, ` +
-            `청어 ${setSwitcher.checked ? formatSet(r.fishNeed.herring || 0) : (r.fishNeed.herring || 0)}, ` +
-            `금붕어 ${setSwitcher.checked ? formatSet(r.fishNeed.goldfish || 0) : (r.fishNeed.goldfish || 0)}, ` +
-            `농어 ${setSwitcher.checked ? formatSet(r.fishNeed.bass || 0) : (r.fishNeed.bass || 0)}`;
+            `새우 ${setSwitcher.checked ? formatSet(finalFishNeed.shrimp) : finalFishNeed.shrimp}, ` +
+            `도미 ${setSwitcher.checked ? formatSet(finalFishNeed.domi) : finalFishNeed.domi}, ` +
+            `청어 ${setSwitcher.checked ? formatSet(finalFishNeed.herring) : finalFishNeed.herring}, ` +
+            `금붕어 ${setSwitcher.checked ? formatSet(finalFishNeed.goldfish) : finalFishNeed.goldfish}, ` +
+            `농어 ${setSwitcher.checked ? formatSet(finalFishNeed.bass) : finalFishNeed.bass}`;
 
         window.last1StarResult = r;
     };
 
     // ===== 버튼 클릭 함수 =====
     window.run1StarOptimization = function() {
-        const isAdvanced = advancedSwitcher?.checked;
+        const isAdvanced = advancedSwitcher && advancedSwitcher.checked;
 
-        // 기본 어패류 입력
         const input = {
             guard: +document.getElementById("input-oyster-1").value || 0,
             wave: +document.getElementById("input-shell-1").value || 0,
@@ -242,7 +262,6 @@ document.addEventListener('DOMContentLoaded', () => {
             decay: +document.getElementById("input-urchin-1").value || 0
         };
 
-        // 고급 모드일 경우 정수/핵 추가
         if (isAdvanced) {
             input.essGuard = +document.getElementById("input-essence-guard-1")?.value || 0;
             input.essWave = +document.getElementById("input-essence-wave-1")?.value || 0;
@@ -256,17 +275,8 @@ document.addEventListener('DOMContentLoaded', () => {
             input.coreVD = +document.getElementById("input-core-vd-1")?.value || 0;
             input.coreED = +document.getElementById("input-core-ed-1")?.value || 0;
         } else {
-            input.essGuard = 0;
-            input.essWave = 0;
-            input.essChaos = 0;
-            input.essLife = 0;
-            input.essDecay = 0;
-
-            input.coreWG = 0;
-            input.coreWP = 0;
-            input.coreOD = 0;
-            input.coreVD = 0;
-            input.coreED = 0;
+            input.essGuard = input.essWave = input.essChaos = input.essLife = input.essDecay = 0;
+            input.coreWG = input.coreWP = input.coreOD = input.coreVD = input.coreED = 0;
         }
 
         const r = calculate1Star(input);
@@ -276,11 +286,15 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     // ===== 스위치 토글 시 기존 결과 재포맷 =====
-    setSwitcher?.addEventListener('change', () => {
-        if (window.last1StarResult) update1StarResult(window.last1StarResult);
-    });
+    if (setSwitcher) {
+        setSwitcher.addEventListener('change', () => {
+            if (window.last1StarResult) update1StarResult(window.last1StarResult);
+        });
+    }
 
-    advancedSwitcher?.addEventListener('change', () => {
-        if (window.last1StarResult) update1StarResult(window.last1StarResult);
-    });
+    if (advancedSwitcher) {
+        advancedSwitcher.addEventListener('change', () => {
+            if (window.last1StarResult) update1StarResult(window.last1StarResult);
+        });
+    }
 });
