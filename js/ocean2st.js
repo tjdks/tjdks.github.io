@@ -1,5 +1,5 @@
 /*************************************************
- * 2️⃣ 2성 계산기 (ocean2st.js) - 보유량 입력 기능
+ * 2️⃣ 2성 계산기 (ocean2st.js) - 성능 최적화 버전
  *************************************************/
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -7,16 +7,14 @@ document.addEventListener('DOMContentLoaded', () => {
     // ===== 상수 정의 =====
     const GOLD_2STAR = { CORE: 7413, POTION: 7487, WING: 7592 };
     
-    // 결정 → 에센스 레시피
     const CRYSTAL_TO_ESSENCE = {
-        vital:   { guard: 1, life: 1 },      // 활기 보존
-        erosion: { wave: 1, decay: 1 },       // 파도 침식
-        defense: { guard: 1, chaos: 1 },      // 방어 오염
-        regen:   { wave: 1, life: 1 },        // 격류 재생
-        poison:  { chaos: 1, decay: 1 }       // 맹독 혼란
+        vital:   { guard: 1, life: 1 },
+        erosion: { wave: 1, decay: 1 },
+        defense: { guard: 1, chaos: 1 },
+        regen:   { wave: 1, life: 1 },
+        poison:  { chaos: 1, decay: 1 }
     };
     
-    // 에센스 → 재료 레시피
     const ESSENCE_TO_MATERIAL = {
         guard: { seaweed: 2, coral_guard: 1 },
         wave: { seaweed: 2, coral_wave: 1 },
@@ -25,7 +23,6 @@ document.addEventListener('DOMContentLoaded', () => {
         decay: { seaweed: 2, coral_decay: 1 }
     };
     
-    // 결정 → 추가 재료 레시피
     const CRYSTAL_TO_MATERIAL = {
         vital: { ink: 1, mineral_lapis: 1 },
         erosion: { ink: 1, mineral_redstone: 1 },
@@ -34,11 +31,10 @@ document.addEventListener('DOMContentLoaded', () => {
         poison: { ink: 1, mineral_diamond: 1 }
     };
 
-    // 2성 아이템 → 결정 레시피
     const ITEM_TO_CRYSTAL = {
-        CORE: { vital: 1, erosion: 1, regen: 1 },      // 해구의 파동 코어
-        POTION: { erosion: 1, regen: 1, poison: 1 },   // 침묵의 심해 비약
-        WING: { vital: 1, defense: 1, poison: 1 }      // 청해룡의 날개
+        CORE: { vital: 1, erosion: 1, regen: 1 },
+        POTION: { erosion: 1, regen: 1, poison: 1 },
+        WING: { vital: 1, defense: 1, poison: 1 }
     };
 
     const SET_COUNT = 64;
@@ -47,12 +43,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const resultCard = document.getElementById("result-card-2");
 
     // ===== 유틸 함수 =====
-    function add(target, src, mul = 1) {
-        for (let k in src) {
-            target[k] = (target[k] || 0) + src[k] * mul;
-        }
-    }
-
     function formatSet(num) {
         const sets = Math.floor(num / SET_COUNT);
         const remainder = num % SET_COUNT;
@@ -74,118 +64,108 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // ===== 계산 함수 =====
+    // ===== 계산 함수 (최적화 버전) =====
     window.calculate2Star = function(input) {
-        console.log("=== 2성 계산 시작 ===");
-        console.log("입력값:", input);
-        
         const isAdvancedMode = input.isAdvancedMode || false;
 
-        // 1️⃣ 2성 어패류를 에센스로 환산
-        let essFrom2Star = {
+        // 1️⃣ 총 가용 자원
+        const totalFish = {
             guard: input.guard2 || 0,
             wave: input.wave2 || 0,
             chaos: input.chaos2 || 0,
             life: input.life2 || 0,
             decay: input.decay2 || 0
         };
-        console.log("1. 2성 어패류 → 에센스:", essFrom2Star);
 
-        // 2️⃣ 보유 결정 (고급 모드) - 에센스로 환산하지 않고 그대로 유지
-        let ownedCrystal = { vital: 0, erosion: 0, defense: 0, regen: 0, poison: 0 };
-        
-        if (isAdvancedMode) {
-            ownedCrystal = {
-                vital: input.crystalVital || 0,
-                erosion: input.crystalErosion || 0,
-                defense: input.crystalDefense || 0,
-                regen: input.crystalRegen || 0,
-                poison: input.crystalPoison || 0
-            };
-            console.log("2. 보유 결정:", ownedCrystal);
-        }
-
-        // 3️⃣ 보유 에센스 (고급 모드)
-        let ownedEssence = { guard: 0, wave: 0, chaos: 0, life: 0, decay: 0 };
-        if (isAdvancedMode) {
-            ownedEssence = {
-                guard: input.essGuard || 0,
-                wave: input.essWave || 0,
-                chaos: input.essChaos || 0,
-                life: input.essLife || 0,
-                decay: input.essDecay || 0
-            };
-            console.log("3. 보유 에센스:", ownedEssence);
-        }
-
-        // 4️⃣ 총 보유 에센스 = 2성 어패류 + 보유 에센스 (결정은 에센스로 환산하지 않음)
         const totalEss = {
-            guard: essFrom2Star.guard + ownedEssence.guard,
-            wave: essFrom2Star.wave + ownedEssence.wave,
-            chaos: essFrom2Star.chaos + ownedEssence.chaos,
-            life: essFrom2Star.life + ownedEssence.life,
-            decay: essFrom2Star.decay + ownedEssence.decay
+            guard: (input.essGuard || 0),
+            wave: (input.essWave || 0),
+            chaos: (input.essChaos || 0),
+            life: (input.essLife || 0),
+            decay: (input.essDecay || 0)
         };
-        console.log("4. 총 보유 에센스:", totalEss);
 
-        // 5️⃣ 각 아이템별 최대 제작 가능 수량
-        // CORE (해구의 파동 코어): 수호1, 파동2, 생명2, 부식1
-        // POTION (침묵의 심해 비약): 파동2, 생명1, 부식2, 혼란1
-        // WING (청해룡의 날개): 수호2, 혼란2, 부식1, 생명1
-        
-        const maxCore = Math.floor(Math.min(
-            totalEss.guard / 1,
-            totalEss.wave / 2,
-            totalEss.life / 2,
-            totalEss.decay / 1
-        ));
-        
-        const maxPotion = Math.floor(Math.min(
-            totalEss.wave / 2,
-            totalEss.life / 1,
-            totalEss.chaos / 1,
-            totalEss.decay / 2
-        ));
-        
-        const maxWing = Math.floor(Math.min(
-            totalEss.guard / 2,
-            totalEss.chaos / 2,
-            totalEss.life / 1,
-            totalEss.decay / 1
-        ));
+        const totalCrystal = isAdvancedMode ? {
+            vital: input.crystalVital || 0,
+            erosion: input.crystalErosion || 0,
+            defense: input.crystalDefense || 0,
+            regen: input.crystalRegen || 0,
+            poison: input.crystalPoison || 0
+        } : { vital: 0, erosion: 0, defense: 0, regen: 0, poison: 0 };
 
-        console.log("5. 개별 최대 제작:", { maxCore, maxPotion, maxWing });
+        // 2️⃣ 최대 제작 가능 개수 계산 (성능 최적화)
+        
+        // CORE: vital(guard+life) + erosion(wave+decay) + regen(wave+life)
+        const maxCore_vital = totalCrystal.vital + Math.floor((totalFish.guard + totalEss.guard + totalFish.life + totalEss.life) / 2);
+        const maxCore_erosion = totalCrystal.erosion + Math.floor((totalFish.wave + totalEss.wave + totalFish.decay + totalEss.decay) / 2);
+        const maxCore_regen = totalCrystal.regen + Math.floor((totalFish.wave + totalEss.wave + totalFish.life + totalEss.life) / 2);
+        const maxCore = Math.min(maxCore_vital, maxCore_erosion, maxCore_regen);
+
+        // POTION: erosion(wave+decay) + regen(wave+life) + poison(chaos+decay)
+        const maxPotion_erosion = totalCrystal.erosion + Math.floor((totalFish.wave + totalEss.wave + totalFish.decay + totalEss.decay) / 2);
+        const maxPotion_regen = totalCrystal.regen + Math.floor((totalFish.wave + totalEss.wave + totalFish.life + totalEss.life) / 2);
+        const maxPotion_poison = totalCrystal.poison + Math.floor((totalFish.chaos + totalEss.chaos + totalFish.decay + totalEss.decay) / 2);
+        const maxPotion = Math.min(maxPotion_erosion, maxPotion_regen, maxPotion_poison);
+
+        // WING: vital(guard+life) + defense(guard+chaos) + poison(chaos+decay)
+        const maxWing_vital = totalCrystal.vital + Math.floor((totalFish.guard + totalEss.guard + totalFish.life + totalEss.life) / 2);
+        const maxWing_defense = totalCrystal.defense + Math.floor((totalFish.guard + totalEss.guard + totalFish.chaos + totalEss.chaos) / 2);
+        const maxWing_poison = totalCrystal.poison + Math.floor((totalFish.chaos + totalEss.chaos + totalFish.decay + totalEss.decay) / 2);
+        const maxWing = Math.min(maxWing_vital, maxWing_defense, maxWing_poison);
 
         let best = { gold: -1, CORE: 0, POTION: 0, WING: 0 };
 
-        // 6️⃣ 전체 조합 탐색
+        // 3️⃣ 최적화된 루프 (실제 가능 범위만 탐색)
         for (let CORE = 0; CORE <= maxCore; CORE++) {
             for (let POTION = 0; POTION <= maxPotion; POTION++) {
                 for (let WING = 0; WING <= maxWing; WING++) {
                     
-                    // 필요한 에센스 계산
-                    const essNeed = {
-                        guard: CORE * 1 + POTION * 0 + WING * 2,
-                        wave: CORE * 2 + POTION * 2 + WING * 0,
-                        chaos: CORE * 0 + POTION * 1 + WING * 2,
-                        life: CORE * 2 + POTION * 1 + WING * 1,
-                        decay: CORE * 1 + POTION * 2 + WING * 1
+                    // 필요한 결정
+                    const needCrystal = {
+                        vital: CORE * 1 + WING * 1,
+                        erosion: CORE * 1 + POTION * 1,
+                        defense: WING * 1,
+                        regen: CORE * 1 + POTION * 1,
+                        poison: POTION * 1 + WING * 1
                     };
 
-                    // 재료 부족 확인
-                    if (essNeed.guard > totalEss.guard || 
-                        essNeed.wave > totalEss.wave || 
-                        essNeed.chaos > totalEss.chaos ||
-                        essNeed.life > totalEss.life || 
-                        essNeed.decay > totalEss.decay) {
-                        continue;
-                    }
+                    // 제작할 결정
+                    const makeCrystal = {
+                        vital: Math.max(0, needCrystal.vital - totalCrystal.vital),
+                        erosion: Math.max(0, needCrystal.erosion - totalCrystal.erosion),
+                        defense: Math.max(0, needCrystal.defense - totalCrystal.defense),
+                        regen: Math.max(0, needCrystal.regen - totalCrystal.regen),
+                        poison: Math.max(0, needCrystal.poison - totalCrystal.poison)
+                    };
 
-                    // 골드 계산
-                    const gold = CORE * GOLD_2STAR.CORE + 
-                                POTION * GOLD_2STAR.POTION + 
-                                WING * GOLD_2STAR.WING;
-                    
+                    // 제작할 결정에 필요한 에센스
+                    const needEss = {
+                        guard: makeCrystal.vital + makeCrystal.defense,
+                        wave: makeCrystal.erosion + makeCrystal.regen,
+                        chaos: makeCrystal.defense + makeCrystal.poison,
+                        life: makeCrystal.vital + makeCrystal.regen,
+                        decay: makeCrystal.erosion + makeCrystal.poison
+                    };
+
+                    // 제작할 에센스 (보유 에센스 차감)
+                    const makeFish = {
+                        guard: Math.max(0, needEss.guard - totalEss.guard),
+                        wave: Math.max(0, needEss.wave - totalEss.wave),
+                        chaos: Math.max(0, needEss.chaos - totalEss.chaos),
+                        life: Math.max(0, needEss.life - totalEss.life),
+                        decay: Math.max(0, needEss.decay - totalEss.decay)
+                    };
+
+                    // 2성 어패류 부족 체크
+                    if (
+                        makeFish.guard > totalFish.guard ||
+                        makeFish.wave > totalFish.wave ||
+                        makeFish.chaos > totalFish.chaos ||
+                        makeFish.life > totalFish.life ||
+                        makeFish.decay > totalFish.decay
+                    ) continue;
+
+                    const gold = CORE * GOLD_2STAR.CORE + POTION * GOLD_2STAR.POTION + WING * GOLD_2STAR.WING;
                     if (gold > best.gold) {
                         best = { gold, CORE, POTION, WING };
                     }
@@ -193,107 +173,89 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
 
-        if (best.gold < 0) {
-            console.log("❌ 최적 해를 찾지 못함");
-            return null;
-        }
+        if (best.gold < 0) return null;
 
-        console.log("6. 최적 조합:", best);
-
-        // 7️⃣ 최적 조합에 필요한 결정 (총량)
+        // 4️⃣ 결과 계산
         const crystalNeed = {
-            vital: best.CORE * ITEM_TO_CRYSTAL.CORE.vital + 
-                   best.POTION * ITEM_TO_CRYSTAL.POTION.vital + 
-                   best.WING * ITEM_TO_CRYSTAL.WING.vital,
-            erosion: best.CORE * ITEM_TO_CRYSTAL.CORE.erosion + 
-                     best.POTION * ITEM_TO_CRYSTAL.POTION.erosion + 
-                     best.WING * ITEM_TO_CRYSTAL.WING.erosion,
-            defense: best.CORE * (ITEM_TO_CRYSTAL.CORE.defense || 0) + 
-                     best.POTION * (ITEM_TO_CRYSTAL.POTION.defense || 0) + 
-                     best.WING * ITEM_TO_CRYSTAL.WING.defense,
-            regen: best.CORE * ITEM_TO_CRYSTAL.CORE.regen + 
-                   best.POTION * ITEM_TO_CRYSTAL.POTION.regen + 
-                   best.WING * (ITEM_TO_CRYSTAL.WING.regen || 0),
-            poison: best.CORE * (ITEM_TO_CRYSTAL.CORE.poison || 0) + 
-                    best.POTION * ITEM_TO_CRYSTAL.POTION.poison + 
-                    best.WING * ITEM_TO_CRYSTAL.WING.poison
-        };
-        console.log("7. 필요한 결정 (총량):", crystalNeed);
-
-        // 8️⃣ 필요한 에센스 (총량)
-        let essNeed = { guard: 0, wave: 0, chaos: 0, life: 0, decay: 0 };
-        for (let c in crystalNeed) {
-            add(essNeed, CRYSTAL_TO_ESSENCE[c], crystalNeed[c]);
-        }
-        console.log("8. 필요한 에센스 (총량):", essNeed);
-
-        // 9️⃣ 필요한 재료 (총량)
-        let materialNeed = { 
-            seaweed: 0, ink: 0,
-            coral_guard: 0, coral_wave: 0, coral_chaos: 0, coral_life: 0, coral_decay: 0,
-            mineral_lapis: 0, mineral_redstone: 0, mineral_iron: 0, mineral_gold: 0, mineral_diamond: 0
-        };
-        for (let e in essNeed) add(materialNeed, ESSENCE_TO_MATERIAL[e], essNeed[e]);
-        for (let c in crystalNeed) add(materialNeed, CRYSTAL_TO_MATERIAL[c], crystalNeed[c]);
-        console.log("9. 필요한 재료 (총량):", materialNeed);
-
-        // 🔟 고급 모드: 보유량 차감 후 실제 필요량
-        let crystalToMake = { ...crystalNeed };
-        let essToMake = { guard: 0, wave: 0, chaos: 0, life: 0, decay: 0 };
-        let finalEssNeed = { guard: 0, wave: 0, chaos: 0, life: 0, decay: 0 };
-        let finalMaterialNeed = { 
-            seaweed: 0, ink: 0,
-            coral_guard: 0, coral_wave: 0, coral_chaos: 0, coral_life: 0, coral_decay: 0,
-            mineral_lapis: 0, mineral_redstone: 0, mineral_iron: 0, mineral_gold: 0, mineral_diamond: 0
+            vital: best.CORE * 1 + best.WING * 1,
+            erosion: best.CORE * 1 + best.POTION * 1,
+            defense: best.WING * 1,
+            regen: best.CORE * 1 + best.POTION * 1,
+            poison: best.POTION * 1 + best.WING * 1
         };
 
-        if (isAdvancedMode) {
-            console.log("=== 고급 모드: 보유량 차감 ===");
-            
-            // 10-1. 제작해야 할 결정 = 필요량 - 보유량
-            crystalToMake = {
-                vital: Math.max(0, crystalNeed.vital - ownedCrystal.vital),
-                erosion: Math.max(0, crystalNeed.erosion - ownedCrystal.erosion),
-                defense: Math.max(0, crystalNeed.defense - ownedCrystal.defense),
-                regen: Math.max(0, crystalNeed.regen - ownedCrystal.regen),
-                poison: Math.max(0, crystalNeed.poison - ownedCrystal.poison)
-            };
-            console.log("10-1. 제작할 결정:", crystalToMake);
+        const crystalToMake = {
+            vital: Math.max(0, crystalNeed.vital - totalCrystal.vital),
+            erosion: Math.max(0, crystalNeed.erosion - totalCrystal.erosion),
+            defense: Math.max(0, crystalNeed.defense - totalCrystal.defense),
+            regen: Math.max(0, crystalNeed.regen - totalCrystal.regen),
+            poison: Math.max(0, crystalNeed.poison - totalCrystal.poison)
+        };
 
-            // 10-2. 제작할 결정에 필요한 에센스
-            for (let c in crystalToMake) {
-                add(essToMake, CRYSTAL_TO_ESSENCE[c], crystalToMake[c]);
-            }
-            console.log("10-2. 제작할 결정에 필요한 에센스:", essToMake);
+        const essNeedForCrystal = {
+            guard: crystalToMake.vital + crystalToMake.defense,
+            wave: crystalToMake.erosion + crystalToMake.regen,
+            chaos: crystalToMake.defense + crystalToMake.poison,
+            life: crystalToMake.vital + crystalToMake.regen,
+            decay: crystalToMake.erosion + crystalToMake.poison
+        };
 
-            // 10-3. 최종 제작할 에센스 = 필요 에센스 - 보유 에센스
-            finalEssNeed = {
-                guard: Math.max(0, essToMake.guard - ownedEssence.guard),
-                wave: Math.max(0, essToMake.wave - ownedEssence.wave),
-                chaos: Math.max(0, essToMake.chaos - ownedEssence.chaos),
-                life: Math.max(0, essToMake.life - ownedEssence.life),
-                decay: Math.max(0, essToMake.decay - ownedEssence.decay)
-            };
-            console.log("10-3. 최종 제작할 에센스:", finalEssNeed);
+        const essToMake = {
+            guard: Math.max(0, essNeedForCrystal.guard - totalEss.guard),
+            wave: Math.max(0, essNeedForCrystal.wave - totalEss.wave),
+            chaos: Math.max(0, essNeedForCrystal.chaos - totalEss.chaos),
+            life: Math.max(0, essNeedForCrystal.life - totalEss.life),
+            decay: Math.max(0, essNeedForCrystal.decay - totalEss.decay)
+        };
 
-            // 10-4. 최종 필요 재료
-            for (let e in finalEssNeed) add(finalMaterialNeed, ESSENCE_TO_MATERIAL[e], finalEssNeed[e]);
-            for (let c in crystalToMake) add(finalMaterialNeed, CRYSTAL_TO_MATERIAL[c], crystalToMake[c]);
-            console.log("10-4. 최종 필요 재료:", finalMaterialNeed);
-        }
+        const materialNeed = {
+            seaweed: essToMake.guard * 2 + essToMake.wave * 2 + essToMake.chaos * 2 + essToMake.life * 2 + essToMake.decay * 2,
+            ink: crystalToMake.vital + crystalToMake.erosion + crystalToMake.defense + crystalToMake.regen + crystalToMake.poison,
+            coral_guard: essToMake.guard,
+            coral_wave: essToMake.wave,
+            coral_chaos: essToMake.chaos,
+            coral_life: essToMake.life,
+            coral_decay: essToMake.decay,
+            mineral_lapis: crystalToMake.vital,
+            mineral_redstone: crystalToMake.erosion,
+            mineral_iron: crystalToMake.defense,
+            mineral_gold: crystalToMake.regen,
+            mineral_diamond: crystalToMake.poison
+        };
 
-        console.log("=== 계산 완료 ===\n");
-        
+        // 일반 모드 표시용 (전체 필요량)
+        const essNeedTotal = {
+            guard: crystalNeed.vital + crystalNeed.defense,
+            wave: crystalNeed.erosion + crystalNeed.regen,
+            chaos: crystalNeed.defense + crystalNeed.poison,
+            life: crystalNeed.vital + crystalNeed.regen,
+            decay: crystalNeed.erosion + crystalNeed.poison
+        };
+
+        const materialNeedTotal = {
+            seaweed: essNeedTotal.guard * 2 + essNeedTotal.wave * 2 + essNeedTotal.chaos * 2 + essNeedTotal.life * 2 + essNeedTotal.decay * 2,
+            ink: crystalNeed.vital + crystalNeed.erosion + crystalNeed.defense + crystalNeed.regen + crystalNeed.poison,
+            coral_guard: essNeedTotal.guard,
+            coral_wave: essNeedTotal.wave,
+            coral_chaos: essNeedTotal.chaos,
+            coral_life: essNeedTotal.life,
+            coral_decay: essNeedTotal.decay,
+            mineral_lapis: crystalNeed.vital,
+            mineral_redstone: crystalNeed.erosion,
+            mineral_iron: crystalNeed.defense,
+            mineral_gold: crystalNeed.regen,
+            mineral_diamond: crystalNeed.poison
+        };
+
         return { 
             best, 
-            crystalNeed,        // 총 필요한 결정
-            crystalToMake,      // 제작해야 할 결정
-            essNeed,            // 총 필요한 에센스
-            essToMake,          // 제작할 결정에 필요한 에센스
-            finalEssNeed,       // 최종 제작할 에센스
-            materialNeed,       // 총 필요한 재료
-            finalMaterialNeed,  // 최종 필요한 재료
-            isAdvancedMode      // 모드 저장
+            crystalNeed,
+            crystalToMake,
+            essNeedTotal,
+            essToMake,
+            materialNeed,
+            materialNeedTotal,
+            isAdvancedMode
         };
     };
 
@@ -305,17 +267,14 @@ document.addEventListener('DOMContentLoaded', () => {
             if (elem) elem.textContent = text;
         };
 
-        // 프리미엄 레벨
         const premiumLVElem = getElem("info-expert-premium-price");
         const premiumLV = premiumLVElem ? (+premiumLVElem.value || 0) : 0;
         const PREMIUM_PRICE_RATE = {1:0.05,2:0.07,3:0.10,4:0.15,5:0.20,6:0.30,7:0.40,8:0.50};
         const rate = PREMIUM_PRICE_RATE[premiumLV] || 0;
 
-        // 골드
         updateText("result-gold-2", Math.floor(r.best.gold * (1 + rate)).toLocaleString());
         updateText("result-premium-bonus-2", premiumLV ? `+${Math.floor(rate*100)}%` : '+0%');
 
-        // 아이템
         const isSetMode = setSwitcher && setSwitcher.checked;
         const format = (num) => isSetMode ? formatSet(num) : num;
 
@@ -323,13 +282,11 @@ document.addEventListener('DOMContentLoaded', () => {
         updateText("result-frenzy-2", format(r.best.POTION));
         updateText("result-feather-2", format(r.best.WING));
 
-        // 고급 모드 선택
         const isAdvancedMode = r.isAdvancedMode;
-        const essData = isAdvancedMode ? r.finalEssNeed : r.essNeed;
+        const essData = isAdvancedMode ? r.essToMake : r.essNeedTotal;
         const crystalData = isAdvancedMode ? r.crystalToMake : r.crystalNeed;
-        const materialData = isAdvancedMode ? r.finalMaterialNeed : r.materialNeed;
+        const materialData = isAdvancedMode ? r.materialNeed : r.materialNeedTotal;
 
-        // 에센스
         updateText("result-essence-2",
             `수호 ${format(essData.guard || 0)}, ` +
             `파동 ${format(essData.wave || 0)}, ` +
@@ -338,7 +295,6 @@ document.addEventListener('DOMContentLoaded', () => {
             `부식 ${format(essData.decay || 0)}`
         );
 
-        // 결정
         updateText("result-core-2",
             `활기 보존 ${format(crystalData.vital || 0)}, ` +
             `파도 침식 ${format(crystalData.erosion || 0)}, ` +
@@ -347,13 +303,11 @@ document.addEventListener('DOMContentLoaded', () => {
             `맹독 혼란 ${format(crystalData.poison || 0)}`
         );
 
-        // 재료
         updateText("result-material-2",
             `해초 ${format(materialData.seaweed || 0)}, ` +
             `먹물 ${format(materialData.ink || 0)}`
         );
 
-        // 산호
         updateText("result-coral-2",
             `관 ${format(materialData.coral_guard || 0)}, ` +
             `사방 ${format(materialData.coral_wave || 0)}, ` +
@@ -362,7 +316,6 @@ document.addEventListener('DOMContentLoaded', () => {
             `뇌 ${format(materialData.coral_decay || 0)}`
         );
 
-        // 광물
         updateText("result-extra-2",
             `청금석 블록 ${format(materialData.mineral_lapis || 0)}, ` +
             `레드스톤 블록 ${format(materialData.mineral_redstone || 0)}, ` +
@@ -389,14 +342,12 @@ document.addEventListener('DOMContentLoaded', () => {
         };
 
         if (isAdvancedMode) {
-            // 보유 에센스
             input.essGuard = +document.getElementById("input-essence-guard-2")?.value || 0;
             input.essWave = +document.getElementById("input-essence-wave-2")?.value || 0;
             input.essChaos = +document.getElementById("input-essence-chaos-2")?.value || 0;
             input.essLife = +document.getElementById("input-essence-life-2")?.value || 0;
             input.essDecay = +document.getElementById("input-essence-decay-2")?.value || 0;
 
-            // 보유 결정
             input.crystalVital = +document.getElementById("input-crystal-vital-2")?.value || 0;
             input.crystalErosion = +document.getElementById("input-crystal-erosion-2")?.value || 0;
             input.crystalDefense = +document.getElementById("input-crystal-defense-2")?.value || 0;
@@ -445,5 +396,5 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    console.log("✅ 2성 계산기 초기화 완료 (보유량 입력 기능 포함)");
+    console.log("✅ 2성 계산기 초기화 완료 (최적화 버전)");
 });
