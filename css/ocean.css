@@ -1,13 +1,13 @@
 /* =========================
-   í•´ì–‘ íŽ˜ì´ì§€ ì „ìš© ìŠ¤íƒ€ì¼
+   해양 페이지 전용 스타일
 ========================= */
 
-/* ===== íŽ˜ì´ì§€ ê¸°ë³¸ ===== */
+/* ===== 페이지 기본 ===== */
 .page {
   max-width: 1100px;
 }
 
-/* ===== ì„±ê¸‰ í† ê¸€ ===== */
+/* ===== 성급 토글 ===== */
 .star-toggle {
   display: flex;
   align-items: center;
@@ -44,7 +44,7 @@
   background: var(--color-bg-hover);
 }
 
-/* ===== ìŠ¤ìœ„ì¹˜ ì»¨í…Œì´ë„ˆ ===== */
+/* ===== 스위치 컨테이너 ===== */
 .switch-container {
   margin-left: auto;
   display: flex;
@@ -79,7 +79,7 @@
   color: var(--color-primary);
 }
 
-/* ìŠ¤ìœ„ì²˜ ìŠ¤íƒ€ì¼ (components.cssì˜ .switch ìž¬ì‚¬ìš©) */
+/* 스위처 스타일 (components.css의 .switch 재사용) */
 .switcher-set,
 .switcher-advanced {
   position: relative;
@@ -148,7 +148,7 @@
   transform: translateX(24px);
 }
 
-/* ===== ê³ ê¸‰ ìž…ë ¥ ì„¹ì…˜ ===== */
+/* ===== 고급 입력 섹션 ===== */
 .advanced-inputs {
   display: none;
   margin-top: 20px;
@@ -187,11 +187,11 @@
 }
 
 .advanced-section h4::before {
-  content: "â–¸";
+  content: none;
   color: var(--color-primary);
 }
 
-/* ===== ìž…ë ¥ ê·¸ë¦¬ë“œ ===== */
+/* ===== 입력 그리드 ===== */
 .input-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
@@ -221,7 +221,7 @@
   box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
 }
 
-/* ===== ê³„ì‚° ë²„íŠ¼ ===== */
+/* ===== 계산 버튼 ===== */
 button {
   margin-top: 6px;
   padding: 8px 16px;
@@ -240,7 +240,7 @@ button:hover {
   box-shadow: var(--shadow-sm);
 }
 
-/* ===== ê²°ê³¼ ì¹´ë“œ ===== */
+/* ===== 결과 카드 ===== */
 .result-card {
   margin: var(--spacing-xl) auto;
   padding: 20px;
@@ -272,7 +272,7 @@ button:hover {
   color: var(--color-danger);
 }
 
-/* ===== ì œìž‘ ê²°ê³¼ ì¹´ë“œ ===== */
+/* ===== 제작 결과 카드 ===== */
 .result-products {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -302,7 +302,7 @@ button:hover {
   color: var(--color-primary);
 }
 
-/* ===== ê²°ê³¼ ì„¹ì…˜ ===== */
+/* ===== 결과 섹션 ===== */
 .result-section {
   margin-bottom: 18px;
   text-align: left;
@@ -316,7 +316,7 @@ button:hover {
   text-align: left;
 }
 
-/* ===== ìž¬ë£Œ ì¹´ë“œ ê·¸ë¦¬ë“œ ===== */
+/* ===== 재료 카드 그리드 ===== */
 .result-materials-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
@@ -375,7 +375,7 @@ button:hover {
   color: #666;
 }
 
-/* ===== ì •ë³´íƒ­ ì „ë¬¸ê°€ ìž…ë ¥ ===== */
+/* ===== 정보탭 전문가 입력 ===== */
 #tab-info #info-expert {
   background-color: #f7f9fc;
   border: 1px solid #d1d9e6;
@@ -428,7 +428,7 @@ button:hover {
   outline: none;
 }
 
-/* ë‚šì‹¯ëŒ€ ìŠ¤íŽ™ ë¸”ë¡ */
+/* 낚싯대 스펙 블록 */
 #tab-info #info-expert-rod-row {
   display: flex;
   align-items: center;
@@ -476,7 +476,7 @@ button:hover {
   box-shadow: 0 0 4px rgba(74, 144, 226, 0.3);
 }
 
-/* ===== ì •ë³´ í† ê¸€ ===== */
+/* ===== 정보 토글 ===== */
 .info-btn {
   margin-left: 6px;
   font-size: 13px;
@@ -498,7 +498,7 @@ button:hover {
   line-height: 1.5;
 }
 
-/* ===== ìŠ¤íƒœë¯¸ë‚˜ ì¹´ë“œ ===== */
+/* ===== 스태미나 카드 ===== */
 .stamina-card {
   display: flex;
   flex-direction: column;
@@ -617,7 +617,7 @@ button:hover {
   color: var(--color-primary);
 }
 
-/* ===== ë°˜ì‘í˜• ===== */
+/* ===== 반응형 ===== */
 @media (max-width: 768px) {
   .result-products {
     grid-template-columns: 1fr;
