@@ -15,6 +15,7 @@ html {
   -webkit-text-size-adjust: 100%;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  font-size: 16px;
 }
 
 body {
@@ -26,6 +27,7 @@ body {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+  overflow-x: hidden;
 }
 
 /* ===== 타이포그래피 ===== */
@@ -37,19 +39,19 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 h1 {
-  font-size: var(--font-size-2xl);
+  font-size: clamp(1.5rem, 5vw, 2rem);
 }
 
 h2 {
-  font-size: var(--font-size-xl);
+  font-size: clamp(1.25rem, 4vw, 1.75rem);
 }
 
 h3 {
-  font-size: var(--font-size-lg);
+  font-size: clamp(1.1rem, 3.5vw, 1.5rem);
 }
 
 h4 {
-  font-size: var(--font-size-md);
+  font-size: clamp(1rem, 3vw, 1.25rem);
 }
 
 p {
@@ -76,6 +78,7 @@ button {
   border: none;
   background: none;
   padding: 0;
+  -webkit-tap-highlight-color: transparent;
 }
 
 /* ===== 입력 요소 ===== */
@@ -83,7 +86,7 @@ input,
 select,
 textarea {
   font-family: inherit;
-  font-size: inherit;
+  font-size: 16px; /* iOS에서 줌 방지 */
   line-height: inherit;
 }
 
@@ -144,10 +147,10 @@ ol {
   -ms-user-select: none;
 }
 
-/* ===== 스크롤바 스타일 (선택적) ===== */
+/* ===== 스크롤바 스타일 ===== */
 ::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+  width: 6px;
+  height: 6px;
 }
 
 ::-webkit-scrollbar-track {
@@ -161,6 +164,15 @@ ol {
 
 ::-webkit-scrollbar-thumb:hover {
   background: var(--color-text-muted);
+}
+
+/* ===== 터치 디바이스 최적화 ===== */
+@media (hover: none) and (pointer: coarse) {
+  /* 터치 디바이스에서 호버 효과 비활성화 */
+  button:hover,
+  a:hover {
+    transform: none;
+  }
 }
 
 /* =========================
@@ -179,6 +191,18 @@ ol {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  padding: 8px 14px;
+}
 
-  padding: 8px 14px;      /* ← 핵심 */
+/* ===== 반응형 폰트 크기 ===== */
+@media (max-width: 768px) {
+  html {
+    font-size: 15px;
+  }
+}
+
+@media (max-width: 480px) {
+  html {
+    font-size: 14px;
+  }
 }

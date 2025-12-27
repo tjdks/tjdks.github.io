@@ -2,13 +2,13 @@
    공통 정보 탭 스타일 (재배/해양 공용)
 ========================= */
 
-/* 콘텐츠 영역 너비 고정 - 모든 탭에 적용 */
+/* 콘텐츠 영역 너비 - 반응형 */
 .content-area {
-  max-width: 1160px !important;
-  width: 1160px !important;
+  max-width: 1160px;
+  width: 100%;
   margin: 0 auto;
   box-sizing: border-box;
-  min-height: 700px;
+  min-height: auto;
 }
 
 /* 정보 탭 전용 패딩 */
@@ -19,12 +19,13 @@
 /* 콘텐츠 타이틀 */
 .content-title {
   margin-bottom: 20px;
+  font-size: clamp(1.1rem, 4vw, 1.4rem);
 }
 
-/* 2단 그리드 레이아웃 */
+/* 2단 그리드 레이아웃 - 반응형 */
 .info-grid {
   display: grid;
-  grid-template-columns: 350px 1fr;
+  grid-template-columns: minmax(280px, 350px) 1fr;
   gap: 20px;
   align-items: start;
   max-width: 100%;
@@ -41,12 +42,14 @@
   position: sticky;
   top: 20px;
   width: 100%;
+  min-width: 0;
 }
 
 /* 오른쪽 영역 */
 .info-right {
-  min-height: 600px;
+  min-height: auto;
   width: 100%;
+  min-width: 0;
 }
 
 /* 컴팩트 카드 */
@@ -61,7 +64,7 @@
 }
 
 .compact-card .card-title {
-  font-size: 16px;
+  font-size: clamp(14px, 3.5vw, 16px);
 }
 
 .compact-card .card-body {
@@ -72,7 +75,7 @@
 .info-right .card {
   width: 100%;
   box-sizing: border-box;
-  min-height: 600px;
+  min-height: auto;
   display: flex;
   flex-direction: column;
 }
@@ -90,6 +93,8 @@
   align-items: center;
   padding: 8px 0;
   border-bottom: 1px solid var(--color-border-light, #f0f0f0);
+  flex-wrap: wrap;
+  gap: 8px;
 }
 
 .setting-row:last-of-type {
@@ -107,7 +112,7 @@
 
 .tool-spec-label {
   font-weight: 700;
-  font-size: 14px;
+  font-size: clamp(12px, 3vw, 14px);
   color: var(--color-primary, #4a90e2);
 }
 
@@ -116,14 +121,16 @@
   display: flex;
   align-items: center;
   gap: 6px;
-  font-size: 13px;
+  font-size: clamp(11px, 3vw, 13px);
   color: var(--color-text-primary, #333);
   flex: 1;
+  min-width: 0;
 }
 
 /* 스킬 이름 공통 */
 .skill-name {
   font-weight: 600;
+  word-break: keep-all;
 }
 
 /* 인라인 정보 버튼 */
@@ -137,6 +144,7 @@
   transition: color 0.2s;
   border-radius: 50%;
   line-height: 1;
+  flex-shrink: 0;
 }
 
 .info-btn-inline:hover {
@@ -145,8 +153,9 @@
 
 /* 설정 입력 필드 */
 .setting-input {
-  min-width: 80px;
+  min-width: 60px;
   max-width: 80px;
+  width: 100%;
   padding: 6px 10px;
   border: 1px solid var(--color-border, #e0e0e0);
   border-radius: 4px;
@@ -154,6 +163,7 @@
   background-color: white;
   text-align: center;
   transition: all 0.2s;
+  flex-shrink: 0;
 }
 
 .setting-input:focus {
@@ -174,7 +184,7 @@
   background-color: rgba(74, 144, 226, 0.05);
   border-left: 3px solid var(--color-primary, #4a90e2);
   border-radius: 4px;
-  font-size: 11px;
+  font-size: clamp(10px, 2.5vw, 11px);
   color: var(--color-text-secondary, #666);
   line-height: 1.6;
 }
@@ -210,22 +220,31 @@
 
 @media (max-width: 1024px) {
   .info-grid {
-    grid-template-columns: 300px 1fr;
+    grid-template-columns: minmax(250px, 300px) 1fr;
     gap: 16px;
   }
 }
 
 @media (max-width: 768px) {
+  .content-area {
+    padding: var(--spacing-md) !important;
+  }
+
   .info-grid {
     grid-template-columns: 1fr;
+    gap: 16px;
   }
 
   .info-left {
     position: static;
   }
 
+  .info-right .card {
+    min-height: auto;
+  }
+
   .setting-row {
-    padding: 6px 0;
+    padding: 8px 0;
   }
 
   .setting-label {
@@ -233,22 +252,41 @@
   }
 
   .setting-input {
-    min-width: 70px;
+    min-width: 60px;
     max-width: 70px;
-    font-size: 11px;
-    padding: 5px 8px;
-  }
-
-  .expert-desc {
-    font-size: 10px;
+    font-size: 12px;
+    padding: 6px 8px;
   }
   
   .tool-spec-row {
     padding: 8px 10px;
     margin: -6px -10px 6px -10px;
   }
-  
-  .tool-spec-label {
-    font-size: 13px;
+}
+
+@media (max-width: 480px) {
+  .content-area {
+    padding: var(--spacing-sm) !important;
+  }
+
+  .compact-card .card-header,
+  .compact-card .card-body {
+    padding: 10px 12px;
+  }
+
+  .setting-row {
+    padding: 6px 0;
+  }
+
+  .setting-input {
+    min-width: 55px;
+    max-width: 65px;
+    font-size: 11px;
+    padding: 5px 6px;
+  }
+
+  .tool-spec-row {
+    margin: -4px -8px 4px -8px;
+    padding: 6px 8px;
   }
 }

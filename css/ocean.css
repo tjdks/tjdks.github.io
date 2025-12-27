@@ -6,8 +6,10 @@
 /* ===== 골드 최적화 컨테이너 ===== */
 .gold-optimizer-container {
   max-width: 1000px;
+  width: 100%;
   margin: 0 auto;
-  padding: 0 40px;
+  padding: 0 20px;
+  box-sizing: border-box;
 }
 
 /* ===== 계산기 블록 ===== */
@@ -20,7 +22,7 @@
 }
 
 .star-level h3 {
-  font-size: 1rem;
+  font-size: clamp(0.9rem, 3vw, 1rem);
   margin-bottom: 14px;
   color: #333;
   font-weight: 600;
@@ -50,9 +52,10 @@
   border-radius: var(--border-radius-full);
   border: 1px solid var(--color-border-light);
   cursor: pointer;
-  font-size: 14px;
+  font-size: clamp(12px, 3vw, 14px);
   background: white;
   transition: background-color 0.2s, border-color 0.2s;
+  white-space: nowrap;
 }
 
 .star-toggle input[type="radio"]:checked + label {
@@ -71,6 +74,7 @@
   display: flex;
   gap: 16px;
   align-items: center;
+  flex-wrap: wrap;
 }
 
 .switch-wrapper {
@@ -82,7 +86,7 @@
 }
 
 .switch-label {
-  font-size: 12px;
+  font-size: clamp(10px, 2.5vw, 12px);
   color: var(--color-text-secondary);
   font-weight: 500;
   white-space: nowrap;
@@ -95,6 +99,7 @@
   width: 44px;
   height: 24px;
   display: inline-block;
+  flex-shrink: 0;
 }
 
 .switcher input {
@@ -139,7 +144,7 @@
 /* ===== 입력 그리드 ===== */
 .input-grid {
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
+  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
   gap: 12px;
   margin-bottom: 14px;
 }
@@ -148,7 +153,7 @@
   display: flex;
   flex-direction: column;
   gap: 4px;
-  font-size: 12px;
+  font-size: clamp(10px, 2.5vw, 12px);
   color: var(--color-text-secondary);
   font-weight: 500;
   text-align: left;
@@ -159,8 +164,10 @@
   border-radius: 6px;
   border: 1px solid var(--color-border-light);
   text-align: center;
-  font-size: 13px;
+  font-size: clamp(11px, 3vw, 13px);
   background-color: white;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .input-grid input:focus {
@@ -200,25 +207,26 @@
 .advanced-section h4 {
   color: var(--color-primary);
   margin-bottom: 12px;
-  font-size: 13px;
+  font-size: clamp(11px, 3vw, 13px);
   font-weight: 600;
 }
 
 /* ===== 계산 버튼 ===== */
 .star-level > button {
   display: block;
-  width: auto;
-  max-width: 150px;
+  width: 100%;
+  max-width: 200px;
   margin: 16px 0 0 0;
-  padding: 9px 18px;
+  padding: 10px 18px;
   background: linear-gradient(135deg, #4a90e2 0%, #357abd 100%);
   color: white;
   border: none;
   border-radius: 8px;
-  font-size: 13px;
+  font-size: clamp(12px, 3vw, 13px);
   font-weight: 600;
   cursor: pointer;
   box-shadow: 0 4px 6px rgba(74, 144, 226, 0.2);
+  transition: all 0.2s;
 }
 
 .star-level > button:hover {
@@ -234,7 +242,7 @@
   padding: 20px;
   box-shadow: var(--shadow-xl);
   margin: var(--spacing-xl) auto;
-  max-width: var(--max-width-narrow);
+  max-width: 100%;
 }
 
 .result-card.active {
@@ -254,25 +262,26 @@
 }
 
 .result-header h3 {
-  font-size: var(--font-size-md);
+  font-size: clamp(0.85rem, 3vw, 1rem);
   font-weight: var(--font-weight-semibold);
   color: var(--color-text);
   margin: 0;
-  border-bottom: none !important;  /* 추가 */
-  padding-bottom: 0 !important;    /* 추가 */
+  border-bottom: none !important;
+  padding-bottom: 0 !important;
 }
 
 .result-gold {
-  font-size: 1.17rem;
+  font-size: clamp(1rem, 4vw, 1.17rem);
   font-weight: var(--font-weight-bold);
   color: var(--color-danger);
   display: flex;
   align-items: baseline;
   gap: 3px;
+  flex-wrap: wrap;
 }
 
 .result-gold small {
-  font-size: 15px;
+  font-size: clamp(12px, 3vw, 15px);
   font-weight: var(--font-weight-semibold);
   color: #888;
 }
@@ -280,7 +289,7 @@
 /* ===== 최종 결과물 (상단 3개 카드) ===== */
 .result-products {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
   gap: 11px;
   margin-bottom: 18px;
 }
@@ -303,7 +312,7 @@
 }
 
 .result-products > div .product-name {
-  font-size: 0.77rem;
+  font-size: clamp(0.65rem, 2.5vw, 0.77rem);
   color: var(--color-text);
   font-weight: var(--font-weight-medium);
   white-space: nowrap;
@@ -315,7 +324,7 @@
 .result-products > div .product-count {
   display: block;
   margin-top: 7px;
-  font-size: 1.17rem;
+  font-size: clamp(1rem, 4vw, 1.17rem);
   font-weight: var(--font-weight-bold);
   color: var(--color-primary);
 }
@@ -331,7 +340,7 @@
 }
 
 .result-section h4 {
-  font-size: 0.86rem;
+  font-size: clamp(0.75rem, 3vw, 0.86rem);
   font-weight: var(--font-weight-semibold);
   color: var(--color-text);
   margin-bottom: 11px;
@@ -339,7 +348,7 @@
 }
 
 .result-section > div {
-  font-size: 13px;
+  font-size: clamp(11px, 3vw, 13px);
   line-height: 1.8;
   color: #666;
 }
@@ -347,7 +356,7 @@
 /* ===== 재료 카드 그리드 ===== */
 .result-materials-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
   gap: 9px;
   margin-bottom: 14px;
   width: 100%;
@@ -364,7 +373,7 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  min-height: 81px;
+  min-height: 70px;
   width: 100%;
 }
 
@@ -387,7 +396,7 @@
 }
 
 .material-card .name {
-  font-size: 0.7rem;
+  font-size: clamp(0.6rem, 2vw, 0.7rem);
   color: #666;
   margin-bottom: 4px;
   white-space: nowrap;
@@ -398,7 +407,7 @@
 }
 
 .material-card .value {
-  font-size: var(--font-size-md);
+  font-size: clamp(0.85rem, 3vw, 1rem);
   font-weight: var(--font-weight-semibold);
 }
 
@@ -413,12 +422,10 @@
   }
 }
 
-
-
 /* ===== 반응형 ===== */
 @media (max-width: 768px) {
   .gold-optimizer-container {
-    padding: 0 20px;
+    padding: 0 12px;
   }
 
   .star-level {
@@ -427,97 +434,120 @@
 
   .star-toggle {
     flex-direction: column;
+    align-items: stretch;
   }
 
   .star-toggle label {
-    width: 100%;
+    text-align: center;
+    padding: 10px 16px;
   }
 
   .switch-container {
     margin-left: 0;
     margin-top: 10px;
     width: 100%;
+    justify-content: center;
   }
 
   .input-grid {
-    grid-template-columns: repeat(3, 1fr);
-  }
-
-  .result-products {
-    grid-template-columns: 1fr;
-  }
-
-  .result-materials-grid {
     grid-template-columns: repeat(3, 1fr);
   }
 
   .star-level > button {
     max-width: 100%;
   }
-}
 
-@media (max-width: 480px) {
-  .gold-optimizer-container {
-    padding: 0 12px;
-  }
-
-  .input-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-  .result-materials-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
-/* ===== 반응형 ===== */
-@media (max-width: 768px) {
-  .gold-optimizer-container {
-    padding: 0 20px;
-  }
-
-  .star-level {
+  .result-card {
     padding: 16px;
   }
 
-  .star-toggle {
-    flex-direction: column;
-  }
-
-  .star-toggle label {
-    width: 100%;
-  }
-
-  .switch-container {
-    margin-left: 0;
-    margin-top: 10px;
-    width: 100%;
-  }
-
-  .input-grid {
-    grid-template-columns: repeat(3, 1fr);
-  }
-
   .result-products {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(3, 1fr);
   }
 
   .result-materials-grid {
     grid-template-columns: repeat(3, 1fr);
   }
-
-  .star-level > button {
-    max-width: 100%;
-  }
 }
 
 @media (max-width: 480px) {
   .gold-optimizer-container {
-    padding: 0 12px;
+    padding: 0 8px;
+  }
+
+  .star-level {
+    padding: 12px;
   }
 
   .input-grid {
     grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+  }
+
+  .input-grid input {
+    padding: 10px 4px;
+  }
+
+  .result-card {
+    padding: 12px;
+  }
+
+  .result-products {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+  }
+
+  .result-products > div {
+    padding: 10px 6px;
+    min-height: 60px;
+  }
+
+  .result-materials-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 6px;
+  }
+
+  .material-card {
+    padding: 8px 4px;
+    min-height: 60px;
+  }
+
+  .material-card .icon {
+    width: 24px;
+    height: 24px;
+  }
+
+  .material-card .icon img {
+    width: 20px;
+    height: 20px;
+  }
+
+  .switch-wrapper {
+    padding: 2px 4px;
+  }
+
+  .switcher {
+    width: 38px;
+    height: 20px;
+  }
+
+  .switcher label::before {
+    height: 14px;
+    width: 14px;
+  }
+
+  .switcher input:checked + label::before {
+    transform: translateX(18px);
+  }
+}
+
+@media (max-width: 360px) {
+  .input-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .result-products {
+    grid-template-columns: 1fr 1fr 1fr;
   }
 
   .result-materials-grid {
