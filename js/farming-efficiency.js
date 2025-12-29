@@ -344,14 +344,14 @@ function renderTop3Cards() {
       <div class="price-info">현재가 ${formatEfficiencyNum(item.currentPrice)}G (최고가의 ${item.pricePercent}%)</div>
       
       <div class="metric-box">
-        <div class="metric-label">${efficiencyState.mode === 'efficiency' ? '스태미너 효율' : '예상 총수익'}</div>
+        <div class="metric-label">${efficiencyState.mode === 'efficiency' ? '스태미나 효율' : '예상 총수익'}</div>
         <div class="metric-value">
           ${efficiencyState.mode === 'efficiency' 
             ? item.efficiency.toFixed(1) + ' G'
             : formatEfficiencyNum(item.totalProfit) + ' G'
           }
         </div>
-        <div class="metric-unit">${efficiencyState.mode === 'efficiency' ? '/스태미너' : `(${formatEfficiencyNum(item.maxCount)}개 제작)`}</div>
+        <div class="metric-unit">${efficiencyState.mode === 'efficiency' ? '/스태미나' : `(${formatEfficiencyNum(item.maxCount)}개 제작)`}</div>
       </div>
       
       <div class="detail-list">
@@ -360,7 +360,7 @@ function renderTop3Cards() {
           <span class="detail-value">${formatEfficiencyNum(item.maxCount)}개</span>
         </div>
         <div class="detail-row">
-          <span>개당 스태미너</span>
+          <span>개당 스태미나</span>
           <span class="detail-value">약 ${item.staminaPerOne.toFixed(1)}</span>
         </div>
         <div class="detail-row">
