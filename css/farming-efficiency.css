@@ -10,6 +10,9 @@
   margin-bottom: var(--spacing-lg);
 }
 
+.efficiency-title-row .content-title {
+  margin-bottom: 0;
+}
 
 .efficiency-subtitle {
   font-size: 12px;
@@ -546,6 +549,13 @@
   font-size: 9px;
   font-weight: 400;
   color: #888;
+}
+
+.seeds-needed .seed-info .seed-stamina {
+  font-size: 10px;
+  font-weight: 500;
+  color: #2563eb;
+  margin-top: 2px;
 }
 
 /* 전체 순위 테이블 */

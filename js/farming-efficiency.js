@@ -6,21 +6,21 @@
 // 🔧 기본 시세 설정 (3일마다 여기만 수정!)
 // ================================
 const DEFAULT_PRICES = {
-  "토마토 스파게티": 735,
-  "어니언 링": 1011,
-  "갈릭 케이크": 688,
-  "삼겹살 토마토 찌개": 872,
-  "삼색 아이스크림": 1145,
-  "마늘 양갈비 핫도그": 603,
-  "달콤 시리얼": 842,
-  "로스트 치킨 파이": 2027,
-  "스윗 치킨 햄버거": 2889,
-  "토마토 파인애플 피자": 1274,
-  "양파 수프": 2991,
-  "허브 삼겹살 찜": 1623,
-  "토마토 라자냐": 3254,
-  "딥 크림 빠네": 2101,
-  "트리플 소갈비 꼬치": 4067
+  "토마토 스파게티": 526,
+  "어니언 링": 842,
+  "갈릭 케이크": 526,
+  "삼겹살 토마토 찌개": 1248,
+  "삼색 아이스크림": 1642,
+  "마늘 양갈비 핫도그": 1190,
+  "달콤 시리얼": 1276,
+  "로스트 치킨 파이": 1464,
+  "스윗 치킨 햄버거": 2347,
+  "토마토 파인애플 피자": 1904,
+  "양파 수프": 2167,
+  "허브 삼겹살 찜": 1624,
+  "토마토 라자냐": 2715,
+  "딥 크림 빠네": 2494,
+  "트리플 소갈비 꼬치": 2799
 };
 // ================================
 
@@ -90,6 +90,13 @@ const EXPERT_KING_DATA = [
   { bonus: 0.03, desc: "+3%" },
   { bonus: 0.05, desc: "+5%" }
 ];
+
+// 안전하게 데이터 가져오기
+function getExpertKingData(level) {
+  const maxLevel = EXPERT_KING_DATA.length - 1;
+  const safeLevel = Math.min(Math.max(0, level), maxLevel);
+  return EXPERT_KING_DATA[safeLevel];
+}
 
 const EXPERT_MONEY_DATA = [
   { bonus: 0, desc: "효과 없음" },
@@ -246,9 +253,9 @@ function renderExpertSubtitle() {
   const subtitle = document.querySelector('.efficiency-subtitle');
   if (!subtitle) return;
 
-  const hoeDrop = HOE_DROPS[efficiencyState.hoeLevel] || 1;
+  const hoeDrop = HOE_DROPS[efficiencyState.hoeLevel] || HOE_DROPS[0] || 1;
   const harvestData = EXPERT_HARVEST_DATA[efficiencyState.harvest] || EXPERT_HARVEST_DATA[0];
-  const kingData = EXPERT_KING_DATA[efficiencyState.king] || EXPERT_KING_DATA[0];
+  const kingData = getExpertKingData(efficiencyState.king);
   const moneyData = EXPERT_MONEY_DATA[efficiencyState.money] || EXPERT_MONEY_DATA[0];
 
   subtitle.innerHTML = `
@@ -261,12 +268,14 @@ function renderExpertSubtitle() {
 }
 
 function calculateEfficiency() {
-  const hoeDrop = HOE_DROPS[efficiencyState.hoeLevel] || 1;
-  const kingBonus = KING_CROP_BASE_CHANCE + (EXPERT_KING_DATA[efficiencyState.king]?.bonus || 0);
+  const hoeDrop = HOE_DROPS[efficiencyState.hoeLevel] || HOE_DROPS[0] || 1;
+  const kingData = getExpertKingData(efficiencyState.king);
+  const kingBonus = KING_CROP_BASE_CHANCE + kingData.bonus;
   const kingMult = 1 + (kingBonus * (KING_CROP_MULTIPLIER - 1));
   const harvestData = EXPERT_HARVEST_DATA[efficiencyState.harvest] || EXPERT_HARVEST_DATA[0];
   const harvestBonus = harvestData.rate * harvestData.count;
-  const moneyBonus = EXPERT_MONEY_DATA[efficiencyState.money]?.bonus || 0;
+  const moneyData = EXPERT_MONEY_DATA[efficiencyState.money] || EXPERT_MONEY_DATA[0];
+  const moneyBonus = moneyData.bonus;
 
   efficiencyState.results = EFFICIENCY_RECIPES.map(recipe => {
     let totalSeeds = 0;
@@ -344,14 +353,14 @@ function renderTop3Cards() {
       <div class="price-info">현재가 ${formatEfficiencyNum(item.currentPrice)}G (최고가의 ${item.pricePercent}%)</div>
       
       <div class="metric-box">
-        <div class="metric-label">${efficiencyState.mode === 'efficiency' ? '스태미나 효율' : '예상 총수익'}</div>
+        <div class="metric-label">${efficiencyState.mode === 'efficiency' ? '스태미너 효율' : '예상 총수익'}</div>
         <div class="metric-value">
           ${efficiencyState.mode === 'efficiency' 
             ? item.efficiency.toFixed(1) + ' G'
             : formatEfficiencyNum(item.totalProfit) + ' G'
           }
         </div>
-        <div class="metric-unit">${efficiencyState.mode === 'efficiency' ? '/스태미나' : `(${formatEfficiencyNum(item.maxCount)}개 제작)`}</div>
+        <div class="metric-unit">${efficiencyState.mode === 'efficiency' ? '/스태미너' : `(${formatEfficiencyNum(item.maxCount)}개 제작)`}</div>
       </div>
       
       <div class="detail-list">
@@ -360,7 +369,7 @@ function renderTop3Cards() {
           <span class="detail-value">${formatEfficiencyNum(item.maxCount)}개</span>
         </div>
         <div class="detail-row">
-          <span>개당 스태미나</span>
+          <span>개당 스태미너</span>
           <span class="detail-value">약 ${item.staminaPerOne.toFixed(1)}</span>
         </div>
         <div class="detail-row">
@@ -397,15 +406,22 @@ function renderFarmingGuide() {
   const seedsList = document.getElementById('seeds-list');
   if (!seedsList) return;
 
+  const hoeDrop = HOE_DROPS[efficiencyState.hoeLevel] || 1;
+
   let seedsHtml = '';
   ['tomato', 'onion', 'garlic'].forEach(crop => {
     if (item.totalSeeds[crop] > 0) {
+      // 씨앗 개수 → 채집 횟수 → 스태미나 계산
+      const gatherCount = Math.ceil(item.totalSeeds[crop] / hoeDrop);
+      const staminaNeeded = gatherCount * 7;
+      
       seedsHtml += `
         <div class="seed-item">
           <img src="${SEED_IMAGES[crop]}" alt="${SEED_NAMES[crop]}" class="seed-img">
           <div class="seed-info">
             <div class="seed-count">약 ${formatEfficiencyNum(item.totalSeeds[crop])}개</div>
             <div class="seed-name">${SEED_NAMES[crop]}</div>
+            <div class="seed-stamina">${formatEfficiencyNum(staminaNeeded)} 스태미나</div>
           </div>
         </div>
       `;
@@ -448,6 +464,7 @@ function renderRankingTable() {
       <tr class="recipe-detail-row" data-detail="${item.name}" style="display:none;">
         <td colspan="7">
           <div class="recipe-detail-content">
+            <span class="recipe-detail-label">📖 조합법</span>
             <span class="recipe-detail-ingredients">${item.ingredients}</span>
           </div>
         </td>
