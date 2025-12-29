@@ -1,0 +1,767 @@
+/* =========================
+   순수 효율 계산 탭 스타일
+========================= */
+
+/* 헤더 */
+.efficiency-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.efficiency-header h2 {
+  font-size: 18px;
+  font-weight: 700;
+  color: #222;
+  margin: 0;
+}
+
+.efficiency-subtitle {
+  font-size: 12px;
+  color: #888;
+  margin: 0 0 20px 0;
+}
+
+/* 전문가 태그 */
+.expert-tag {
+  display: inline-block;
+  padding: 3px 8px;
+  background: #f0f0f0;
+  border-radius: 4px;
+  font-weight: 600;
+  color: #555;
+  cursor: help;
+  position: relative;
+  margin: 0 2px;
+}
+
+.expert-tag:hover {
+  background: #e8e8e8;
+}
+
+.expert-tag .tooltip {
+  display: none;
+  position: absolute;
+  bottom: calc(100% + 8px);
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 8px 12px;
+  background: #1e293b;
+  color: #fff;
+  font-size: 11px;
+  font-weight: 500;
+  border-radius: 6px;
+  white-space: nowrap;
+  z-index: 100;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+.expert-tag .tooltip::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 6px solid transparent;
+  border-top-color: #1e293b;
+}
+
+.expert-tag:hover .tooltip {
+  display: block;
+}
+
+/* 시세 수정 버튼 */
+.btn-price-edit {
+  padding: 8px 16px;
+  background: #fff;
+  color: #475569;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-price-edit:hover {
+  background: #f8fafc;
+  border-color: #cbd5e1;
+}
+
+.btn-price-edit.active {
+  background: #2563eb;
+  color: #fff;
+  border-color: #2563eb;
+}
+
+/* 시세 수정 패널 */
+.price-edit-panel {
+  background: #fff;
+  border-radius: 10px;
+  padding: 18px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+  border: 1px solid #eee;
+  display: none;
+}
+
+.price-edit-panel.show {
+  display: block;
+}
+
+.price-edit-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 14px;
+}
+
+.price-edit-header h3 {
+  font-size: 14px;
+  font-weight: 700;
+  color: #333;
+  margin: 0;
+}
+
+.btn-reset-price {
+  padding: 6px 12px;
+  background: #f5f5f5;
+  border: 1px solid #e0e0e0;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 500;
+  color: #666;
+  cursor: pointer;
+}
+
+.btn-reset-price:hover {
+  background: #eee;
+}
+
+.price-edit-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 10px;
+}
+
+.price-edit-item {
+  text-align: center;
+}
+
+.price-edit-item .item-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  margin-bottom: 6px;
+}
+
+.price-edit-item .recipe-img {
+  width: 20px;
+  height: 20px;
+  object-fit: contain;
+}
+
+.price-edit-item .recipe-name {
+  font-size: 11px;
+  font-weight: 500;
+  color: #555;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 70px;
+}
+
+.price-edit-item input {
+  width: 100%;
+  padding: 8px 6px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 600;
+  text-align: center;
+  outline: none;
+}
+
+.price-edit-item input:focus {
+  border-color: #2563eb;
+}
+
+.price-edit-item .price-percent {
+  font-size: 11px;
+  font-weight: 600;
+  margin-top: 4px;
+}
+
+.price-edit-item .price-percent.high {
+  color: #16a34a;
+}
+
+.price-edit-item .price-percent.mid {
+  color: #ca8a04;
+}
+
+.price-edit-item .price-percent.low {
+  color: #dc2626;
+}
+
+/* 스태미너 입력 바 */
+.stamina-input-bar {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 20px;
+  padding: 14px 16px;
+  background: #f8f9fa;
+  border-radius: 8px;
+}
+
+.stamina-input-bar label {
+  font-size: 13px;
+  font-weight: 600;
+  color: #444;
+  white-space: nowrap;
+}
+
+.stamina-input-bar input {
+  width: 120px;
+  padding: 8px 12px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 15px;
+  font-weight: 700;
+  text-align: center;
+  outline: none;
+}
+
+.stamina-input-bar input:focus {
+  border-color: #2563eb;
+}
+
+.stamina-input-bar .spacer {
+  flex: 1;
+}
+
+/* 모드 버튼 */
+.mode-buttons {
+  display: flex;
+  gap: 8px;
+}
+
+.btn-mode {
+  padding: 9px 16px;
+  background: #fff;
+  color: #666;
+  border: 1.5px solid #ddd;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-mode:hover {
+  border-color: #bbb;
+  background: #fafafa;
+}
+
+.btn-mode.active {
+  background: #2563eb;
+  color: #fff;
+  border-color: #2563eb;
+}
+
+/* TOP 3 카드 */
+.top3-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+  margin-bottom: 20px;
+}
+
+.top3-card {
+  background: #fff;
+  border-radius: 12px;
+  padding: 16px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+  position: relative;
+  border: 1px solid #eee;
+}
+
+.top3-card.rank-1 {
+  background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+  border: none;
+  box-shadow: 0 4px 16px rgba(37,99,235,0.25);
+}
+
+.top3-card .rank-badge {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  width: 26px;
+  height: 26px;
+  background: #f0f0f0;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  font-weight: 800;
+  color: #888;
+}
+
+.top3-card.rank-1 .rank-badge {
+  background: rgba(255,255,255,0.2);
+  color: #fff;
+}
+
+/* 요리 정보 */
+.top3-card .recipe-info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 4px;
+  padding-right: 30px;
+}
+
+.top3-card .recipe-img {
+  width: 32px;
+  height: 32px;
+  object-fit: contain;
+}
+
+.top3-card .recipe-name {
+  font-size: 14px;
+  font-weight: 700;
+  color: #333;
+}
+
+.top3-card.rank-1 .recipe-name {
+  color: #fff;
+}
+
+.top3-card .price-info {
+  font-size: 11px;
+  font-weight: 500;
+  color: #999;
+  margin-bottom: 12px;
+  margin-left: 42px;
+}
+
+.top3-card.rank-1 .price-info {
+  color: rgba(255,255,255,0.7);
+}
+
+/* 핵심 지표 */
+.top3-card .metric-box {
+  padding: 12px;
+  background: #f8f9fa;
+  border-radius: 8px;
+  margin-bottom: 12px;
+}
+
+.top3-card.rank-1 .metric-box {
+  background: rgba(255,255,255,0.12);
+}
+
+.top3-card .metric-label {
+  font-size: 11px;
+  font-weight: 500;
+  color: #888;
+  margin-bottom: 2px;
+}
+
+.top3-card.rank-1 .metric-label {
+  color: rgba(255,255,255,0.6);
+}
+
+.top3-card .metric-value {
+  font-size: 22px;
+  font-weight: 800;
+  color: #2563eb;
+}
+
+.top3-card.rank-1 .metric-value {
+  color: #fff;
+}
+
+.top3-card .metric-unit {
+  font-size: 10px;
+  font-weight: 500;
+  color: #999;
+}
+
+.top3-card.rank-1 .metric-unit {
+  color: rgba(255,255,255,0.5);
+}
+
+/* 상세 정보 */
+.top3-card .detail-list {
+  font-size: 11px;
+  font-weight: 500;
+  color: #666;
+}
+
+.top3-card.rank-1 .detail-list {
+  color: rgba(255,255,255,0.8);
+}
+
+.top3-card .detail-row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 3px;
+}
+
+.top3-card .detail-row:last-child {
+  margin-bottom: 0;
+}
+
+.top3-card .detail-value {
+  font-weight: 700;
+}
+
+/* 파밍 가이드 */
+.farming-guide {
+  background: #fff;
+  border-radius: 12px;
+  padding: 18px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+  border: 1px solid #eee;
+}
+
+.farming-guide-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.farming-guide-header h3 {
+  font-size: 14px;
+  font-weight: 700;
+  color: #333;
+  margin: 0;
+}
+
+.farming-guide-header select {
+  padding: 6px 10px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  outline: none;
+  background: #fff;
+}
+
+.farming-guide-header select:focus {
+  border-color: #2563eb;
+}
+
+.farming-guide-header .current-price {
+  font-size: 11px;
+  font-weight: 500;
+  color: #999;
+}
+
+/* 가이드 통계 - 블루 계열 명도 차이 */
+.guide-stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  margin-bottom: 14px;
+}
+
+.guide-stat {
+  padding: 12px;
+  border-radius: 8px;
+  text-align: center;
+}
+
+.guide-stat.stamina { background: #eff6ff; }
+.guide-stat.count { background: #dbeafe; }
+.guide-stat.profit { background: #bfdbfe; }
+.guide-stat.efficiency { background: #93c5fd; }
+
+.guide-stat .stat-label {
+  font-size: 10px;
+  font-weight: 600;
+  color: #1e40af;
+  margin-bottom: 4px;
+}
+
+.guide-stat .stat-value {
+  font-size: 18px;
+  font-weight: 800;
+  color: #1d4ed8;
+}
+
+.guide-stat .stat-unit {
+  font-size: 9px;
+  font-weight: 600;
+  color: #3b82f6;
+}
+
+/* 필요 씨앗 */
+.seeds-needed {
+  padding: 12px 14px;
+  background: #f8f9fa;
+  border-radius: 8px;
+}
+
+.seeds-needed .seeds-title {
+  font-size: 12px;
+  font-weight: 700;
+  color: #555;
+  margin-bottom: 10px;
+}
+
+.seeds-needed .seeds-list {
+  display: flex;
+  gap: 20px;
+}
+
+.seeds-needed .seed-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.seeds-needed .seed-img {
+  width: 28px;
+  height: 28px;
+  object-fit: contain;
+}
+
+.seeds-needed .seed-info .seed-count {
+  font-size: 15px;
+  font-weight: 700;
+  color: #333;
+}
+
+.seeds-needed .seed-info .seed-name {
+  font-size: 10px;
+  font-weight: 500;
+  color: #888;
+}
+
+/* 전체 순위 테이블 */
+.ranking-table-container {
+  background: #fff;
+  border-radius: 12px;
+  padding: 18px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+  border: 1px solid #eee;
+}
+
+.ranking-table-container h3 {
+  font-size: 14px;
+  font-weight: 700;
+  color: #333;
+  margin: 0 0 14px 0;
+}
+
+.ranking-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12px;
+}
+
+.ranking-table thead tr {
+  border-bottom: 2px solid #eee;
+}
+
+.ranking-table th {
+  padding: 10px 6px;
+  text-align: left;
+  font-size: 11px;
+  font-weight: 600;
+  color: #888;
+}
+
+.ranking-table th.text-right {
+  text-align: right;
+}
+
+.ranking-table tbody tr {
+  border-bottom: 1px solid #f5f5f5;
+}
+
+.ranking-table tbody tr:hover {
+  background: #fafafa;
+}
+
+.ranking-table tbody tr.top3-row {
+  background: #f8f9fa;
+}
+
+.ranking-table td {
+  padding: 10px 6px;
+}
+
+.ranking-table td.text-right {
+  text-align: right;
+}
+
+/* 테이블 내 요리 정보 */
+.ranking-table .table-recipe {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.ranking-table .table-recipe-img {
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
+}
+
+.ranking-table .table-recipe-name {
+  font-weight: 600;
+  color: #333;
+}
+
+.ranking-table .rank-num {
+  font-weight: 700;
+  color: #bbb;
+}
+
+.ranking-table .rank-num.top {
+  color: #2563eb;
+}
+
+/* 클릭 가능한 행 */
+.ranking-table .recipe-row {
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.ranking-table .recipe-row:hover {
+  background: #f0f7ff;
+}
+
+.ranking-table .recipe-row.expanded {
+  background: #e8f2ff;
+}
+
+/* 조합법 상세 행 */
+.recipe-detail-row {
+  background: #f8fafc;
+}
+
+.recipe-detail-row td {
+  padding: 0 !important;
+}
+
+.recipe-detail-content {
+  padding: 12px 16px;
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  border-left: 3px solid #2563eb;
+  margin: 4px 8px 8px 8px;
+  background: #fff;
+  border-radius: 0 6px 6px 0;
+}
+
+.recipe-detail-label {
+  font-size: 11px;
+  font-weight: 700;
+  color: #2563eb;
+  white-space: nowrap;
+}
+
+.recipe-detail-ingredients {
+  font-size: 12px;
+  font-weight: 500;
+  color: #555;
+  line-height: 1.5;
+}
+
+.ranking-table .efficiency-val {
+  font-weight: 700;
+  color: #7c3aed;
+}
+
+.ranking-table .profit-val {
+  font-weight: 700;
+  color: #2563eb;
+}
+
+.percent-badge {
+  display: inline-block;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 10px;
+  font-weight: 600;
+}
+
+.percent-badge.high {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.percent-badge.mid {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+.percent-badge.low {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+/* 반응형 */
+@media (max-width: 900px) {
+  .price-edit-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .top3-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .guide-stats {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .stamina-input-bar {
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .mode-buttons {
+    width: 100%;
+    justify-content: flex-end;
+  }
+
+  .seeds-needed .seeds-list {
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .price-edit-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .guide-stats {
+    grid-template-columns: 1fr;
+  }
+
+  .mode-buttons {
+    width: 100%;
+  }
+
+  .btn-mode {
+    flex: 1;
+    text-align: center;
+    padding: 8px 10px;
+    font-size: 12px;
+  }
+}

@@ -18,6 +18,9 @@
   
   <!-- 재배 전용 스타일 -->
   <link rel="stylesheet" href="css/farming-custom.css" />
+  
+  <!-- 순수 효율 계산 스타일 -->
+  <link rel="stylesheet" href="css/farming-efficiency.css" />
 </head>
 
 <body>
@@ -39,8 +42,9 @@
     <div class="sub-header-inner">
       <a href="#" class="active" data-target="tab-info">정보</a>
       <a href="#" data-target="tab-stamina">스태미나</a>
-      <a href="#" data-target="tab-farm">채집/수확</a>
-      <a href="#" data-target="tab-cook">요리</a>
+      <a href="#" data-target="tab-efficiency">순수 효율</a>
+      <a href="#" data-target="tab-farm">재배</a>
+      <a href="#" data-target="tab-purchase">구매효율</a>
     </div>
   </div>
 
@@ -79,7 +83,18 @@
                   </label>
                   <input type="number" id="expert-gift" class="setting-input" placeholder="LV" min="0" max="10">
                 </div>
-                <div id="expert-gift-info" class="expert-desc" style="display:none;"></div>
+                <div id="expert-gift-info" class="expert-desc" style="display:none;">
+                  <strong>LV 1</strong> – 채집 시 1% 확률로 씨앗 +1개<br>
+                  <strong>LV 2</strong> – 채집 시 2% 확률로 씨앗 +1개<br>
+                  <strong>LV 3</strong> – 채집 시 3% 확률로 씨앗 +1개<br>
+                  <strong>LV 4</strong> – 채집 시 4% 확률로 씨앗 +1개<br>
+                  <strong>LV 5</strong> – 채집 시 5% 확률로 씨앗 +2개<br>
+                  <strong>LV 6</strong> – 채집 시 6% 확률로 씨앗 +2개<br>
+                  <strong>LV 7</strong> – 채집 시 7% 확률로 씨앗 +3개<br>
+                  <strong>LV 8</strong> – 채집 시 8% 확률로 씨앗 +4개<br>
+                  <strong>LV 9</strong> – 채집 시 9% 확률로 씨앗 +5개<br>
+                  <strong>LV 10</strong> – 채집 시 10% 확률로 씨앗 +8개
+                </div>
 
                 <!-- 오늘도 풍년이다! -->
                 <div class="setting-row">
@@ -89,7 +104,15 @@
                   </label>
                   <input type="number" id="expert-harvest" class="setting-input" placeholder="LV" min="0" max="7">
                 </div>
-                <div id="expert-harvest-info" class="expert-desc" style="display:none;"></div>
+                <div id="expert-harvest-info" class="expert-desc" style="display:none;">
+                  <strong>LV 1</strong> – 수확 시 1% 확률로 농작물 +1개<br>
+                  <strong>LV 2</strong> – 수확 시 2% 확률로 농작물 +1개<br>
+                  <strong>LV 3</strong> – 수확 시 3% 확률로 농작물 +1개<br>
+                  <strong>LV 4</strong> – 수확 시 4% 확률로 농작물 +1개<br>
+                  <strong>LV 5</strong> – 수확 시 5% 확률로 농작물 +2개<br>
+                  <strong>LV 6</strong> – 수확 시 7% 확률로 농작물 +2개<br>
+                  <strong>LV 7</strong> – 수확 시 10% 확률로 농작물 +3개
+                </div>
 
                 <!-- 한 솥 가득 -->
                 <div class="setting-row">
@@ -99,7 +122,13 @@
                   </label>
                   <input type="number" id="expert-pot" class="setting-input" placeholder="LV" min="0" max="5">
                 </div>
-                <div id="expert-pot-info" class="expert-desc" style="display:none;"></div>
+                <div id="expert-pot-info" class="expert-desc" style="display:none;">
+                  <strong>LV 1</strong> – 한 번에 3세트 이상 판매 시 1% 보너스<br>
+                  <strong>LV 2</strong> – 한 번에 3세트 이상 판매 시 2% 보너스<br>
+                  <strong>LV 3</strong> – 한 번에 3세트 이상 판매 시 3% 보너스<br>
+                  <strong>LV 4</strong> – 한 번에 3세트 이상 판매 시 4% 보너스<br>
+                  <strong>LV 5</strong> – 한 번에 3세트 이상 판매 시 7% 보너스
+                </div>
 
                 <!-- 돈 좀 벌어볼까? -->
                 <div class="setting-row">
@@ -109,7 +138,18 @@
                   </label>
                   <input type="number" id="expert-money" class="setting-input" placeholder="LV" min="0" max="10">
                 </div>
-                <div id="expert-money-info" class="expert-desc" style="display:none;"></div>
+                <div id="expert-money-info" class="expert-desc" style="display:none;">
+                  <strong>LV 1</strong> – 요리 판매가 +1%<br>
+                  <strong>LV 2</strong> – 요리 판매가 +2%<br>
+                  <strong>LV 3</strong> – 요리 판매가 +3%<br>
+                  <strong>LV 4</strong> – 요리 판매가 +4%<br>
+                  <strong>LV 5</strong> – 요리 판매가 +5%<br>
+                  <strong>LV 6</strong> – 요리 판매가 +6%<br>
+                  <strong>LV 7</strong> – 요리 판매가 +10%<br>
+                  <strong>LV 8</strong> – 요리 판매가 +15%<br>
+                  <strong>LV 9</strong> – 요리 판매가 +30%<br>
+                  <strong>LV 10</strong> – 요리 판매가 +50%
+                </div>
 
                 <!-- 왕 크니까 왕 좋아 -->
                 <div class="setting-row">
@@ -119,7 +159,12 @@
                   </label>
                   <input type="number" id="expert-king" class="setting-input" placeholder="LV" min="0" max="4">
                 </div>
-                <div id="expert-king-info" class="expert-desc" style="display:none;"></div>
+                <div id="expert-king-info" class="expert-desc" style="display:none;">
+                  <strong>LV 1</strong> – 수확 시 대왕 작물이 등장할 확률 0.5% 증가<br>
+                  <strong>LV 2</strong> – 수확 시 대왕 작물이 등장할 확률 1% 증가<br>
+                  <strong>LV 3</strong> – 수확 시 대왕 작물이 등장할 확률 3% 증가<br>
+                  <strong>LV 4</strong> – 수확 시 대왕 작물이 등장할 확률 5% 증가
+                </div>
 
                 <!-- 씨앗은 덤이야 -->
                 <div class="setting-row">
@@ -129,7 +174,18 @@
                   </label>
                   <input type="number" id="expert-seed-bonus" class="setting-input" placeholder="LV" min="0" max="10">
                 </div>
-                <div id="expert-seed-bonus-info" class="expert-desc" style="display:none;"></div>
+                <div id="expert-seed-bonus-info" class="expert-desc" style="display:none;">
+                  <strong>LV 1</strong> – 수확 시 1% 확률로 씨앗 드롭<br>
+                  <strong>LV 2</strong> – 수확 시 2% 확률로 씨앗 드롭<br>
+                  <strong>LV 3</strong> – 수확 시 3% 확률로 씨앗 드롭<br>
+                  <strong>LV 4</strong> – 수확 시 4% 확률로 씨앗 드롭<br>
+                  <strong>LV 5</strong> – 수확 시 5% 확률로 씨앗 드롭<br>
+                  <strong>LV 6</strong> – 수확 시 6% 확률로 씨앗 드롭<br>
+                  <strong>LV 7</strong> – 수확 시 7% 확률로 씨앗 드롭<br>
+                  <strong>LV 8</strong> – 수확 시 10% 확률로 씨앗 드롭<br>
+                  <strong>LV 9</strong> – 수확 시 20% 확률로 씨앗 드롭<br>
+                  <strong>LV 10</strong> – 수확 시 30% 확률로 씨앗 드롭
+                </div>
 
                 <!-- 불붙은 괭이 -->
                 <div class="setting-row">
@@ -139,7 +195,18 @@
                   </label>
                   <input type="number" id="expert-fire" class="setting-input" placeholder="LV" min="0" max="10">
                 </div>
-                <div id="expert-fire-info" class="expert-desc" style="display:none;"></div>
+                <div id="expert-fire-info" class="expert-desc" style="display:none;">
+                  <strong>LV 1</strong> – 채집 시 1% 확률로 씨앗이 베이스 1개로 가공되어 드롭<br>
+                  <strong>LV 2</strong> – 채집 시 2% 확률로 씨앗이 베이스 1개로 가공되어 드롭<br>
+                  <strong>LV 3</strong> – 채집 시 3% 확률로 씨앗이 베이스 2개로 가공되어 드롭<br>
+                  <strong>LV 4</strong> – 채집 시 4% 확률로 씨앗이 베이스 2개로 가공되어 드롭<br>
+                  <strong>LV 5</strong> – 채집 시 5% 확률로 씨앗이 베이스 2개로 가공되어 드롭<br>
+                  <strong>LV 6</strong> – 채집 시 6% 확률로 씨앗이 베이스 3개로 가공되어 드롭<br>
+                  <strong>LV 7</strong> – 채집 시 7% 확률로 씨앗이 베이스 3개로 가공되어 드롭<br>
+                  <strong>LV 8</strong> – 채집 시 8% 확률로 씨앗이 베이스 5개로 가공되어 드롭<br>
+                  <strong>LV 9</strong> – 채집 시 9% 확률로 씨앗이 베이스 5개로 가공되어 드롭<br>
+                  <strong>LV 10</strong> – 채집 시 15% 확률로 씨앗이 베이스 7개로 가공되어 드롭
+                </div>
 
               </div>
             </div>
@@ -151,16 +218,13 @@
             
             <!-- 조합법 카드 -->
             <div class="card">
-              <div class="card-header">
-                <h3 class="card-title">📖 조합법</h3>
-              </div>
 
               <div class="card-body" style="padding: 0;">
                 
                 <!-- 조합법 내부 탭 -->
                 <div class="recipe-tabs">
-                  <button class="recipe-tab active" data-recipe-tab="cooking">🍳 요리</button>
-                  <button class="recipe-tab" data-recipe-tab="processing">🔧 가공</button>
+                  <button class="recipe-tab active" data-recipe-tab="cooking">요리</button>
+                  <button class="recipe-tab" data-recipe-tab="processing">가공</button>
                 </div>
 
                 <!-- 요리 조합법 -->
@@ -272,15 +336,128 @@
         </div>
       </div>
 
-      <!-- 채집/수확 탭 -->
+      <!-- 순수 효율 계산 탭 -->
+      <div id="tab-efficiency" class="tab-content" style="display:none;">
+        
+        <!-- 헤더 -->
+        <div class="efficiency-header">
+          <h2>순수 효율 계산</h2>
+          <button id="btn-price-edit" class="btn-price-edit">시세 수정</button>
+        </div>
+        <p class="efficiency-subtitle">
+          <!-- JS에서 동적 생성 -->
+        </p>
+
+        <!-- 시세 수정 패널 -->
+        <div id="price-edit-panel" class="price-edit-panel">
+          <div class="price-edit-header">
+            <h3>현재 시세 입력 <span class="price-date">12/27~12/30 기준</span></h3>
+            <button id="btn-reset-price" class="btn-reset-price">초기화</button>
+          </div>
+          <div id="price-edit-grid" class="price-edit-grid">
+            <!-- JS로 동적 생성 -->
+          </div>
+        </div>
+
+        <!-- 스태미나 입력 + 모드 전환 -->
+        <div class="stamina-input-bar">
+          <label>오늘 사용할 스태미나</label>
+          <input type="number" id="efficiency-stamina" value="3300">
+          <div class="spacer"></div>
+          <div class="mode-buttons">
+            <button class="btn-mode active" data-mode="efficiency">효율 순위</button>
+            <button class="btn-mode" data-mode="profit">총수익 순위</button>
+          </div>
+        </div>
+
+        <!-- TOP 3 카드 -->
+        <div id="top3-cards" class="top3-grid">
+          <!-- JS로 동적 생성 -->
+        </div>
+
+        <!-- 파밍 가이드 -->
+        <div class="farming-guide">
+          <div class="farming-guide-header">
+            <h3>파밍 가이드</h3>
+            <select id="guide-recipe-select">
+              <option value="토마토 스파게티">토마토 스파게티</option>
+              <option value="어니언 링">어니언 링</option>
+              <option value="갈릭 케이크">갈릭 케이크</option>
+              <option value="삼겹살 토마토 찌개">삼겹살 토마토 찌개</option>
+              <option value="삼색 아이스크림">삼색 아이스크림</option>
+              <option value="마늘 양갈비 핫도그">마늘 양갈비 핫도그</option>
+              <option value="달콤 시리얼">달콤 시리얼</option>
+              <option value="로스트 치킨 파이">로스트 치킨 파이</option>
+              <option value="스윗 치킨 햄버거">스윗 치킨 햄버거</option>
+              <option value="토마토 파인애플 피자">토마토 파인애플 피자</option>
+              <option value="양파 수프">양파 수프</option>
+              <option value="허브 삼겹살 찜">허브 삼겹살 찜</option>
+              <option value="토마토 라자냐">토마토 라자냐</option>
+              <option value="딥 크림 빠네">딥 크림 빠네</option>
+              <option value="트리플 소갈비 꼬치">트리플 소갈비 꼬치</option>
+            </select>
+            <span id="guide-price-info" class="current-price"></span>
+          </div>
+          
+          <div class="guide-stats">
+            <div class="guide-stat stamina">
+              <div class="stat-label">사용 스태미나</div>
+              <div class="stat-value" id="guide-stamina">3,300</div>
+            </div>
+            <div class="guide-stat count">
+              <div class="stat-label">제작 개수</div>
+              <div class="stat-value" id="guide-count">0개</div>
+            </div>
+            <div class="guide-stat profit">
+              <div class="stat-label">예상 수익</div>
+              <div class="stat-value" id="guide-profit">0G</div>
+            </div>
+            <div class="guide-stat efficiency">
+              <div class="stat-label">효율</div>
+              <div class="stat-value" id="guide-efficiency">0</div>
+              <div class="stat-unit">G/스태미나</div>
+            </div>
+          </div>
+          
+          <div class="seeds-needed">
+            <div class="seeds-title">캐야 할 씨앗</div>
+            <div id="seeds-list" class="seeds-list">
+              <!-- JS로 동적 생성 -->
+            </div>
+          </div>
+        </div>
+
+        <!-- 전체 순위 테이블 -->
+        <div class="ranking-table-container">
+          <h3 id="ranking-table-title">📊 전체 요리 효율 순위</h3>
+          <table class="ranking-table">
+            <thead>
+              <tr>
+                <th>순위</th>
+                <th>요리명</th>
+                <th class="text-right">현재가</th>
+                <th class="text-right">최고가%</th>
+                <th class="text-right">효율</th>
+                <th class="text-right">제작수</th>
+                <th class="text-right">총수익</th>
+              </tr>
+            </thead>
+            <tbody id="ranking-tbody">
+              <!-- JS로 동적 생성 -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- 재배 탭 -->
       <div id="tab-farm" class="tab-content" style="display:none;">
-        <h2 class="content-title">채집/수확</h2>
+        <h2 class="content-title">재배</h2>
         <p style="text-align: center; color: #999; padding: 40px;">개발 중입니다...</p>
       </div>
 
-      <!-- 요리 탭 -->
-      <div id="tab-cook" class="tab-content" style="display:none;">
-        <h2 class="content-title">요리</h2>
+      <!-- 구매효율 탭 -->
+      <div id="tab-purchase" class="tab-content" style="display:none;">
+        <h2 class="content-title">구매효율</h2>
         <p style="text-align: center; color: #999; padding: 40px;">개발 중입니다...</p>
       </div>
 
@@ -298,6 +475,8 @@
   <script src="js/farming-recipes.js"></script>
   <!-- 스태미나 계산 스크립트 -->
   <script src="js/farming-stamina.js"></script>
+  <!-- 순수 효율 계산 스크립트 -->
+  <script src="js/farming-efficiency.js"></script>
 
 </body>
 </html>
