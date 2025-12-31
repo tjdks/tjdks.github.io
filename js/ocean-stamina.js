@@ -3,7 +3,7 @@
 const STAMINA_CONFIG = {
   perGather: 15,
   rodLevel: 0,
-  expertStorm: 0,
+  expertDeepSea: 0,    // 폭풍의 물질꾼 → 심해 채집꾼으로 변경
   expertStar: 0,
   expertClamRefill: 0,
 };
@@ -22,8 +22,8 @@ const ROD_CLAM_RATE = {
   11: 0.11, 12: 0.12, 13: 0.13, 14: 0.14, 15: 0.20
 };
 
-// 전문가 스킬
-const EXPERT_STORM = { 0: 0, 1: 0.01, 2: 0.03, 3: 0.05, 4: 0.07, 5: 0.10 };
+// 전문가 스킬 - 심해 채집꾼 (구 폭풍의 물질꾼)
+const EXPERT_DEEP_SEA = { 0: 0, 1: 0.01, 2: 0.03, 3: 0.05, 4: 0.07, 5: 0.10 };
 const EXPERT_STAR = { 0: 0, 1: 0.01, 2: 0.02, 3: 0.03, 4: 0.04, 5: 0.05, 6: 0.07 };
 const EXPERT_CLAM_REFILL = { 
   0: 0, 1: 0.01, 2: 0.015, 3: 0.02, 4: 0.025, 5: 0.03, 
@@ -132,10 +132,10 @@ function calculateStamina() {
     const dropsPerGather = ROD_STATS[STAMINA_CONFIG.rodLevel] || 1;
     let totalDrops = gatherCount * dropsPerGather;
     
-    // 폭풍의 물질꾼 보너스
-    const stormBonus = EXPERT_STORM[STAMINA_CONFIG.expertStorm] || 0;
-    const stormDrops = Math.floor(gatherCount * stormBonus);
-    totalDrops += stormDrops;
+    // 심해 채집꾼 보너스 (구 폭풍의 물질꾼)
+    const deepSeaBonus = EXPERT_DEEP_SEA[STAMINA_CONFIG.expertDeepSea] || 0;
+    const deepSeaDrops = Math.floor(gatherCount * deepSeaBonus);
+    totalDrops += deepSeaDrops;
     
     // 등급별 분배
     const { count1, count2, count3, starBonus } = distributeByRarity(totalDrops, STAMINA_CONFIG.expertStar);
@@ -156,7 +156,7 @@ function calculateStamina() {
       clamCount, totalDrops,
       starBonus,
       clamBonusPercent: Math.round(clamBonus * 100),
-      stormBonusPercent: Math.round(stormBonus * 100)
+      deepSeaBonusPercent: Math.round(deepSeaBonus * 100)
     });
   }
   
@@ -220,15 +220,15 @@ function displayResults(results, grandTotal) {
   const totalClamRate = baseClamRate + r.clamBonusPercent;
   
   let bonusHtml = '';
-  if (r.starBonus > 0 || r.clamBonusPercent > 0 || r.stormBonusPercent > 0) {
+  if (r.starBonus > 0 || r.clamBonusPercent > 0 || r.deepSeaBonusPercent > 0) {
     bonusHtml = `
       <div class="bonus-summary">
         <div class="bonus-summary-title">적용 보너스</div>
         ${r.starBonus > 0 ? `3성 확률 10% → <strong>${10 + r.starBonus}%</strong> (별별별 +${r.starBonus}%)` : ''}
         ${r.starBonus > 0 && r.clamBonusPercent > 0 ? ' · ' : ''}
         ${r.clamBonusPercent > 0 ? `조개 확률 ${baseClamRate}% → <strong>${totalClamRate}%</strong> (리필 +${r.clamBonusPercent}%)` : ''}
-        ${(r.starBonus > 0 || r.clamBonusPercent > 0) && r.stormBonusPercent > 0 ? ' · ' : ''}
-        ${r.stormBonusPercent > 0 ? `폭풍 추가 <strong>+${r.stormBonusPercent}%</strong> (비 오는 날)` : ''}
+        ${(r.starBonus > 0 || r.clamBonusPercent > 0) && r.deepSeaBonusPercent > 0 ? ' · ' : ''}
+        ${r.deepSeaBonusPercent > 0 ? `심해 채집꾼 <strong>+${r.deepSeaBonusPercent}%</strong>` : ''}
       </div>
     `;
   }
@@ -242,12 +242,12 @@ function displayResults(results, grandTotal) {
 
 function syncExpertSettings() {
   const rodInput = document.getElementById('rod-level');
-  const stormInput = document.getElementById('expert-storm');
+  const deepSeaInput = document.getElementById('expert-deep-sea');  // 변경된 ID
   const starInput = document.getElementById('expert-star');
   const clamInput = document.getElementById('expert-clam-refill');
   
   STAMINA_CONFIG.rodLevel = rodInput ? parseInt(rodInput.value) || 0 : 0;
-  STAMINA_CONFIG.expertStorm = stormInput ? parseInt(stormInput.value) || 0 : 0;
+  STAMINA_CONFIG.expertDeepSea = deepSeaInput ? parseInt(deepSeaInput.value) || 0 : 0;
   STAMINA_CONFIG.expertStar = starInput ? parseInt(starInput.value) || 0 : 0;
   STAMINA_CONFIG.expertClamRefill = clamInput ? parseInt(clamInput.value) || 0 : 0;
   
@@ -255,10 +255,10 @@ function syncExpertSettings() {
 }
 
 function updateExpertDisplay() {
-  const { rodLevel, expertStorm, expertStar, expertClamRefill } = STAMINA_CONFIG;
+  const { rodLevel, expertDeepSea, expertStar, expertClamRefill } = STAMINA_CONFIG;
   const expertInfoElem = document.getElementById('ocean-expert-info');
   if (expertInfoElem) {
-    expertInfoElem.textContent = `낚싯대 ${rodLevel}강 · 폭풍 LV${expertStorm} · 별별별 LV${expertStar} · 조개리필 LV${expertClamRefill}`;
+    expertInfoElem.textContent = `낚싯대 ${rodLevel}강 · 심해 채집꾼 LV${expertDeepSea} · 별별별 LV${expertStar} · 조개리필 LV${expertClamRefill}`;
   }
 }
 
@@ -270,7 +270,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
   
-  const expertInputs = ['rod-level', 'expert-storm', 'expert-star', 'expert-clam-refill'];
+  const expertInputs = ['rod-level', 'expert-deep-sea', 'expert-star', 'expert-clam-refill'];
   expertInputs.forEach(id => {
     const input = document.getElementById(id);
     if (input) {

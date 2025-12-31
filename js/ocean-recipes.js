@@ -207,7 +207,7 @@ const ocean3StarRecipes = [
   }
 ];
 
-// 공예 조합법 (변경 없음)
+// 공예 조합법 (2025년 가격 업데이트)
 const oceanCraftRecipes = [
   {
     name: "금속 재활용품",
@@ -243,37 +243,37 @@ const oceanCraftRecipes = [
     name: "조개껍데기 브로치",
     ingredients: "깨진 조개껍데기 1개 + 노란빛 진주 1개 + 금속 재활용품 1개 + 거미줄 4개",
     minPrice: "0",
-    maxPrice: "35,000"
+    maxPrice: "50,000"
   },
   {
     name: "푸른 향수병",
     ingredients: "깨진 조개껍데기 2개 + 푸른빛 진주 1개 + 합성수지 재활용품 1개 + 플라스틱 재활용품 1개 + 양동이 8개",
     minPrice: "0",
-    maxPrice: "70,000"
+    maxPrice: "100,000"
   },
   {
     name: "자개 손거울",
     ingredients: "깨진 조개껍데기 3개 + 청록빛 진주 1개 + 합금 재활용품 2개 + 플라스틱 재활용품 2개 + 유리판 16개",
     minPrice: "0",
-    maxPrice: "100,000"
+    maxPrice: "200,000"
   },
   {
     name: "분홍 헤어핀",
     ingredients: "깨진 조개껍데기 4개 + 분홍빛 진주 1개 + 합성수지 재활용품 3개 + 섬유 재활용품 3개 + 대나무 64개 + 분홍 꽃잎 16개",
     minPrice: "0",
-    maxPrice: "170,000"
+    maxPrice: "300,000"
   },
   {
     name: "자개 부채",
     ingredients: "깨진 조개껍데기 5개 + 보라빛 진주 1개 + 합금 재활용품 5개 + 합성수지 재활용품 5개 + 막대기 64개 + 자수정 조각 16개",
     minPrice: "0",
-    maxPrice: "250,000"
+    maxPrice: "500,000"
   },
   {
     name: "흑진주 시계",
     ingredients: "깨진 조개껍데기 7개 + 흑진주 1개 + 금속 재활용품 7개 + 합금 재활용품 7개 + 섬유 재활용품 7개 + 흑요석 16개 + 시계 8개",
     minPrice: "0",
-    maxPrice: "500,000"
+    maxPrice: "700,000"
   }
 ];
 

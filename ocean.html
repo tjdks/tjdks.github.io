@@ -110,20 +110,20 @@
                   <strong>LV 8</strong> – 연금품 판매가 +50%
                 </div>
 
-                <!-- 폭풍의 물질꾼 -->
+                <!-- 심해 채집꾼 (구 폭풍의 물질꾼) -->
                 <div class="setting-row">
                   <label class="setting-label">
-                    <span class="skill-name pot">폭풍의 물질꾼</span>
-                    <button class="info-btn-inline" tabindex="-1" onclick="toggleExpertInfo('storm')">ⓘ</button>
+                    <span class="skill-name pot">심해 채집꾼</span>
+                    <button class="info-btn-inline" tabindex="-1" onclick="toggleExpertInfo('deep-sea')">ⓘ</button>
                   </label>
-                  <input type="number" id="expert-storm" class="setting-input" placeholder="LV" min="0" max="5">
+                  <input type="number" id="expert-deep-sea" class="setting-input" placeholder="LV" min="0" max="5">
                 </div>
-                <div id="desc-storm" class="expert-desc" style="display:none;">
-                  <strong>LV 1</strong> – 비 오는 날 수중 어획 시 어패류 1% 확률 추가 드롭<br>
-                  <strong>LV 2</strong> – 비 오는 날 수중 어획 시 어패류 3% 확률 추가 드롭<br>
-                  <strong>LV 3</strong> – 비 오는 날 수중 어획 시 어패류 5% 확률 추가 드롭<br>
-                  <strong>LV 4</strong> – 비 오는 날 수중 어획 시 어패류 7% 확률 추가 드롭<br>
-                  <strong>LV 5</strong> – 비 오는 날 수중 어획 시 어패류 10% 확률 추가 드롭
+                <div id="desc-deep-sea" class="expert-desc" style="display:none;">
+                  <strong>LV 1</strong> – 수중 어획 시 어패류를 1% 확률로 추가 드롭<br>
+                  <strong>LV 2</strong> – 수중 어획 시 어패류를 3% 확률로 추가 드롭<br>
+                  <strong>LV 3</strong> – 수중 어획 시 어패류를 5% 확률로 추가 드롭<br>
+                  <strong>LV 4</strong> – 수중 어획 시 어패류를 7% 확률로 추가 드롭<br>
+                  <strong>LV 5</strong> – 수중 어획 시 어패류를 10% 확률로 추가 드롭
                 </div>
 
                 <!-- 별별별! -->
@@ -320,7 +320,7 @@
               
               <!-- 전문가 정보 -->
               <div class="expert-info-text">
-                <span id="ocean-expert-info">낚싯대 0강, 폭풍의 물질꾼 LV0, 별별별! LV0, 조개 무한리필 LV0</span>
+                <span id="ocean-expert-info">낚싯대 0강 · 심해 채집꾼 LV0 · 별별별 LV0 · 조개리필 LV0</span>
               </div>
               
               <!-- 버튼 -->
@@ -663,7 +663,7 @@
   </main>
 
   <!-- ===== 푸터 ===== -->
-  <footer class="footer">© 1x0x7</footer>
+  <footer class="footer">© 인절미</footer>
   
   <!-- 공통 스크립트 -->
   <script src="js/script.js"></script>

@@ -24,7 +24,7 @@ function getAllOceanExpertSettings() {
     rodLevel: parseInt(document.getElementById('info-expert-rod')?.value || 0),
     clam: parseInt(document.getElementById('expert-clam-level')?.value || 0),
     premiumPrice: parseInt(document.getElementById('info-expert-premium-price')?.value || 0),
-    storm: parseInt(document.getElementById('expert-storm')?.value || 0),
+    deepSea: parseInt(document.getElementById('expert-deep-sea')?.value || 0),  // 심해 채집꾼
     star: parseInt(document.getElementById('expert-star')?.value || 0),
     clamRefill: parseInt(document.getElementById('expert-clam-refill')?.value || 0)
   };
@@ -35,13 +35,13 @@ function getAllOceanExpertSettings() {
  */
 function getOceanSettings() {
   const rodLevel = parseInt(document.getElementById('info-expert-rod')?.value || 0);
-  const expertStorm = parseInt(document.getElementById('expert-storm')?.value || 0);
+  const expertDeepSea = parseInt(document.getElementById('expert-deep-sea')?.value || 0);  // 심해 채집꾼
   const expertStar = parseInt(document.getElementById('expert-star')?.value || 0);
   const expertClamRefill = parseInt(document.getElementById('expert-clam-refill')?.value || 0);
   
   return {
     rodLevel,
-    expertStorm,
+    expertDeepSea,
     expertStar,
     expertClamRefill
   };
@@ -55,7 +55,7 @@ function setupOceanSettingsSync() {
     'info-expert-rod',
     'expert-clam-level',
     'info-expert-premium-price',
-    'expert-storm',
+    'expert-deep-sea',      // 심해 채집꾼
     'expert-star',
     'expert-clam-refill'
   ];
