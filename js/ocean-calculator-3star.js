@@ -2,8 +2,10 @@
  * 3성 계산기 - 최적화 버전 (2025년 업데이트)
  * 
  * 조합법 변경사항:
- * - 엘릭서: 네더 블록 → 엔드 블록 (엔드 돌, 엔드 석재 벽돌, 후렴과 등)
- * - 영약: 발광먹물주머니 → 말린 켈프 5개, 꽃 → 죽은 산호 블록
+ * - 엘릭서: 어패류 1개 + 불우렁쉥이 1개 + 유리병 3개 + 엔드 블록 → 엘릭서 1개
+ * - 영약: 엘릭서 2종 + 말린 켈프 5개 + 발광 열매 2개 + 죽은 산호 블록 → 영약 1개
+ * 
+ * 주의: 3성은 엘릭서가 1개씩 제작됨 (정수/에센스와 다름)
  *************************************************/
 
 import { GOLD_PRICES, POTION_TO_ELIXIR_3STAR } from './ocean-config.js';
@@ -78,6 +80,7 @@ function calculate(input) {
                     venom: Math.max(0, needPotion.venom - totalPotion.venom)
                 };
 
+                // 엘릭서는 1개씩 제작되므로 그대로
                 const needElix = {
                     guard: makePotion.immortal + makePotion.barrier,
                     wave: makePotion.barrier + makePotion.venom,
@@ -116,7 +119,8 @@ function calculate(input) {
 }
 
 /**
- * 결과 객체 생성 (조합법 변경 반영)
+ * 결과 객체 생성
+ * 3성 엘릭서는 1개씩 제작됨 (1성/2성 정수/에센스와 다름)
  */
 function buildResult(best, totalPotion, totalElix, isAdvanced) {
     const potionNeed = {
@@ -135,6 +139,7 @@ function buildResult(best, totalPotion, totalElix, isAdvanced) {
         venom: Math.max(0, potionNeed.venom - totalPotion.venom)
     };
 
+    // 엘릭서는 1개씩 제작됨
     const elixNeedForPotion = {
         guard: potionToMake.immortal + potionToMake.barrier,
         wave: potionToMake.barrier + potionToMake.venom,
@@ -154,7 +159,7 @@ function buildResult(best, totalPotion, totalElix, isAdvanced) {
     const totalElixToMake = elixToMake.guard + elixToMake.wave + elixToMake.chaos + elixToMake.life + elixToMake.decay;
     const totalPotionToMake = potionToMake.immortal + potionToMake.barrier + potionToMake.corrupt + potionToMake.frenzy + potionToMake.venom;
 
-    // 재료 필요량 (조합법 변경 반영)
+    // 재료 필요량 (엘릭서 1개당 어패류 1개, 불우렁쉥이 1개, 유리병 3개)
     const materialNeed = {
         seaSquirt: totalElixToMake,                    // 불우렁쉥이
         glassBottle: totalElixToMake * 3,              // 유리병
@@ -162,7 +167,16 @@ function buildResult(best, totalPotion, totalElix, isAdvanced) {
         glowBerry: totalPotionToMake * 2               // 발광 열매
     };
 
-    // 엔드 블록 (엘릭서 제작용) - 조합법 변경
+    // 어패류 필요량 (엘릭서 1개당 1개)
+    const fishNeed = {
+        guard: elixToMake.guard,
+        wave: elixToMake.wave,
+        chaos: elixToMake.chaos,
+        life: elixToMake.life,
+        decay: elixToMake.decay
+    };
+
+    // 엔드 블록 (엘릭서 제작용) - 엘릭서 1개당 1개
     const endBlockNeed = {
         endStone: elixToMake.guard,                    // 엔드 돌 (수호)
         endStoneBrick: elixToMake.wave,                // 엔드 석재 벽돌 (파동)
@@ -171,7 +185,7 @@ function buildResult(best, totalPotion, totalElix, isAdvanced) {
         purpurBlock: elixToMake.decay                  // 퍼퍼 블록 (부식)
     };
 
-    // 죽은 산호 블록 (영약 제작용) - 조합법 변경
+    // 죽은 산호 블록 (영약 제작용) - 영약 1개당 1개
     const deadCoralNeed = {
         deadTubeCoral: potionToMake.immortal,          // 죽은 관 산호 블록 (불멸 재생)
         deadBrainCoral: potionToMake.barrier,          // 죽은 사방산호 블록 (파동 장벽)
@@ -180,6 +194,7 @@ function buildResult(best, totalPotion, totalElix, isAdvanced) {
         deadHornCoral: potionToMake.venom              // 죽은 뇌 산호 블록 (맹독 파동)
     };
 
+    // 전체 필요량 (세트 모드용)
     const elixNeedTotal = {
         guard: potionNeed.immortal + potionNeed.barrier,
         wave: potionNeed.barrier + potionNeed.venom,
@@ -196,6 +211,14 @@ function buildResult(best, totalPotion, totalElix, isAdvanced) {
         glassBottle: totalElixNeed * 3,
         driedKelp: totalPotionNeed * 5,
         glowBerry: totalPotionNeed * 2
+    };
+
+    const fishNeedTotal = {
+        guard: elixNeedTotal.guard,
+        wave: elixNeedTotal.wave,
+        chaos: elixNeedTotal.chaos,
+        life: elixNeedTotal.life,
+        decay: elixNeedTotal.decay
     };
 
     const endBlockNeedTotal = {
@@ -219,6 +242,7 @@ function buildResult(best, totalPotion, totalElix, isAdvanced) {
         potionNeed, potionToMake,
         elixNeedTotal, elixToMake,
         materialNeed, materialNeedTotal,
+        fishNeed, fishNeedTotal,
         endBlockNeed, endBlockNeedTotal,
         deadCoralNeed, deadCoralNeedTotal,
         isAdvancedMode: isAdvanced
@@ -226,7 +250,7 @@ function buildResult(best, totalPotion, totalElix, isAdvanced) {
 }
 
 /**
- * 결과 업데이트 (조합법 변경 반영)
+ * 결과 업데이트
  */
 function updateResult(result) {
     if (!result) return;
@@ -242,6 +266,7 @@ function updateResult(result) {
     const elixData = advanced ? result.elixToMake : result.elixNeedTotal;
     const potionData = advanced ? result.potionToMake : result.potionNeed;
     const materialData = advanced ? result.materialNeed : result.materialNeedTotal;
+    const fishData = advanced ? result.fishNeed : result.fishNeedTotal;
     const endBlockData = advanced ? result.endBlockNeed : result.endBlockNeedTotal;
     const deadCoralData = advanced ? result.deadCoralNeed : result.deadCoralNeedTotal;
 
@@ -270,6 +295,18 @@ function updateResult(result) {
         { name: '말린 켈프', value: materialData.driedKelp },
         { name: '발광 열매', value: materialData.glowBerry }
     ]);
+
+    // 어패류 (3성)
+    const fishSection = document.getElementById("result-fish-3");
+    if (fishSection) {
+        fishSection.innerHTML = createMaterialTextHTML([
+            { name: '굴 ★★★', value: fishData.guard || 0 },
+            { name: '소라 ★★★', value: fishData.wave || 0 },
+            { name: '문어 ★★★', value: fishData.chaos || 0 },
+            { name: '미역 ★★★', value: fishData.life || 0 },
+            { name: '성게 ★★★', value: fishData.decay || 0 }
+        ]);
+    }
 
     // 엔드 블록 (엘릭서 제작용)
     document.getElementById("result-block-3").innerHTML = createMaterialTextHTML([

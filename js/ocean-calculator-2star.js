@@ -2,7 +2,7 @@
  * 2성 계산기 - 최적화 버전 (2025년 업데이트)
  * 
  * 조합법 변경사항:
- * - 에센스: 어패류 2개 + 해초 2개 + 네더 블록 → 에센스 2개
+ * - 에센스: 어패류 2개 + 해초 2개 + 네더 블록 → 에센스 2개 (2개 단위 제작)
  * - 결정: 먹물 주머니 → 켈프 3개
  *************************************************/
 
@@ -14,6 +14,15 @@ import {
 import { setupAdvancedToggle } from './ocean-ui.js';
 
 let lastResult = null;
+
+/**
+ * 2개 단위로 내림 처리
+ * @param {number} n - 필요량
+ * @returns {number} 2개 단위로 내림된 값
+ */
+function floorToTwo(n) {
+    return Math.floor(n / 2) * 2;
+}
 
 /**
  * 2성 계산 메인 함수
@@ -82,12 +91,21 @@ function calculate(input) {
                     poison: Math.max(0, needCrystal.poison - totalCrystal.poison)
                 };
 
-                const needEss = {
+                // 에센스 필요량 (2개 단위로 내림)
+                const needEssRaw = {
                     guard: makeCrystal.vital + makeCrystal.defense,
                     wave: makeCrystal.erosion + makeCrystal.regen,
                     chaos: makeCrystal.defense + makeCrystal.poison,
                     life: makeCrystal.vital + makeCrystal.regen,
                     decay: makeCrystal.erosion + makeCrystal.poison
+                };
+
+                const needEss = {
+                    guard: floorToTwo(needEssRaw.guard),
+                    wave: floorToTwo(needEssRaw.wave),
+                    chaos: floorToTwo(needEssRaw.chaos),
+                    life: floorToTwo(needEssRaw.life),
+                    decay: floorToTwo(needEssRaw.decay)
                 };
 
                 const makeFish = {
@@ -120,7 +138,7 @@ function calculate(input) {
 }
 
 /**
- * 결과 객체 생성 (조합법 변경 반영)
+ * 결과 객체 생성 (2개 단위 제작 반영)
  */
 function buildResult(best, totalCrystal, totalEss, isAdvanced) {
     const crystalNeed = {
@@ -139,12 +157,21 @@ function buildResult(best, totalCrystal, totalEss, isAdvanced) {
         poison: Math.max(0, crystalNeed.poison - totalCrystal.poison)
     };
 
-    const essNeedForCrystal = {
+    // 에센스 필요량 (2개 단위로 내림)
+    const essNeedForCrystalRaw = {
         guard: crystalToMake.vital + crystalToMake.defense,
         wave: crystalToMake.erosion + crystalToMake.regen,
         chaos: crystalToMake.defense + crystalToMake.poison,
         life: crystalToMake.vital + crystalToMake.regen,
         decay: crystalToMake.erosion + crystalToMake.poison
+    };
+
+    const essNeedForCrystal = {
+        guard: floorToTwo(essNeedForCrystalRaw.guard),
+        wave: floorToTwo(essNeedForCrystalRaw.wave),
+        chaos: floorToTwo(essNeedForCrystalRaw.chaos),
+        life: floorToTwo(essNeedForCrystalRaw.life),
+        decay: floorToTwo(essNeedForCrystalRaw.decay)
     };
 
     const essToMake = {
@@ -155,28 +182,45 @@ function buildResult(best, totalCrystal, totalEss, isAdvanced) {
         decay: Math.max(0, essNeedForCrystal.decay - totalEss.decay)
     };
 
-    // 재료 필요량 (조합법 변경 반영)
-    // 에센스 제작: 해초 2개 + 네더 블록
-    // 결정 제작: 켈프 3개 + 광물
-    const totalCrystalToMake = crystalToMake.vital + crystalToMake.erosion + crystalToMake.defense + crystalToMake.regen + crystalToMake.poison;
-    const totalEssToMake = essToMake.guard + essToMake.wave + essToMake.chaos + essToMake.life + essToMake.decay;
-
-    const materialNeed = {
-        seaweed: totalEssToMake * 2,       // 해초 (에센스당 2개)
-        kelp: totalCrystalToMake * 3,      // 켈프 (결정당 3개)
-        netherrack: essToMake.guard * 8,   // 네더랙
-        magmaBlock: essToMake.wave * 4,    // 마그마 블록
-        soulSoil: essToMake.chaos * 4,     // 영혼 흙
-        crimsonStem: essToMake.life * 2,   // 진홍빛 자루
-        warpedStem: essToMake.decay * 2,   // 뒤틀린 자루
-        lapisBlock: crystalToMake.vital,   // 청금석 블록
-        redstoneBlock: crystalToMake.erosion, // 레드스톤 블록
-        ironIngot: crystalToMake.defense,  // 철 주괴
-        goldIngot: crystalToMake.regen,    // 금 주괴
-        diamond: crystalToMake.poison      // 다이아몬드
+    // 제작 횟수 계산 (2개씩 나오므로)
+    const essCraftCount = {
+        guard: Math.floor(essToMake.guard / 2),
+        wave: Math.floor(essToMake.wave / 2),
+        chaos: Math.floor(essToMake.chaos / 2),
+        life: Math.floor(essToMake.life / 2),
+        decay: Math.floor(essToMake.decay / 2)
     };
 
-    const essNeedTotal = {
+    const totalCrystalToMake = crystalToMake.vital + crystalToMake.erosion + crystalToMake.defense + crystalToMake.regen + crystalToMake.poison;
+    const totalEssCraftCount = essCraftCount.guard + essCraftCount.wave + essCraftCount.chaos + essCraftCount.life + essCraftCount.decay;
+
+    // 재료 필요량 (제작 횟수 기준)
+    const materialNeed = {
+        seaweed: totalEssCraftCount * 2,       // 해초 (제작당 2개)
+        kelp: totalCrystalToMake * 3,          // 켈프 (결정당 3개)
+        netherrack: essCraftCount.guard * 8,   // 네더랙
+        magmaBlock: essCraftCount.wave * 4,    // 마그마 블록
+        soulSoil: essCraftCount.chaos * 4,     // 영혼 흙
+        crimsonStem: essCraftCount.life * 2,   // 진홍빛 자루
+        warpedStem: essCraftCount.decay * 2,   // 뒤틀린 자루
+        lapisBlock: crystalToMake.vital,       // 청금석 블록
+        redstoneBlock: crystalToMake.erosion,  // 레드스톤 블록
+        ironIngot: crystalToMake.defense,      // 철 주괴
+        goldIngot: crystalToMake.regen,        // 금 주괴
+        diamond: crystalToMake.poison          // 다이아몬드
+    };
+
+    // 어패류 필요량 (제작 횟수 × 2)
+    const fishNeed = {
+        guard: essCraftCount.guard * 2,
+        wave: essCraftCount.wave * 2,
+        chaos: essCraftCount.chaos * 2,
+        life: essCraftCount.life * 2,
+        decay: essCraftCount.decay * 2
+    };
+
+    // 전체 필요량 (세트 모드용)
+    const essNeedTotalRaw = {
         guard: crystalNeed.vital + crystalNeed.defense,
         wave: crystalNeed.erosion + crystalNeed.regen,
         chaos: crystalNeed.defense + crystalNeed.poison,
@@ -184,17 +228,33 @@ function buildResult(best, totalCrystal, totalEss, isAdvanced) {
         decay: crystalNeed.erosion + crystalNeed.poison
     };
 
+    const essNeedTotal = {
+        guard: floorToTwo(essNeedTotalRaw.guard),
+        wave: floorToTwo(essNeedTotalRaw.wave),
+        chaos: floorToTwo(essNeedTotalRaw.chaos),
+        life: floorToTwo(essNeedTotalRaw.life),
+        decay: floorToTwo(essNeedTotalRaw.decay)
+    };
+
+    const essCraftCountTotal = {
+        guard: Math.floor(essNeedTotal.guard / 2),
+        wave: Math.floor(essNeedTotal.wave / 2),
+        chaos: Math.floor(essNeedTotal.chaos / 2),
+        life: Math.floor(essNeedTotal.life / 2),
+        decay: Math.floor(essNeedTotal.decay / 2)
+    };
+
     const totalCrystalNeed = crystalNeed.vital + crystalNeed.erosion + crystalNeed.defense + crystalNeed.regen + crystalNeed.poison;
-    const totalEssNeed = essNeedTotal.guard + essNeedTotal.wave + essNeedTotal.chaos + essNeedTotal.life + essNeedTotal.decay;
+    const totalEssCraftCountTotal = essCraftCountTotal.guard + essCraftCountTotal.wave + essCraftCountTotal.chaos + essCraftCountTotal.life + essCraftCountTotal.decay;
 
     const materialNeedTotal = {
-        seaweed: totalEssNeed * 2,
+        seaweed: totalEssCraftCountTotal * 2,
         kelp: totalCrystalNeed * 3,
-        netherrack: essNeedTotal.guard * 8,
-        magmaBlock: essNeedTotal.wave * 4,
-        soulSoil: essNeedTotal.chaos * 4,
-        crimsonStem: essNeedTotal.life * 2,
-        warpedStem: essNeedTotal.decay * 2,
+        netherrack: essCraftCountTotal.guard * 8,
+        magmaBlock: essCraftCountTotal.wave * 4,
+        soulSoil: essCraftCountTotal.chaos * 4,
+        crimsonStem: essCraftCountTotal.life * 2,
+        warpedStem: essCraftCountTotal.decay * 2,
         lapisBlock: crystalNeed.vital,
         redstoneBlock: crystalNeed.erosion,
         ironIngot: crystalNeed.defense,
@@ -202,11 +262,20 @@ function buildResult(best, totalCrystal, totalEss, isAdvanced) {
         diamond: crystalNeed.poison
     };
 
+    const fishNeedTotal = {
+        guard: essCraftCountTotal.guard * 2,
+        wave: essCraftCountTotal.wave * 2,
+        chaos: essCraftCountTotal.chaos * 2,
+        life: essCraftCountTotal.life * 2,
+        decay: essCraftCountTotal.decay * 2
+    };
+
     return { 
         best, 
         crystalNeed, crystalToMake,
         essNeedTotal, essToMake,
         materialNeed, materialNeedTotal,
+        fishNeed, fishNeedTotal,
         isAdvancedMode: isAdvanced
     };
 }
@@ -228,6 +297,7 @@ function updateResult(result) {
     const essData = advanced ? result.essToMake : result.essNeedTotal;
     const crystalData = advanced ? result.crystalToMake : result.crystalNeed;
     const materialData = advanced ? result.materialNeed : result.materialNeedTotal;
+    const fishData = advanced ? result.fishNeed : result.fishNeedTotal;
 
     // 에센스
     document.getElementById("result-essence-2").innerHTML = createMaterialCardsHTML([
@@ -270,6 +340,18 @@ function updateResult(result) {
         { name: '금 주괴', value: materialData.goldIngot || 0 },
         { name: '다이아몬드', value: materialData.diamond || 0 }
     ]);
+
+    // 어패류
+    const fishSection = document.getElementById("result-fish-2");
+    if (fishSection) {
+        fishSection.innerHTML = createMaterialTextHTML([
+            { name: '굴 ★★', value: fishData.guard || 0 },
+            { name: '소라 ★★', value: fishData.wave || 0 },
+            { name: '문어 ★★', value: fishData.chaos || 0 },
+            { name: '미역 ★★', value: fishData.life || 0 },
+            { name: '성게 ★★', value: fishData.decay || 0 }
+        ]);
+    }
 
     const resultCard = getElement("result-card-2");
     if (resultCard) resultCard.style.display = 'block';

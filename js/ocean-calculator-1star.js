@@ -2,7 +2,7 @@
  * 1성 계산기 - 최적화 버전 (2025년 업데이트)
  * 
  * 조합법 변경사항:
- * - 정수: 어패류 2개 → 정수 2개 (1:1 비율 유지)
+ * - 정수: 어패류 2개 + 블록 → 정수 2개 (2개 단위 제작)
  *************************************************/
 
 import { GOLD_PRICES, CORE_TO_ESSENCE_1STAR, ESSENCE_TO_BLOCK_1STAR, CORE_TO_FISH_1STAR } from './ocean-config.js';
@@ -14,6 +14,15 @@ import { setupAdvancedToggle } from './ocean-ui.js';
 
 // 전역 결과 저장
 let lastResult = null;
+
+/**
+ * 2개 단위로 내림 처리
+ * @param {number} n - 필요량
+ * @returns {number} 2개 단위로 내림된 값
+ */
+function floorToTwo(n) {
+    return Math.floor(n / 2) * 2;
+}
 
 /**
  * 1성 계산 메인 함수
@@ -86,12 +95,21 @@ function calculate(input) {
                     ED: Math.max(0, needCore.ED - totalCore.ED)
                 };
 
-                const needEss = {
+                // 정수 필요량 계산 (2개 단위로 내림)
+                const needEssRaw = {
                     guard: makeCore.WG + makeCore.ED,
                     wave: makeCore.WG + makeCore.WP,
                     chaos: makeCore.WP + makeCore.OD,
                     life: makeCore.OD + makeCore.VD,
                     decay: makeCore.VD + makeCore.ED
+                };
+
+                const needEss = {
+                    guard: floorToTwo(needEssRaw.guard),
+                    wave: floorToTwo(needEssRaw.wave),
+                    chaos: floorToTwo(needEssRaw.chaos),
+                    life: floorToTwo(needEssRaw.life),
+                    decay: floorToTwo(needEssRaw.decay)
                 };
 
                 const makeFish = {
@@ -125,7 +143,7 @@ function calculate(input) {
 }
 
 /**
- * 결과 객체 생성
+ * 결과 객체 생성 (2개 단위 제작 반영)
  */
 function buildResult(best, totalCore, totalEss) {
     const coreNeed = {
@@ -144,12 +162,21 @@ function buildResult(best, totalCore, totalEss) {
         ED: Math.max(0, coreNeed.ED - totalCore.ED)
     };
 
-    const essNeedForCore = {
+    // 정수 필요량 (2개 단위로 내림)
+    const essNeedForCoreRaw = {
         guard: coreToMake.WG + coreToMake.ED,
         wave: coreToMake.WG + coreToMake.WP,
         chaos: coreToMake.WP + coreToMake.OD,
         life: coreToMake.OD + coreToMake.VD,
         decay: coreToMake.VD + coreToMake.ED
+    };
+
+    const essNeedForCore = {
+        guard: floorToTwo(essNeedForCoreRaw.guard),
+        wave: floorToTwo(essNeedForCoreRaw.wave),
+        chaos: floorToTwo(essNeedForCoreRaw.chaos),
+        life: floorToTwo(essNeedForCoreRaw.life),
+        decay: floorToTwo(essNeedForCoreRaw.decay)
     };
 
     const essToMake = {
@@ -160,24 +187,36 @@ function buildResult(best, totalCore, totalEss) {
         decay: Math.max(0, essNeedForCore.decay - totalEss.decay)
     };
 
-    // 블록 필요량 (정수 제작에 필요)
+    // 제작 횟수 계산 (2개씩 나오므로)
+    const craftCount = {
+        guard: Math.floor(essToMake.guard / 2),
+        wave: Math.floor(essToMake.wave / 2),
+        chaos: Math.floor(essToMake.chaos / 2),
+        life: Math.floor(essToMake.life / 2),
+        decay: Math.floor(essToMake.decay / 2)
+    };
+
+    // 블록 필요량 (정수 제작에 필요) - 제작 횟수 기준
+    // 수호: 점토 1개, 파동: 모래 3개, 혼란: 흙 4개, 생명: 자갈 2개, 부식: 화강암 1개
     const blockNeed = {
-        clay: essToMake.guard * 1,
-        sand: essToMake.wave * 3,
-        dirt: essToMake.chaos * 4,
-        gravel: essToMake.life * 2,
-        granite: essToMake.decay * 1
+        clay: craftCount.guard * 1,
+        sand: craftCount.wave * 3,
+        dirt: craftCount.chaos * 4,
+        gravel: craftCount.life * 2,
+        granite: craftCount.decay * 1
     };
 
+    // 어패류 필요량 (제작 횟수 × 2)
     const fishNeed = {
-        shrimp: coreToMake.WG,
-        domi: coreToMake.WP,
-        herring: coreToMake.OD,
-        goldfish: coreToMake.VD,
-        bass: coreToMake.ED
+        guard: craftCount.guard * 2,
+        wave: craftCount.wave * 2,
+        chaos: craftCount.chaos * 2,
+        life: craftCount.life * 2,
+        decay: craftCount.decay * 2
     };
 
-    const essNeedTotal = {
+    // 전체 필요량 (세트 모드용)
+    const essNeedTotalRaw = {
         guard: coreNeed.WG + coreNeed.ED,
         wave: coreNeed.WG + coreNeed.WP,
         chaos: coreNeed.WP + coreNeed.OD,
@@ -185,20 +224,36 @@ function buildResult(best, totalCore, totalEss) {
         decay: coreNeed.VD + coreNeed.ED
     };
 
+    const essNeedTotal = {
+        guard: floorToTwo(essNeedTotalRaw.guard),
+        wave: floorToTwo(essNeedTotalRaw.wave),
+        chaos: floorToTwo(essNeedTotalRaw.chaos),
+        life: floorToTwo(essNeedTotalRaw.life),
+        decay: floorToTwo(essNeedTotalRaw.decay)
+    };
+
+    const craftCountTotal = {
+        guard: Math.floor(essNeedTotal.guard / 2),
+        wave: Math.floor(essNeedTotal.wave / 2),
+        chaos: Math.floor(essNeedTotal.chaos / 2),
+        life: Math.floor(essNeedTotal.life / 2),
+        decay: Math.floor(essNeedTotal.decay / 2)
+    };
+
     const blockNeedTotal = {
-        clay: essNeedTotal.guard * 1,
-        sand: essNeedTotal.wave * 3,
-        dirt: essNeedTotal.chaos * 4,
-        gravel: essNeedTotal.life * 2,
-        granite: essNeedTotal.decay * 1
+        clay: craftCountTotal.guard * 1,
+        sand: craftCountTotal.wave * 3,
+        dirt: craftCountTotal.chaos * 4,
+        gravel: craftCountTotal.life * 2,
+        granite: craftCountTotal.decay * 1
     };
 
     const fishNeedTotal = {
-        shrimp: coreNeed.WG,
-        domi: coreNeed.WP,
-        herring: coreNeed.OD,
-        goldfish: coreNeed.VD,
-        bass: coreNeed.ED
+        guard: craftCountTotal.guard * 2,
+        wave: craftCountTotal.wave * 2,
+        chaos: craftCountTotal.chaos * 2,
+        life: craftCountTotal.life * 2,
+        decay: craftCountTotal.decay * 2
     };
 
     return { 
@@ -256,13 +311,13 @@ function updateResult(result) {
         { name: '화강암', value: blockData.granite }
     ]);
 
-    // 물고기
+    // 어패류
     document.getElementById("result-fish-1").innerHTML = createMaterialTextHTML([
-        { name: '새우', value: fishData.shrimp },
-        { name: '도미', value: fishData.domi },
-        { name: '청어', value: fishData.herring },
-        { name: '금붕어', value: fishData.goldfish },
-        { name: '농어', value: fishData.bass }
+        { name: '굴 ★', value: fishData.guard },
+        { name: '소라 ★', value: fishData.wave },
+        { name: '문어 ★', value: fishData.chaos },
+        { name: '미역 ★', value: fishData.life },
+        { name: '성게 ★', value: fishData.decay }
     ]);
 
     document.getElementById('result-card-1').style.display = 'block';
