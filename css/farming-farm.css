@@ -1,8 +1,10 @@
 /* =========================
    재배 탭 스타일
+   - ocean.css, farming-efficiency.css 참고
+   - 블루 계열 통일, 깔끔한 디자인
 ========================= */
 
-/* 전문가 세팅 표시 */
+/* ===== 전문가 세팅 표시 ===== */
 .farm-expert-status {
   font-size: 12px;
   color: var(--color-text-muted);
@@ -12,22 +14,24 @@
 .farm-expert-tag {
   display: inline-block;
   padding: 3px 8px;
-  background: #f0f0f0;
-  border-radius: 4px;
+  background: #f8f9fa;
+  border: 1px solid #e2e8f0;
+  border-radius: 6px;
+  font-size: 11px;
   font-weight: 500;
+  color: #475569;
   cursor: pointer;
   position: relative;
   margin: 0 2px;
+  transition: all 0.2s;
 }
 
 .farm-expert-tag:hover {
-  background: #e8e8e8;
+  background: #f1f5f9;
+  border-color: #cbd5e1;
 }
 
-.farm-expert-tag.harvest { color: #22c55e; }
-.farm-expert-tag.king { color: #f59e0b; }
-.farm-expert-tag.seed { color: #3b82f6; }
-
+/* 툴팁 */
 .farm-expert-tag .tooltip {
   display: none;
   position: absolute;
@@ -59,7 +63,7 @@
   display: block;
 }
 
-/* 입력 영역: 가로 2개 */
+/* ===== 입력 영역 그리드 ===== */
 .farm-input-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -68,17 +72,20 @@
 }
 
 .farm-input-card {
-  background: var(--color-bg-white);
-  border-radius: 10px;
-  padding: 16px;
-  border: 1px solid var(--color-border);
+  background: #fff;
+  border-radius: var(--border-radius-lg);
+  padding: 18px;
+  box-shadow: var(--shadow-sm);
+  border: 1px solid #eee;
 }
 
 .farm-input-card h3 {
   font-size: 13px;
   font-weight: 600;
-  color: var(--color-text);
+  color: #333;
   margin: 0 0 12px 0;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #f0f0f0;
 }
 
 .farm-input-card .card-desc {
@@ -87,12 +94,12 @@
   margin: -8px 0 12px 0;
 }
 
-/* 입력 행 */
+/* ===== 입력 행 ===== */
 .farm-input-row {
   display: flex;
   align-items: center;
-  gap: 8px;
-  margin-bottom: 8px;
+  gap: 10px;
+  margin-bottom: 10px;
 }
 
 .farm-input-row:last-of-type {
@@ -107,24 +114,27 @@
 
 .farm-input-row .crop-name {
   font-size: 12px;
-  font-weight: 600;
-  color: var(--color-text-secondary);
+  font-weight: 500;
+  color: #555;
   width: 45px;
 }
 
 .farm-input-row input {
   flex: 1;
-  padding: 8px 10px;
-  border: 1px solid var(--color-border);
+  padding: 9px 12px;
+  border: 1px solid #e2e8f0;
   border-radius: 6px;
   font-size: 13px;
-  font-weight: 600;
+  font-weight: 500;
   outline: none;
   text-align: center;
+  background: #fff;
+  transition: border-color 0.2s, box-shadow 0.2s;
 }
 
 .farm-input-row input:focus {
   border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.08);
 }
 
 .farm-input-row .unit {
@@ -133,105 +143,207 @@
   width: 16px;
 }
 
-/* 초기화 버튼 */
+/* ===== 초기화 버튼 ===== */
 .farm-reset-btn {
   width: 100%;
-  padding: 9px;
-  margin-top: 12px;
+  padding: 10px;
+  margin-top: 14px;
   background: #f8f9fa;
-  border: 1px solid var(--color-border);
+  border: 1px solid #e2e8f0;
   border-radius: 6px;
   font-size: 12px;
   font-weight: 500;
-  color: var(--color-text-muted);
+  color: #64748b;
   cursor: pointer;
   transition: all 0.2s;
 }
 
 .farm-reset-btn:hover {
   background: #f1f5f9;
-  color: var(--color-text-secondary);
+  color: #475569;
 }
 
-/* 결과 영역 */
+/* ===== 결과 영역 ===== */
 .farm-result-area {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 14px;
 }
 
-/* 결과 가로 배치 */
+/* 결과 그리드 */
 .farm-result-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 12px;
+  gap: 14px;
 }
 
-/* 빈 상태 */
+/* ===== 빈 상태 ===== */
 .farm-empty-state {
   grid-column: 1 / -1;
   text-align: center;
   padding: 40px 20px;
   background: #fafbfc;
   border-radius: 10px;
-  border: 1px dashed var(--color-border);
+  border: 1px dashed #e2e8f0;
 }
 
 .farm-empty-state .empty-icon {
   font-size: 32px;
   margin-bottom: 8px;
+  opacity: 0.6;
 }
 
 .farm-empty-state .empty-text {
   font-size: 13px;
-  color: var(--color-text-muted);
+  color: #94a3b8;
 }
 
-/* 결과 카드 */
+/* ===== 결과 카드 ===== */
 .farm-result-card {
-  background: var(--color-bg-white);
+  background: #fff;
   border-radius: 10px;
-  padding: 14px;
-  border: 1px solid var(--color-border);
-  border-top: 3px solid var(--crop-color, var(--color-primary));
+  padding: 16px;
+  box-shadow: var(--shadow-sm);
+  border: 1px solid #eee;
+}
+
+/* ===== 작물별 결과 섹션 (스태미나 탭) ===== */
+.crop-result-section {
+  background: #f8fafc;
+  border-radius: 10px;
+  padding: 14px 16px;
+  border: 1px solid #e5e7eb;
+}
+
+.crop-result-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 12px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.crop-result-title img {
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
+}
+
+.crop-result-title span {
+  font-size: 14px;
+  font-weight: 600;
+  color: #334155;
+}
+
+.crop-result-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 12px;
+  margin-bottom: 6px;
+}
+
+.crop-result-row:last-child {
+  margin-bottom: 0;
+}
+
+.crop-result-row.total {
+  padding-top: 10px;
+  margin-top: 8px;
+  border-top: 1px dashed #cbd5e1;
+}
+
+.crop-result-row .result-label {
+  color: #64748b;
+  font-weight: 500;
+}
+
+.crop-result-row .result-value {
+  font-weight: 600;
+  color: #334155;
+}
+
+.crop-result-row .result-value.primary {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--color-primary);
+}
+
+.crop-result-row .result-detail {
+  font-size: 10px;
+  font-weight: 500;
+  color: #3b82f6;
+  margin-left: 4px;
+}
+
+/* 결과 그리드 */
+.result-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+/* 보너스 요약 */
+.bonus-summary {
+  background: #eff6ff;
+  border-radius: 8px;
+  padding: 12px 14px;
+  font-size: 11px;
+  color: #1e40af;
+  line-height: 1.6;
+}
+
+.bonus-summary-title {
+  font-size: 11px;
+  font-weight: 600;
+  color: #1d4ed8;
+  margin-bottom: 6px;
+}
+
+.bonus-summary strong {
+  color: #1d4ed8;
 }
 
 .farm-result-header {
   display: flex;
   align-items: center;
-  gap: 6px;
-  margin-bottom: 12px;
-  padding-bottom: 10px;
+  gap: 8px;
+  margin-bottom: 14px;
+  padding-bottom: 12px;
   border-bottom: 1px solid #f0f0f0;
 }
 
 .farm-result-header .crop-img {
-  width: 24px;
-  height: 24px;
+  width: 26px;
+  height: 26px;
   object-fit: contain;
 }
 
 .farm-crop-name {
   font-size: 14px;
   font-weight: 600;
-  color: var(--color-text);
+  color: #333;
 }
 
 .farm-seed-count {
   font-size: 10px;
-  color: var(--color-text-muted);
+  color: #64748b;
   margin-left: auto;
-  background: #f5f5f5;
-  padding: 2px 6px;
+  background: #f1f5f9;
+  padding: 3px 8px;
   border-radius: 4px;
+  font-weight: 500;
 }
 
+/* ===== 결과 행 ===== */
 .farm-result-row {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  font-size: 11px;
-  margin-bottom: 6px;
+  font-size: 12px;
+  margin-bottom: 8px;
 }
 
 .farm-result-row:last-child {
@@ -239,34 +351,31 @@
 }
 
 .farm-result-row.total {
-  padding-top: 10px;
-  margin-top: 8px;
-  border-top: 1px dashed #e5e5e5;
+  padding-top: 12px;
+  margin-top: 10px;
+  border-top: 1px dashed #e5e7eb;
 }
 
 .farm-result-label {
-  color: var(--color-text-muted);
+  color: #64748b;
+  font-weight: 500;
 }
 
 .farm-result-value {
   font-weight: 600;
-  color: var(--color-text);
-}
-
-.farm-result-value.bonus-seed {
-  color: #f59e0b;
+  color: #334155;
 }
 
 .farm-result-value.primary {
-  font-size: 15px;
+  font-size: 16px;
   font-weight: 700;
-  color: var(--crop-color, var(--color-primary));
+  color: var(--color-primary);
 }
 
 .farm-bonus {
   font-size: 10px;
   font-weight: 500;
-  color: #22c55e;
+  color: var(--color-primary);
   display: block;
   text-align: right;
 }
@@ -274,20 +383,25 @@
 .farm-detail {
   font-size: 9px;
   font-weight: 400;
-  color: var(--color-text-muted);
+  color: #94a3b8;
   display: block;
   text-align: right;
 }
 
-/* 요약 바 */
+/* ===== 요약 바 - 블루 계열 ===== */
 .farm-summary {
   display: none;
+  background: #fff;
+  border-radius: 10px;
+  padding: 16px;
+  border: 1px solid #eee;
+  box-shadow: var(--shadow-sm);
+}
+
+.farm-summary.show {
+  display: flex;
   justify-content: space-around;
   align-items: center;
-  background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
-  border-radius: 10px;
-  padding: 14px;
-  border: 1px solid var(--color-border);
 }
 
 .farm-summary-item {
@@ -296,12 +410,12 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
+  gap: 10px;
 }
 
 .farm-summary-item .summary-img {
-  width: 24px;
-  height: 24px;
+  width: 28px;
+  height: 28px;
   object-fit: contain;
 }
 
@@ -311,45 +425,307 @@
 
 .farm-summary-item .summary-label {
   font-size: 10px;
-  color: var(--color-text-muted);
+  color: #64748b;
   margin-bottom: 2px;
+  font-weight: 500;
 }
 
 .farm-summary-item .summary-value {
   font-size: 18px;
   font-weight: 700;
+  color: var(--color-primary);
 }
-
-.farm-summary-item .summary-value.tomato { color: #ef4444; }
-.farm-summary-item .summary-value.onion { color: #a855f7; }
-.farm-summary-item .summary-value.garlic { color: #22c55e; }
 
 .farm-summary-divider {
   width: 1px;
-  height: 32px;
-  background: var(--color-border);
+  height: 36px;
+  background: #e5e7eb;
 }
 
-/* 반응형 */
-@media (max-width: 600px) {
+/* ===== 통계 박스 - 블루 계열 명도 차이 ===== */
+.farm-stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  margin-bottom: 14px;
+}
+
+.farm-stat {
+  padding: 12px;
+  border-radius: 8px;
+  text-align: center;
+}
+
+.farm-stat:nth-child(1) { background: #eff6ff; }
+.farm-stat:nth-child(2) { background: #dbeafe; }
+.farm-stat:nth-child(3) { background: #bfdbfe; }
+.farm-stat:nth-child(4) { background: #93c5fd; }
+
+.farm-stat .stat-label {
+  font-size: 10px;
+  font-weight: 500;
+  color: #1e40af;
+  margin-bottom: 4px;
+}
+
+.farm-stat .stat-value {
+  font-size: 16px;
+  font-weight: 700;
+  color: #1d4ed8;
+}
+
+.farm-stat .stat-unit {
+  font-size: 9px;
+  font-weight: 500;
+  color: #3b82f6;
+}
+
+/* ===== 재료 카드 그리드 ===== */
+.farm-materials-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(85px, 1fr));
+  gap: 10px;
+  margin-bottom: 14px;
+}
+
+.farm-material-card {
+  background: #f8f9fa;
+  border-radius: 8px;
+  padding: 12px 8px;
+  text-align: center;
+  border: 1px solid #f0f0f0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 70px;
+}
+
+.farm-material-card .icon {
+  width: 28px;
+  height: 28px;
+  margin: 0 auto 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.farm-material-card .icon img {
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
+  user-select: none;
+  -webkit-user-drag: none;
+  pointer-events: none;
+}
+
+.farm-material-card .name {
+  font-size: 10px;
+  color: #64748b;
+  margin-bottom: 4px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 100%;
+  font-weight: 500;
+}
+
+.farm-material-card .value {
+  font-size: 14px;
+  font-weight: 600;
+  color: #334155;
+}
+
+/* ===== 버튼 스타일 ===== */
+.farm-btn {
+  padding: 10px 18px;
+  background: var(--color-primary);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.farm-btn:hover {
+  background: var(--color-primary-hover);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.25);
+}
+
+.farm-btn-secondary {
+  padding: 8px 14px;
+  background: #fff;
+  color: #475569;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.farm-btn-secondary:hover {
+  background: #f8fafc;
+  border-color: #cbd5e1;
+}
+
+.farm-btn-secondary.active {
+  background: var(--color-primary);
+  color: #fff;
+  border-color: var(--color-primary);
+}
+
+/* ===== 퍼센트 배지 - 블루 계열 ===== */
+.farm-percent-badge {
+  display: inline-block;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 10px;
+  font-weight: 500;
+}
+
+.farm-percent-badge.high {
+  background: #dbeafe;
+  color: #1e40af;
+}
+
+.farm-percent-badge.mid {
+  background: #e0e7ff;
+  color: #3730a3;
+}
+
+.farm-percent-badge.low {
+  background: #f1f5f9;
+  color: #475569;
+}
+
+/* ===== 정보 패널 ===== */
+.farm-info-panel {
+  background: #fff;
+  border-radius: 10px;
+  padding: 18px;
+  margin-bottom: 20px;
+  box-shadow: var(--shadow-sm);
+  border: 1px solid #eee;
+}
+
+.farm-info-panel h3 {
+  font-size: 13px;
+  font-weight: 600;
+  color: #333;
+  margin: 0 0 14px 0;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+/* ===== 테이블 스타일 ===== */
+.farm-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12px;
+}
+
+.farm-table thead tr {
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.farm-table th {
+  padding: 10px 8px;
+  text-align: left;
+  font-size: 10px;
+  font-weight: 500;
+  color: #64748b;
+}
+
+.farm-table th.text-right {
+  text-align: right;
+}
+
+.farm-table tbody tr {
+  border-bottom: 1px solid #f5f5f5;
+  transition: background 0.2s;
+}
+
+.farm-table tbody tr:hover {
+  background: #fafbfc;
+}
+
+.farm-table td {
+  padding: 10px 8px;
+  color: #334155;
+}
+
+.farm-table td.text-right {
+  text-align: right;
+}
+
+/* 테이블 내 요리 정보 */
+.farm-table .table-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.farm-table .table-item-img {
+  width: 22px;
+  height: 22px;
+  object-fit: contain;
+}
+
+.farm-table .table-item-name {
+  font-weight: 500;
+  color: #333;
+}
+
+/* ===== 반응형 ===== */
+@media (max-width: 768px) {
   .farm-input-grid {
     grid-template-columns: 1fr;
   }
 
   .farm-result-grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: 1fr 1fr;
   }
-  
+
+  .farm-stats {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .farm-summary.show {
+    flex-wrap: wrap;
+    gap: 14px;
+  }
+
   .farm-summary-divider {
     display: none;
   }
 
-  .farm-summary {
-    flex-wrap: wrap;
-    gap: 12px;
+  .farm-summary-item {
+    min-width: 120px;
+  }
+}
+
+@media (max-width: 480px) {
+  .farm-result-grid {
+    grid-template-columns: 1fr;
   }
 
-  .farm-summary-item {
-    min-width: 100px;
+  .farm-stats {
+    grid-template-columns: 1fr;
+  }
+
+  .farm-input-card {
+    padding: 14px;
+  }
+
+  .farm-result-card {
+    padding: 14px;
+  }
+
+  .farm-materials-grid {
+    grid-template-columns: repeat(3, 1fr);
   }
 }

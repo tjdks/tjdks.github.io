@@ -1,5 +1,9 @@
 /*************************************************
- * 2성 계산기 - 최적화 버전
+ * 2성 계산기 - 최적화 버전 (2025년 업데이트)
+ * 
+ * 조합법 변경사항:
+ * - 에센스: 어패류 2개 + 해초 2개 + 네더 블록 → 에센스 2개
+ * - 결정: 먹물 주머니 → 켈프 3개
  *************************************************/
 
 import { GOLD_PRICES } from './ocean-config.js';
@@ -116,7 +120,7 @@ function calculate(input) {
 }
 
 /**
- * 결과 객체 생성
+ * 결과 객체 생성 (조합법 변경 반영)
  */
 function buildResult(best, totalCrystal, totalEss, isAdvanced) {
     const crystalNeed = {
@@ -151,19 +155,25 @@ function buildResult(best, totalCrystal, totalEss, isAdvanced) {
         decay: Math.max(0, essNeedForCrystal.decay - totalEss.decay)
     };
 
+    // 재료 필요량 (조합법 변경 반영)
+    // 에센스 제작: 해초 2개 + 네더 블록
+    // 결정 제작: 켈프 3개 + 광물
+    const totalCrystalToMake = crystalToMake.vital + crystalToMake.erosion + crystalToMake.defense + crystalToMake.regen + crystalToMake.poison;
+    const totalEssToMake = essToMake.guard + essToMake.wave + essToMake.chaos + essToMake.life + essToMake.decay;
+
     const materialNeed = {
-        seaweed: essToMake.guard * 2 + essToMake.wave * 2 + essToMake.chaos * 2 + essToMake.life * 2 + essToMake.decay * 2,
-        ink: crystalToMake.vital + crystalToMake.erosion + crystalToMake.defense + crystalToMake.regen + crystalToMake.poison,
-        coral_guard: essToMake.guard,
-        coral_wave: essToMake.wave,
-        coral_chaos: essToMake.chaos,
-        coral_life: essToMake.life,
-        coral_decay: essToMake.decay,
-        mineral_lapis: crystalToMake.vital,
-        mineral_redstone: crystalToMake.erosion,
-        mineral_iron: crystalToMake.defense,
-        mineral_gold: crystalToMake.regen,
-        mineral_diamond: crystalToMake.poison
+        seaweed: totalEssToMake * 2,       // 해초 (에센스당 2개)
+        kelp: totalCrystalToMake * 3,      // 켈프 (결정당 3개)
+        netherrack: essToMake.guard * 8,   // 네더랙
+        magmaBlock: essToMake.wave * 4,    // 마그마 블록
+        soulSoil: essToMake.chaos * 4,     // 영혼 흙
+        crimsonStem: essToMake.life * 2,   // 진홍빛 자루
+        warpedStem: essToMake.decay * 2,   // 뒤틀린 자루
+        lapisBlock: crystalToMake.vital,   // 청금석 블록
+        redstoneBlock: crystalToMake.erosion, // 레드스톤 블록
+        ironIngot: crystalToMake.defense,  // 철 주괴
+        goldIngot: crystalToMake.regen,    // 금 주괴
+        diamond: crystalToMake.poison      // 다이아몬드
     };
 
     const essNeedTotal = {
@@ -174,19 +184,22 @@ function buildResult(best, totalCrystal, totalEss, isAdvanced) {
         decay: crystalNeed.erosion + crystalNeed.poison
     };
 
+    const totalCrystalNeed = crystalNeed.vital + crystalNeed.erosion + crystalNeed.defense + crystalNeed.regen + crystalNeed.poison;
+    const totalEssNeed = essNeedTotal.guard + essNeedTotal.wave + essNeedTotal.chaos + essNeedTotal.life + essNeedTotal.decay;
+
     const materialNeedTotal = {
-        seaweed: essNeedTotal.guard * 2 + essNeedTotal.wave * 2 + essNeedTotal.chaos * 2 + essNeedTotal.life * 2 + essNeedTotal.decay * 2,
-        ink: crystalNeed.vital + crystalNeed.erosion + crystalNeed.defense + crystalNeed.regen + crystalNeed.poison,
-        coral_guard: essNeedTotal.guard,
-        coral_wave: essNeedTotal.wave,
-        coral_chaos: essNeedTotal.chaos,
-        coral_life: essNeedTotal.life,
-        coral_decay: essNeedTotal.decay,
-        mineral_lapis: crystalNeed.vital,
-        mineral_redstone: crystalNeed.erosion,
-        mineral_iron: crystalNeed.defense,
-        mineral_gold: crystalNeed.regen,
-        mineral_diamond: crystalNeed.poison
+        seaweed: totalEssNeed * 2,
+        kelp: totalCrystalNeed * 3,
+        netherrack: essNeedTotal.guard * 8,
+        magmaBlock: essNeedTotal.wave * 4,
+        soulSoil: essNeedTotal.chaos * 4,
+        crimsonStem: essNeedTotal.life * 2,
+        warpedStem: essNeedTotal.decay * 2,
+        lapisBlock: crystalNeed.vital,
+        redstoneBlock: crystalNeed.erosion,
+        ironIngot: crystalNeed.defense,
+        goldIngot: crystalNeed.regen,
+        diamond: crystalNeed.poison
     };
 
     return { 
@@ -199,7 +212,7 @@ function buildResult(best, totalCrystal, totalEss, isAdvanced) {
 }
 
 /**
- * 결과 업데이트
+ * 결과 업데이트 (조합법 변경 반영)
  */
 function updateResult(result) {
     if (!result) return;
@@ -234,28 +247,28 @@ function updateResult(result) {
         { icon: 'crystal_poison', name: '맹독 혼란', value: crystalData.poison || 0 }
     ]);
 
-    // 재료
+    // 재료 (해초, 켈프)
     document.getElementById("result-material-2").innerHTML = createMaterialTextHTML([
         { name: '해초', value: materialData.seaweed || 0 },
-        { name: '먹물', value: materialData.ink || 0 }
+        { name: '켈프', value: materialData.kelp || 0 }
     ]);
 
-    // 산호
+    // 네더 블록 (에센스 제작용)
     document.getElementById("result-coral-2").innerHTML = createMaterialTextHTML([
-        { name: '관', value: materialData.coral_guard || 0 },
-        { name: '사방', value: materialData.coral_wave || 0 },
-        { name: '거품', value: materialData.coral_chaos || 0 },
-        { name: '불', value: materialData.coral_life || 0 },
-        { name: '뇌', value: materialData.coral_decay || 0 }
+        { name: '네더랙', value: materialData.netherrack || 0 },
+        { name: '마그마 블록', value: materialData.magmaBlock || 0 },
+        { name: '영혼 흙', value: materialData.soulSoil || 0 },
+        { name: '진홍빛 자루', value: materialData.crimsonStem || 0 },
+        { name: '뒤틀린 자루', value: materialData.warpedStem || 0 }
     ]);
 
-    // 광물
+    // 광물 (결정 제작용)
     document.getElementById("result-extra-2").innerHTML = createMaterialTextHTML([
-        { name: '청금석 블록', value: materialData.mineral_lapis || 0 },
-        { name: '레드스톤 블록', value: materialData.mineral_redstone || 0 },
-        { name: '철', value: materialData.mineral_iron || 0 },
-        { name: '금', value: materialData.mineral_gold || 0 },
-        { name: '다이아', value: materialData.mineral_diamond || 0 }
+        { name: '청금석 블록', value: materialData.lapisBlock || 0 },
+        { name: '레드스톤 블록', value: materialData.redstoneBlock || 0 },
+        { name: '철 주괴', value: materialData.ironIngot || 0 },
+        { name: '금 주괴', value: materialData.goldIngot || 0 },
+        { name: '다이아몬드', value: materialData.diamond || 0 }
     ]);
 
     const resultCard = getElement("result-card-2");

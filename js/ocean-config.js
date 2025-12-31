@@ -5,11 +5,11 @@
 // 세트 관련 상수
 export const SET_COUNT = 64;
 
-// 골드 가격
+// 골드 가격 (2025년 업데이트)
 export const GOLD_PRICES = {
-    '1star': { A: 3436, K: 3486, L: 3592 },
-    '2star': { CORE: 7413, POTION: 7487, WING: 7592 },
-    '3star': { AQUA: 10699, NAUTILUS: 10824, SPINE: 10892 }
+    '1star': { A: 3780, K: 3835, L: 3951 },
+    '2star': { CORE: 8154, POTION: 8236, WING: 8351 },
+    '3star': { AQUA: 13909, NAUTILUS: 14071, SPINE: 14160 }
 };
 
 // 프리미엄 가격 비율
@@ -43,6 +43,42 @@ export const CORE_TO_FISH_1STAR = {
     OD: { herring: 1 },
     VD: { goldfish: 1 },
     ED: { bass: 1 }
+};
+
+// 2성 - 에센스에서 블록으로 변환 (조합법 수정 반영)
+export const ESSENCE_TO_BLOCK_2STAR = {
+    guard: { seaweed: 2, netherrack: 8 },
+    wave: { seaweed: 2, magmaBlock: 4 },
+    chaos: { seaweed: 2, soulSoil: 4 },
+    life: { seaweed: 2, crimsonStem: 2 },
+    decay: { seaweed: 2, warpedStem: 2 }
+};
+
+// 2성 - 결정에서 재료로 변환 (조합법 수정 반영)
+export const CRYSTAL_TO_MATERIAL_2STAR = {
+    vital: { kelp: 3, lapisBlock: 1 },
+    erosion: { kelp: 3, redstoneBlock: 1 },
+    defense: { kelp: 3, ironIngot: 1 },
+    regen: { kelp: 3, goldIngot: 1 },
+    poison: { kelp: 3, diamond: 1 }
+};
+
+// 3성 - 엘릭서에서 재료로 변환 (조합법 수정 반영)
+export const ELIXIR_TO_MATERIAL_3STAR = {
+    guard: { seaSquirt: 1, glassBottle: 3, endStone: 1 },
+    wave: { seaSquirt: 1, glassBottle: 3, endStoneBrick: 1 },
+    chaos: { seaSquirt: 1, glassBottle: 3, chorusFruit: 4 },
+    life: { seaSquirt: 1, glassBottle: 3, poppedChorusFruit: 4 },
+    decay: { seaSquirt: 1, glassBottle: 3, purpurBlock: 1 }
+};
+
+// 3성 - 의약에서 재료로 변환 (조합법 수정 반영)
+export const POTION_TO_MATERIAL_3STAR = {
+    immortal: { driedKelp: 5, glowBerry: 2, deadTubeCoral: 1 },
+    barrier: { driedKelp: 5, glowBerry: 2, deadBrainCoral: 1 },
+    corrupt: { driedKelp: 5, glowBerry: 2, deadBubbleCoral: 1 },
+    frenzy: { driedKelp: 5, glowBerry: 2, deadFireCoral: 1 },
+    venom: { driedKelp: 5, glowBerry: 2, deadHornCoral: 1 }
 };
 
 // 3성 - 의약에서 엘릭서로 변환

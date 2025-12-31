@@ -1,5 +1,8 @@
 /*************************************************
- * 1성 계산기 - 최적화 버전
+ * 1성 계산기 - 최적화 버전 (2025년 업데이트)
+ * 
+ * 조합법 변경사항:
+ * - 정수: 어패류 2개 → 정수 2개 (1:1 비율 유지)
  *************************************************/
 
 import { GOLD_PRICES, CORE_TO_ESSENCE_1STAR, ESSENCE_TO_BLOCK_1STAR, CORE_TO_FISH_1STAR } from './ocean-config.js';
@@ -157,6 +160,7 @@ function buildResult(best, totalCore, totalEss) {
         decay: Math.max(0, essNeedForCore.decay - totalEss.decay)
     };
 
+    // 블록 필요량 (정수 제작에 필요)
     const blockNeed = {
         clay: essToMake.guard * 1,
         sand: essToMake.wave * 3,

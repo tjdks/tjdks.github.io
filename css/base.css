@@ -147,6 +147,24 @@ ol {
   -ms-user-select: none;
 }
 
+/* 전체 페이지 드래그 방지 */
+body {
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+}
+
+/* 입력 필드는 선택 허용 */
+input,
+textarea,
+[contenteditable="true"] {
+  user-select: text;
+  -webkit-user-select: text;
+  -moz-user-select: text;
+  -ms-user-select: text;
+}
+
 /* ===== 스크롤바 스타일 ===== */
 ::-webkit-scrollbar {
   width: 6px;

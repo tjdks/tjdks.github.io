@@ -98,7 +98,6 @@ function renderFarmExpertStatus() {
   const seedBonusDesc = seedBonusLevel === 0 ? '효과 없음' : `${Math.round(seedBonusData.rate * 100)}% 확률로 씨앗 드롭`;
 
   container.innerHTML = `
-    적용 중인 전문가: 
     <span class="farm-expert-tag harvest">풍년 ${harvestLevel}<span class="tooltip">${harvestDesc}</span></span>
     <span class="farm-expert-tag king">대왕 ${kingLevel}<span class="tooltip">${kingDesc}</span></span>
     <span class="farm-expert-tag seed">씨앗덤 ${seedBonusLevel}<span class="tooltip">${seedBonusDesc}</span></span>

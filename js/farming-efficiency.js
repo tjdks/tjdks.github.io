@@ -74,13 +74,13 @@ const KING_CROP_MULTIPLIER = 7;
 // 전문가 스킬 데이터
 const EXPERT_HARVEST_DATA = [
   { rate: 0, count: 0, desc: "효과 없음" },
-  { rate: 0.01, count: 1, desc: "1% 확률 +1개" },
-  { rate: 0.02, count: 1, desc: "2% 확률 +1개" },
-  { rate: 0.03, count: 1, desc: "3% 확률 +1개" },
-  { rate: 0.04, count: 1, desc: "4% 확률 +1개" },
-  { rate: 0.05, count: 2, desc: "5% 확률 +2개" },
-  { rate: 0.07, count: 2, desc: "7% 확률 +2개" },
-  { rate: 0.10, count: 3, desc: "10% 확률 +3개" }
+  { rate: 0.01, count: 1, desc: "수확 시 1% 확률로 +1개" },
+  { rate: 0.02, count: 1, desc: "수확 시 2% 확률로 +1개" },
+  { rate: 0.03, count: 1, desc: "수확 시 3% 확률로 +1개" },
+  { rate: 0.04, count: 1, desc: "수확 시 4% 확률로 +1개" },
+  { rate: 0.05, count: 2, desc: "수확 시 5% 확률로 +2개" },
+  { rate: 0.07, count: 2, desc: "수확 시 7% 확률로 +2개" },
+  { rate: 0.10, count: 3, desc: "수확 시 10% 확률로 +3개" }
 ];
 
 const EXPERT_KING_DATA = [
@@ -266,10 +266,9 @@ function renderExpertSubtitle() {
   const moneyData = EXPERT_MONEY_DATA[efficiencyState.money] || EXPERT_MONEY_DATA[0];
 
   subtitle.innerHTML = `
-    현재 전문가 세팅: 
     <span class="expert-tag">괭이 ${efficiencyState.hoeLevel}강<span class="tooltip">드롭 ${hoeDrop}개</span></span>
     <span class="expert-tag">풍년 ${efficiencyState.harvest}<span class="tooltip">${harvestData.desc}</span></span>
-    <span class="expert-tag">대왕 ${efficiencyState.king}<span class="tooltip">확률 ${kingData.desc}</span></span>
+    <span class="expert-tag">대왕 ${efficiencyState.king}<span class="tooltip">등장 확률 ${kingData.desc}</span></span>
     <span class="expert-tag">판매 ${efficiencyState.money}<span class="tooltip">판매가 ${moneyData.desc}</span></span>
   `;
 }
