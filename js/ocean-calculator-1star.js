@@ -32,8 +32,8 @@ function floorToTwo(n) {
 function calculate(input) {
     const isAdvanced = Number.isFinite(input.coreWG) && input.coreWG >= 0;
 
-    // 총 가용 자원
-    const totalFish = {
+    // 보유 어패류
+    const totalShellfish = {
         guard: input.guard,
         wave: input.wave,
         chaos: input.chaos,
@@ -41,6 +41,7 @@ function calculate(input) {
         decay: input.decay
     };
 
+    // 보유 정수
     const totalEss = {
         guard: (input.essGuard || 0),
         wave: (input.essWave || 0),
@@ -49,6 +50,7 @@ function calculate(input) {
         decay: (input.essDecay || 0)
     };
 
+    // 보유 핵
     const totalCore = isAdvanced ? {
         WG: input.coreWG || 0,
         WP: input.coreWP || 0,
@@ -57,36 +59,47 @@ function calculate(input) {
         ED: input.coreED || 0
     } : { WG: 0, WP: 0, OD: 0, VD: 0, ED: 0 };
 
-    // 최대 제작 가능 개수 계산
-    const maxA_WG = totalCore.WG + Math.floor((totalFish.guard + totalEss.guard + totalFish.wave + totalEss.wave) / 2);
-    const maxA_OD = totalCore.OD + Math.floor((totalFish.chaos + totalEss.chaos + totalFish.life + totalEss.life) / 2);
-    const maxA_VD = totalCore.VD + Math.floor((totalFish.life + totalEss.life + totalFish.decay + totalEss.decay) / 2);
-    const maxA = Math.min(maxA_WG, maxA_OD, maxA_VD);
+    // 어패류로 만들 수 있는 정수 (2개 단위로 내림 → 2개씩 생성)
+    const essFromShellfish = {
+        guard: floorToTwo(totalShellfish.guard),  // 굴 2개 → 수호 정수 2개
+        wave: floorToTwo(totalShellfish.wave),    // 소라 2개 → 파동 정수 2개
+        chaos: floorToTwo(totalShellfish.chaos),  // 문어 2개 → 혼란 정수 2개
+        life: floorToTwo(totalShellfish.life),    // 미역 2개 → 생명 정수 2개
+        decay: floorToTwo(totalShellfish.decay)   // 성게 2개 → 부식 정수 2개
+    };
 
-    const maxK_WP = totalCore.WP + Math.floor((totalFish.wave + totalEss.wave + totalFish.chaos + totalEss.chaos) / 2);
-    const maxK_OD = totalCore.OD + Math.floor((totalFish.chaos + totalEss.chaos + totalFish.life + totalEss.life) / 2);
-    const maxK_VD = totalCore.VD + Math.floor((totalFish.life + totalEss.life + totalFish.decay + totalEss.decay) / 2);
-    const maxK = Math.min(maxK_WP, maxK_OD, maxK_VD);
-
-    const maxL_WG = totalCore.WG + Math.floor((totalFish.guard + totalEss.guard + totalFish.wave + totalEss.wave) / 2);
-    const maxL_WP = totalCore.WP + Math.floor((totalFish.wave + totalEss.wave + totalFish.chaos + totalEss.chaos) / 2);
-    const maxL_ED = totalCore.ED + Math.floor((totalFish.decay + totalEss.decay + totalFish.guard + totalEss.guard) / 2);
-    const maxL = Math.min(maxL_WG, maxL_WP, maxL_ED);
+    // 실제 사용 가능한 총 정수
+    const availableEss = {
+        guard: totalEss.guard + essFromShellfish.guard,
+        wave: totalEss.wave + essFromShellfish.wave,
+        chaos: totalEss.chaos + essFromShellfish.chaos,
+        life: totalEss.life + essFromShellfish.life,
+        decay: totalEss.decay + essFromShellfish.decay
+    };
 
     let best = { gold: -1, A: 0, K: 0, L: 0 };
 
+    // 최대 제작 가능 개수 추정 (상한선)
+    const maxProducts = Math.floor(
+        (availableEss.guard + availableEss.wave + availableEss.chaos + 
+         availableEss.life + availableEss.decay + 
+         totalCore.WG + totalCore.WP + totalCore.OD + totalCore.VD + totalCore.ED) / 3
+    ) + 1;
+
     // 최적화된 루프
-    for (let A = 0; A <= maxA; A++) {
-        for (let K = 0; K <= maxK; K++) {
-            for (let L = 0; L <= maxL; L++) {
+    for (let A = 0; A <= maxProducts; A++) {
+        for (let K = 0; K <= maxProducts; K++) {
+            for (let L = 0; L <= maxProducts; L++) {
+                // 필요한 핵 개수
                 const needCore = {
-                    WG: A + L,
-                    WP: K + L,
-                    OD: A + K,
-                    VD: A + K,
-                    ED: L
+                    WG: A + L,      // 물결 수호: 아쿠티스 + 리바이던
+                    WP: K + L,      // 파동 오염: 광란체 + 리바이던
+                    OD: A + K,      // 질서 파괴: 아쿠티스 + 광란체
+                    VD: A + K,      // 활력 붕괴: 아쿠티스 + 광란체
+                    ED: L           // 침식 방어: 리바이던만
                 };
 
+                // 제작해야 할 핵 개수
                 const makeCore = {
                     WG: Math.max(0, needCore.WG - totalCore.WG),
                     WP: Math.max(0, needCore.WP - totalCore.WP),
@@ -95,38 +108,25 @@ function calculate(input) {
                     ED: Math.max(0, needCore.ED - totalCore.ED)
                 };
 
-                // 정수 필요량 계산 (2개 단위로 내림)
-                const needEssRaw = {
-                    guard: makeCore.WG + makeCore.ED,
-                    wave: makeCore.WG + makeCore.WP,
-                    chaos: makeCore.WP + makeCore.OD,
-                    life: makeCore.OD + makeCore.VD,
-                    decay: makeCore.VD + makeCore.ED
-                };
-
+                // 핵 제작에 필요한 정수
+                // 물결수호: 수호+파동, 파동오염: 파동+혼란, 질서파괴: 혼란+생명
+                // 활력붕괴: 생명+부식, 침식방어: 부식+수호
                 const needEss = {
-                    guard: floorToTwo(needEssRaw.guard),
-                    wave: floorToTwo(needEssRaw.wave),
-                    chaos: floorToTwo(needEssRaw.chaos),
-                    life: floorToTwo(needEssRaw.life),
-                    decay: floorToTwo(needEssRaw.decay)
+                    guard: makeCore.WG + makeCore.ED,  // 물결수호 + 침식방어
+                    wave: makeCore.WG + makeCore.WP,   // 물결수호 + 파동오염
+                    chaos: makeCore.WP + makeCore.OD,  // 파동오염 + 질서파괴
+                    life: makeCore.OD + makeCore.VD,   // 질서파괴 + 활력붕괴
+                    decay: makeCore.VD + makeCore.ED   // 활력붕괴 + 침식방어
                 };
 
-                const makeFish = {
-                    guard: Math.max(0, needEss.guard - totalEss.guard),
-                    wave: Math.max(0, needEss.wave - totalEss.wave),
-                    chaos: Math.max(0, needEss.chaos - totalEss.chaos),
-                    life: Math.max(0, needEss.life - totalEss.life),
-                    decay: Math.max(0, needEss.decay - totalEss.decay)
-                };
-
-                if (
-                    makeFish.guard > totalFish.guard ||
-                    makeFish.wave > totalFish.wave ||
-                    makeFish.chaos > totalFish.chaos ||
-                    makeFish.life > totalFish.life ||
-                    makeFish.decay > totalFish.decay
-                ) continue;
+                // 정수가 충분한지 체크
+                if (needEss.guard > availableEss.guard ||
+                    needEss.wave > availableEss.wave ||
+                    needEss.chaos > availableEss.chaos ||
+                    needEss.life > availableEss.life ||
+                    needEss.decay > availableEss.decay) {
+                    continue;
+                }
 
                 const gold = A * GOLD_PRICES['1star'].A + K * GOLD_PRICES['1star'].K + L * GOLD_PRICES['1star'].L;
                 if (gold > best.gold) {
@@ -139,13 +139,13 @@ function calculate(input) {
     if (best.gold < 0) return null;
 
     // 결과 계산
-    return buildResult(best, totalCore, totalEss);
+    return buildResult(best, totalCore, totalEss, totalShellfish, availableEss);
 }
 
 /**
  * 결과 객체 생성 (2개 단위 제작 반영)
  */
-function buildResult(best, totalCore, totalEss) {
+function buildResult(best, totalCore, totalEss, totalShellfish, availableEss) {
     const coreNeed = {
         WG: best.A + best.L,
         WP: best.K + best.L,
@@ -162,8 +162,8 @@ function buildResult(best, totalCore, totalEss) {
         ED: Math.max(0, coreNeed.ED - totalCore.ED)
     };
 
-    // 정수 필요량 (2개 단위로 내림)
-    const essNeedForCoreRaw = {
+    // 핵 제작에 필요한 정수
+    const essNeedForCore = {
         guard: coreToMake.WG + coreToMake.ED,
         wave: coreToMake.WG + coreToMake.WP,
         chaos: coreToMake.WP + coreToMake.OD,
@@ -171,14 +171,7 @@ function buildResult(best, totalCore, totalEss) {
         decay: coreToMake.VD + coreToMake.ED
     };
 
-    const essNeedForCore = {
-        guard: floorToTwo(essNeedForCoreRaw.guard),
-        wave: floorToTwo(essNeedForCoreRaw.wave),
-        chaos: floorToTwo(essNeedForCoreRaw.chaos),
-        life: floorToTwo(essNeedForCoreRaw.life),
-        decay: floorToTwo(essNeedForCoreRaw.decay)
-    };
-
+    // 보유 정수에서 부족한 만큼 제작 필요
     const essToMake = {
         guard: Math.max(0, essNeedForCore.guard - totalEss.guard),
         wave: Math.max(0, essNeedForCore.wave - totalEss.wave),
@@ -189,11 +182,11 @@ function buildResult(best, totalCore, totalEss) {
 
     // 제작 횟수 계산 (2개씩 나오므로)
     const craftCount = {
-        guard: Math.floor(essToMake.guard / 2),
-        wave: Math.floor(essToMake.wave / 2),
-        chaos: Math.floor(essToMake.chaos / 2),
-        life: Math.floor(essToMake.life / 2),
-        decay: Math.floor(essToMake.decay / 2)
+        guard: Math.ceil(essToMake.guard / 2),
+        wave: Math.ceil(essToMake.wave / 2),
+        chaos: Math.ceil(essToMake.chaos / 2),
+        life: Math.ceil(essToMake.life / 2),
+        decay: Math.ceil(essToMake.decay / 2)
     };
 
     // 블록 필요량 (정수 제작에 필요) - 제작 횟수 기준
@@ -204,6 +197,15 @@ function buildResult(best, totalCore, totalEss) {
         dirt: craftCount.chaos * 4,
         gravel: craftCount.life * 2,
         granite: craftCount.decay * 1
+    };
+
+    // 어패류 필요량 (정수 제작에 필요) - 제작 횟수 × 2
+    const shellfishNeed = {
+        guard: craftCount.guard * 2,
+        wave: craftCount.wave * 2,
+        chaos: craftCount.chaos * 2,
+        life: craftCount.life * 2,
+        decay: craftCount.decay * 2
     };
 
     // 물고기 필요량 (핵 제작에 필요)
@@ -217,7 +219,7 @@ function buildResult(best, totalCore, totalEss) {
     };
 
     // 전체 필요량 (세트 모드용)
-    const essNeedTotalRaw = {
+    const essNeedTotal = {
         guard: coreNeed.WG + coreNeed.ED,
         wave: coreNeed.WG + coreNeed.WP,
         chaos: coreNeed.WP + coreNeed.OD,
@@ -225,20 +227,12 @@ function buildResult(best, totalCore, totalEss) {
         decay: coreNeed.VD + coreNeed.ED
     };
 
-    const essNeedTotal = {
-        guard: floorToTwo(essNeedTotalRaw.guard),
-        wave: floorToTwo(essNeedTotalRaw.wave),
-        chaos: floorToTwo(essNeedTotalRaw.chaos),
-        life: floorToTwo(essNeedTotalRaw.life),
-        decay: floorToTwo(essNeedTotalRaw.decay)
-    };
-
     const craftCountTotal = {
-        guard: Math.floor(essNeedTotal.guard / 2),
-        wave: Math.floor(essNeedTotal.wave / 2),
-        chaos: Math.floor(essNeedTotal.chaos / 2),
-        life: Math.floor(essNeedTotal.life / 2),
-        decay: Math.floor(essNeedTotal.decay / 2)
+        guard: Math.ceil(essNeedTotal.guard / 2),
+        wave: Math.ceil(essNeedTotal.wave / 2),
+        chaos: Math.ceil(essNeedTotal.chaos / 2),
+        life: Math.ceil(essNeedTotal.life / 2),
+        decay: Math.ceil(essNeedTotal.decay / 2)
     };
 
     const blockNeedTotal = {
@@ -247,6 +241,14 @@ function buildResult(best, totalCore, totalEss) {
         dirt: craftCountTotal.chaos * 4,
         gravel: craftCountTotal.life * 2,
         granite: craftCountTotal.decay * 1
+    };
+
+    const shellfishNeedTotal = {
+        guard: craftCountTotal.guard * 2,
+        wave: craftCountTotal.wave * 2,
+        chaos: craftCountTotal.chaos * 2,
+        life: craftCountTotal.life * 2,
+        decay: craftCountTotal.decay * 2
     };
 
     // 물고기 전체 필요량 (세트 모드용)
@@ -261,8 +263,9 @@ function buildResult(best, totalCore, totalEss) {
     return { 
         best, 
         coreNeed, coreToMake,
-        essNeedTotal, essToMake,
+        essNeedTotal, essNeedForCore, essToMake,
         blockNeed, blockNeedTotal,
+        shellfishNeed, shellfishNeedTotal,
         fishNeed, fishNeedTotal
     };
 }
@@ -284,6 +287,7 @@ function updateResult(result) {
     const essData = advanced ? result.essToMake : result.essNeedTotal;
     const coreData = advanced ? result.coreToMake : result.coreNeed;
     const blockData = advanced ? result.blockNeed : result.blockNeedTotal;
+    const shellfishData = advanced ? result.shellfishNeed : result.shellfishNeedTotal;
     const fishData = advanced ? result.fishNeed : result.fishNeedTotal;
 
     // 정수
@@ -304,7 +308,7 @@ function updateResult(result) {
         { icon: 'core_ed', name: '침식 방어', value: coreData.ED || 0 }
     ]);
 
-    // 블록
+    // 블록 (필요 재료)
     document.getElementById("result-block-1").innerHTML = createMaterialTextHTML([
         { name: '점토', value: blockData.clay },
         { name: '모래', value: blockData.sand },
@@ -313,7 +317,7 @@ function updateResult(result) {
         { name: '화강암', value: blockData.granite }
     ]);
 
-    // 물고기
+    // 물고기 (핵 제작용)
     document.getElementById("result-fish-1").innerHTML = createMaterialTextHTML([
         { name: '새우', value: fishData.shrimp },
         { name: '도미', value: fishData.domi },
