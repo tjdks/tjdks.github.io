@@ -13,15 +13,7 @@
   color: white;
 }
 
-.update-banner::before {
-  content: '🎉';
-  position: absolute;
-  right: 20px;
-  top: 50%;
-  transform: translateY(-50%);
-  font-size: 3.5rem;
-  opacity: 0.2;
-}
+
 
 .update-banner-badge {
   display: inline-block;

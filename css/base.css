@@ -18,6 +18,12 @@ html {
   font-size: 16px;
 }
 
+.logo img {
+  height: 40px;
+  width: auto;
+}
+
+
 body {
   font-family: var(--font-family);
   font-size: var(--font-size-base);
