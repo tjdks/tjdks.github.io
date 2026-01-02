@@ -11,9 +11,9 @@ const FARM_IMAGES = {
 
 // 작물 데이터
 const FARM_CROP_DATA = {
-  tomato: { name: '토마토', color: '#ef4444' },
-  onion: { name: '양파', color: '#a855f7' },
-  garlic: { name: '마늘', color: '#22c55e' }
+  tomato: { name: '토마토'},
+  onion: { name: '양파'},
+  garlic: { name: '마늘'}
 };
 
 // 작물별 기대 드롭률
@@ -93,8 +93,8 @@ function renderFarmExpertStatus() {
   const seedBonusData = FARM_EXPERT_SEED_BONUS[seedBonusLevel] || FARM_EXPERT_SEED_BONUS[0];
 
   // 설명 텍스트
-  const harvestDesc = harvestLevel === 0 ? '효과 없음' : `${Math.round(harvestData.rate * 100)}% 확률 +${harvestData.count}개`;
-  const kingDesc = kingLevel === 0 ? '효과 없음' : `대왕 확률 +${kingData.bonus * 100}%`;
+  const harvestDesc = harvestLevel === 0 ? '효과 없음' : `수확 시 ${Math.round(harvestData.rate * 100)}% 확률로 +${harvestData.count}개`;
+  const kingDesc = kingLevel === 0 ? '효과 없음' : `등장 확률 +${kingData.bonus * 100}%`;
   const seedBonusDesc = seedBonusLevel === 0 ? '효과 없음' : `${Math.round(seedBonusData.rate * 100)}% 확률로 씨앗 드롭`;
 
   container.innerHTML = `
@@ -274,7 +274,7 @@ function renderFarmResult(results, hasAnyInput) {
           <span class="farm-result-value primary">
             약 ${formatFarmNum(data.totalBase)}개
             ${data.existingBase > 0 && data.newBase > 0 ? 
-              `<span class="farm-detail">(+${formatFarmNum(data.newBase)} 신규)</span>` : ''}
+              `<span class="farm-detail">(+${formatFarmNum(data.newBase)})</span>` : ''}
           </span>
         </div>
       </div>
