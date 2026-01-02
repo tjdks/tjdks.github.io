@@ -1,7 +1,6 @@
 /* =========================
-   재배 탭 스타일
-   - ocean.css, farming-efficiency.css 참고
-   - 블루 계열 통일, 깔끔한 디자인
+   재배 - 수확 탭 스타일
+   - 스태미나 스타일은 common-stamina.css 사용
 ========================= */
 
 /* ===== 전문가 세팅 표시 ===== */
@@ -207,105 +206,6 @@
   border: 1px solid #eee;
 }
 
-/* ===== 작물별 결과 섹션 (스태미나 탭) ===== */
-.crop-result-section {
-  background: #f8fafc;
-  border-radius: 10px;
-  padding: 14px 16px;
-  border: 1px solid #e5e7eb;
-}
-
-.crop-result-title {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  margin-bottom: 12px;
-  padding-bottom: 10px;
-  border-bottom: 1px solid #e5e7eb;
-}
-
-.crop-result-title img {
-  width: 24px;
-  height: 24px;
-  object-fit: contain;
-}
-
-.crop-result-title span {
-  font-size: 14px;
-  font-weight: 600;
-  color: #334155;
-}
-
-.crop-result-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  font-size: 12px;
-  margin-bottom: 6px;
-}
-
-.crop-result-row:last-child {
-  margin-bottom: 0;
-}
-
-.crop-result-row.total {
-  padding-top: 10px;
-  margin-top: 8px;
-  border-top: 1px dashed #cbd5e1;
-}
-
-.crop-result-row .result-label {
-  color: #64748b;
-  font-weight: 500;
-}
-
-.crop-result-row .result-value {
-  font-weight: 600;
-  color: #334155;
-}
-
-.crop-result-row .result-value.primary {
-  font-size: 15px;
-  font-weight: 700;
-  color: var(--color-primary);
-}
-
-.crop-result-row .result-detail {
-  font-size: 10px;
-  font-weight: 500;
-  color: #3b82f6;
-  margin-left: 4px;
-}
-
-/* 결과 그리드 */
-.result-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-  gap: 12px;
-  margin-bottom: 16px;
-}
-
-/* 보너스 요약 */
-.bonus-summary {
-  background: #eff6ff;
-  border-radius: 8px;
-  padding: 12px 14px;
-  font-size: 11px;
-  color: #1e40af;
-  line-height: 1.6;
-}
-
-.bonus-summary-title {
-  font-size: 11px;
-  font-weight: 600;
-  color: #1d4ed8;
-  margin-bottom: 6px;
-}
-
-.bonus-summary strong {
-  color: #1d4ed8;
-}
-
 .farm-result-header {
   display: flex;
   align-items: center;
@@ -388,7 +288,7 @@
   text-align: right;
 }
 
-/* ===== 요약 바 - 블루 계열 ===== */
+/* ===== 요약 바 ===== */
 .farm-summary {
   display: none;
   background: #fff;
@@ -442,7 +342,7 @@
   background: #e5e7eb;
 }
 
-/* ===== 통계 박스 - 블루 계열 명도 차이 ===== */
+/* ===== 통계 박스 ===== */
 .farm-stats {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -578,7 +478,7 @@
   border-color: var(--color-primary);
 }
 
-/* ===== 퍼센트 배지 - 블루 계열 ===== */
+/* ===== 퍼센트 배지 ===== */
 .farm-percent-badge {
   display: inline-block;
   padding: 2px 6px;

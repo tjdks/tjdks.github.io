@@ -1,5 +1,5 @@
 /* =========================
-   공통 스태미나 계산 스타일 (재배/해양 공용)
+   공통 스태미나 계산 스타일 (재배/채광/해양 공용)
    - 깔끔하고 컴팩트한 디자인
 ========================= */
 
@@ -153,8 +153,9 @@
   background: var(--color-primary-hover, #357abd);
 }
 
-/* ===== 결과 카드 ===== */
-#stamina-result-card {
+/* ===== 결과 카드 (공통) ===== */
+#stamina-result-card,
+#mining-stamina-result-card {
   margin-top: 16px;
   background: white;
   border-radius: 8px;
@@ -175,7 +176,8 @@
   border-bottom: none;
 }
 
-#result-body {
+#result-body,
+#mining-result-body {
   padding: 16px;
 }
 
@@ -218,6 +220,12 @@
   font-size: 13px;
 }
 
+.fish-result-row.total {
+  margin-top: 8px;
+  padding-top: 8px;
+  border-top: 1px solid var(--color-border-light, #f0f0f0);
+}
+
 /* ===== 결과 박스 (재배) ===== */
 .crop-result-section {
   padding: 14px;
@@ -257,6 +265,69 @@
   border-top: 1px solid var(--color-border-light, #f0f0f0);
 }
 
+.crop-result-row.sub-info {
+  margin-top: 4px;
+  font-size: 11px;
+}
+
+.crop-result-row.sub-info .result-label {
+  font-size: 11px;
+  color: var(--color-text-muted, #aaa);
+}
+
+.crop-result-row.sub-info .result-value {
+  font-size: 11px;
+  font-weight: 400;
+  color: var(--color-text-muted, #aaa);
+}
+
+/* ===== 결과 박스 (채광) ===== */
+.ore-result-section {
+  padding: 14px;
+  background: var(--color-bg-secondary, #f8f9fa);
+  border-radius: 6px;
+  border: 1px solid var(--color-border-light, #f0f0f0);
+}
+
+.ore-result-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 10px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--color-border-light, #f0f0f0);
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--color-text-primary, #333);
+}
+
+.ore-result-title img {
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
+}
+
+.ore-result-title .mine-count {
+  margin-left: auto;
+  font-size: 12px;
+  font-weight: 400;
+  color: var(--color-text-muted, #999);
+}
+
+.ore-result-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 4px 0;
+  font-size: 13px;
+}
+
+.ore-result-row.total {
+  margin-top: 8px;
+  padding-top: 8px;
+  border-top: 1px solid var(--color-border-light, #f0f0f0);
+}
+
+/* ===== 공통 결과값 스타일 ===== */
 .result-label {
   color: var(--color-text-muted, #999);
 }
@@ -278,10 +349,24 @@
   margin-left: 3px;
 }
 
-.fish-result-row.total {
-  margin-top: 8px;
-  padding-top: 8px;
-  border-top: 1px solid var(--color-border-light, #f0f0f0);
+.result-detail.bonus {
+  color: #27ae60;
+}
+
+/* 채광 전용 결과값 색상 */
+.result-value.gem {
+  color: #9b59b6;
+  font-weight: 500;
+}
+
+.result-value.relic {
+  color: #e67e22;
+  font-weight: 500;
+}
+
+.result-value.cobi {
+  color: #f39c12;
+  font-weight: 500;
 }
 
 /* ===== 보너스 요약 ===== */
@@ -352,7 +437,8 @@
     grid-template-columns: 1fr;
   }
   
-  #result-body {
+  #result-body,
+  #mining-result-body {
     padding: 12px;
   }
 }

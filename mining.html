@@ -21,7 +21,7 @@
 </head>
 <body>
 
-    <!-- ===== 비공식 안내 ===== -->
+  <!-- ===== 비공식 안내 ===== -->
   <div class="unofficial-notice">
     <p>본 문서는 띵타이쿤 온라인의 공식 문서가 아닙니다. 본 문서의 내용은 일부 실제 내용과 다를 수 있습니다.</p>
   </div>
@@ -58,15 +58,203 @@
     <section class="content-area">
 
       <!-- 정보 탭 -->
-      <div id="tab-info" class="tab-content">
+      <div id="tab-info" class="tab-content" style="display:block;">
         <h2 class="content-title">정보</h2>
-        <p style="text-align: center; color: #999; padding: 40px;">개발 중입니다...</p>
+        
+        <!-- 2단 레이아웃 -->
+        <div class="info-grid">
+          
+          <!-- 왼쪽: 입력 영역 -->
+          <div class="info-left">
+            
+            <!-- 현재 전문가 세팅 -->
+            <div class="card compact-card">
+              <div class="card-header">
+                <h3 class="card-title">현재 전문가 세팅</h3>
+              </div>
+              <div class="card-body">
+
+                <!-- 곡괭이 스펙 -->
+                <div class="setting-row tool-spec-row">
+                  <label class="setting-label tool-spec-label">곡괭이 스펙</label>
+                  <input type="number" id="pickaxe-level" class="setting-input" min="1" max="15">
+                </div>
+
+                <!-- 코비타임 -->
+                <div class="setting-row">
+                  <label class="setting-label">
+                    <span class="skill-name sparkle">💫 코비타임</span>
+                    <button class="info-btn-inline" tabindex="-1" onclick="toggleExpertInfo('cobi')">ⓘ</button>
+                  </label>
+                  <input type="number" id="expert-cobi-level" class="setting-input" placeholder="LV" min="0" max="7">
+                </div>
+                <div id="desc-cobi" class="expert-desc" style="display:none;"></div>
+
+                <!-- 주괴 좀 사주괴 -->
+                <div class="setting-row">
+                  <label class="setting-label">
+                    <span class="skill-name gift">🔩 주괴 좀 사주괴</span>
+                    <button class="info-btn-inline" tabindex="-1" onclick="toggleExpertInfo('ingot')">ⓘ</button>
+                  </label>
+                  <input type="number" id="expert-ingot-level" class="setting-input" placeholder="LV" min="0" max="6">
+                </div>
+                <div id="desc-ingot" class="expert-desc" style="display:none;"></div>
+
+                <!-- 반짝임의 시작 -->
+                <div class="setting-row">
+                  <label class="setting-label">
+                    <span class="skill-name gem">💎 반짝임의 시작</span>
+                    <button class="info-btn-inline" tabindex="-1" onclick="toggleExpertInfo('gem-start')">ⓘ</button>
+                  </label>
+                  <input type="number" id="expert-gem-start-level" class="setting-input" placeholder="LV" min="0" max="3">
+                </div>
+                <div id="desc-gem-start" class="expert-desc" style="display:none;"></div>
+
+                <!-- 반짝반짝 눈이 부셔 -->
+                <div class="setting-row">
+                  <label class="setting-label">
+                    <span class="skill-name gem">💎 반짝반짝 눈이 부셔</span>
+                    <button class="info-btn-inline" tabindex="-1" onclick="toggleExpertInfo('gem-shine')">ⓘ</button>
+                  </label>
+                  <input type="number" id="expert-gem-shine-level" class="setting-input" placeholder="LV" min="0" max="6">
+                </div>
+                <div id="desc-gem-shine" class="expert-desc" style="display:none;"></div>
+
+                <!-- 럭키 히트 -->
+                <div class="setting-row">
+                  <label class="setting-label">
+                    <span class="skill-name lucky">🍀 럭키 히트</span>
+                    <button class="info-btn-inline" tabindex="-1" onclick="toggleExpertInfo('lucky')">ⓘ</button>
+                  </label>
+                  <input type="number" id="expert-lucky-level" class="setting-input" placeholder="LV" min="0" max="10">
+                </div>
+                <div id="desc-lucky" class="expert-desc" style="display:none;"></div>
+
+                <!-- 불붙은 곡괭이 -->
+                <div class="setting-row">
+                  <label class="setting-label">
+                    <span class="skill-name fire">🐦‍🔥 불붙은 곡괭이</span>
+                    <button class="info-btn-inline" tabindex="-1" onclick="toggleExpertInfo('fire-pick')">ⓘ</button>
+                  </label>
+                  <input type="number" id="expert-fire-pick-level" class="setting-input" placeholder="LV" min="0" max="10">
+                </div>
+                <div id="desc-fire-pick" class="expert-desc" style="display:none;"></div>
+
+              </div>
+            </div>
+
+          </div>
+
+          <!-- 오른쪽: 조합법 영역 -->
+          <div class="info-right">
+            
+            <!-- 조합법 카드 -->
+            <div class="card">
+              <div class="card-body" style="padding: 0;">
+                
+                <!-- 조합법 내부 탭 -->
+                <div class="recipe-tabs">
+                  <button class="recipe-tab active" data-mining-tab="mining-process">채광물 가공</button>
+                  <button class="recipe-tab" data-mining-tab="mining-craft">강화 제작</button>
+                </div>
+
+                <!-- 채광물 가공 -->
+                <div id="mining-process" class="recipe-content active">
+                  <div class="recipe-content-inner">
+                    <div class="table-wrapper-compact">
+                      <table class="recipe-table-compact">
+                        <thead>
+                          <tr>
+                            <th>결과물</th>
+                            <th>재료</th>
+                          </tr>
+                        </thead>
+                        <tbody id="mining-process-tbody">
+                          <!-- JS로 동적 생성 -->
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- 강화 제작 -->
+                <div id="mining-craft" class="recipe-content">
+                  <div class="recipe-content-inner">
+                    <div class="table-wrapper-compact">
+                      <table class="recipe-table-compact">
+                        <thead>
+                          <tr>
+                            <th>결과물</th>
+                            <th>재료</th>
+                          </tr>
+                        </thead>
+                        <tbody id="mining-craft-tbody">
+                          <!-- JS로 동적 생성 -->
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+
+          </div>
+
+        </div>
       </div>
 
       <!-- 스태미나 탭 -->
       <div id="tab-stamina" class="tab-content" style="display:none;">
-        <h2 class="content-title">스태미나</h2>
-        <p style="text-align: center; color: #999; padding: 40px;">개발 중입니다...</p>
+        <h2 class="content-title">스태미나 계산</h2>
+        
+        <div class="stamina-container">
+          <div class="card">
+            <div class="card-body">
+              
+              <!-- 입력 영역 -->
+              <div id="mining-stamina-inputs-container" class="stamina-inputs-container">
+                <div class="stamina-input-row" id="mining-input-row-1">
+                  <div class="stamina-input-group">
+                    <label class="stamina-label">
+                      스태미나
+                      <input type="number" id="mining-stamina-input-1" class="stamina-input" placeholder="3300" min="0" step="10">
+                    </label>
+                    
+                    <label class="stamina-label">
+                      광물
+                      <select id="ore-select-1" class="stamina-select">
+                        <option value="corum">코룸</option>
+                        <option value="lifton">리프톤</option>
+                        <option value="serent">세렌트</option>
+                      </select>
+                    </label>
+                  </div>
+                </div>
+              </div>
+              
+              <!-- 전문가 정보 -->
+              <div class="expert-info-text">
+                <span id="mining-expert-info">곡괭이 1강</span>
+              </div>
+              
+              <!-- 버튼 -->
+              <div class="btn-actions">
+                <button class="btn-add" onclick="addMiningStaminaInput()">+ 추가</button>
+                <button class="btn-calculate" onclick="calculateMiningStamina()">계산하기</button>
+              </div>
+              
+              <!-- 결과 영역 -->
+              <div id="mining-stamina-result-card" style="display:none;">
+                <h4 class="result-section-title">⛏️ 예상 획득량</h4>
+                <div id="mining-result-body">
+                  <!-- 결과가 여기 표시됨 -->
+                </div>
+              </div>
+              
+            </div>
+          </div>
+        </div>
       </div>
 
       <!-- 제작 탭 -->
@@ -84,12 +272,18 @@
     <span class="source-notice">
       이미지 출처 · <a href="https://wiki.ddingtycoon.kr/ko" target="_blank">띵타이쿤 온라인 공식 위키</a>
     </span>
-      <div class="disclaimer">
-    본 사이트는 비공식 사이트로, 계산 결과는 참고용이며 실제 게임 내 수치와 차이가 발생할 수 있습니다.
-  </div>
+    <div class="disclaimer">
+      본 사이트는 비공식 사이트로, 계산 결과는 참고용이며 실제 게임 내 수치와 차이가 발생할 수 있습니다.
+    </div>
   </footer>
+
   <!-- 공통 스크립트 -->
   <script src="js/script.js"></script>
+  
+  <!-- 채광 전용 스크립트 -->
+  <script src="js/mining-info.js"></script>
+  <script src="js/mining-recipes.js"></script>
+  <script src="js/mining-stamina.js"></script>
 
 </body>
 </html>

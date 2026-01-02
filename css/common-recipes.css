@@ -1,5 +1,5 @@
 /* =========================
-   공통 조합법 스타일 (재배/해양 공용)
+   공통 조합법 스타일 (채광/재배/해양 공용)
 ========================= */
 
 /* 콘텐츠 영역 너비 - 반응형 */
@@ -216,7 +216,7 @@
   border-collapse: collapse;
   font-size: clamp(11px, 2.5vw, 13px);
   table-layout: auto;
-  min-width: 500px;
+  min-width: 400px;
 }
 
 .recipe-table-compact thead {
@@ -273,6 +273,8 @@
 
 .recipe-table-compact td:first-child {
   text-align: left;
+  font-weight: 500;
+  color: var(--color-text-primary, #333);
 }
 
 .recipe-table-compact td:nth-child(2) {
@@ -283,6 +285,16 @@
 .recipe-table-compact td:nth-child(3),
 .recipe-table-compact td:nth-child(4) {
   text-align: right;
+}
+
+.recipe-table-compact td:nth-child(3) {
+  color: #2563eb;
+  font-weight: 600;
+}
+
+.recipe-table-compact td:nth-child(4) {
+  color: #ef4444;
+  font-weight: 600;
 }
 
 /* 요리 이름 + 아이콘을 한 줄로 */
@@ -464,7 +476,7 @@
 
   .recipe-table-compact,
   .processing-table-compact {
-    min-width: 450px;
+    min-width: 350px;
   }
 
   .recipe-table-compact th,
@@ -501,7 +513,7 @@
 
   .recipe-table-compact,
   .processing-table-compact {
-    min-width: 400px;
+    min-width: 300px;
   }
 
   .recipe-table-compact th,
