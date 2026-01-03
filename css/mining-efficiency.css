@@ -275,12 +275,30 @@
   text-align: center;
 }
 
+/* 가공이 이득 - 파란색 테마 */
 .summary-stat.profit {
-  background: #dcfce7;
+  background: #dbeafe;
 }
 
+.summary-stat.profit .stat-label {
+  color: #1e40af;
+}
+
+.summary-stat.profit .stat-value {
+  color: #1d4ed8;
+}
+
+/* 재료 판매가 이득 - 빨간색 테마 */
 .summary-stat.loss {
   background: #fee2e2;
+}
+
+.summary-stat.loss .stat-label {
+  color: #991b1b;
+}
+
+.summary-stat.loss .stat-value {
+  color: #dc2626;
 }
 
 .summary-stat .stat-label {
@@ -289,25 +307,9 @@
   margin-bottom: 4px;
 }
 
-.summary-stat.profit .stat-label {
-  color: #166534;
-}
-
-.summary-stat.loss .stat-label {
-  color: #991b1b;
-}
-
 .summary-stat .stat-value {
   font-size: 1.5rem;
   font-weight: 700;
-}
-
-.summary-stat.profit .stat-value {
-  color: rgb(22, 48, 163);
-}
-
-.summary-stat.loss .stat-value {
-  color: #dc2626;
 }
 
 /* 순위 테이블 */
@@ -400,8 +402,8 @@
 }
 
 .verdict-badge.profit {
-  background: #dce7fc;
-  color: #161765;
+  background: #dbeafe;
+  color: #1d4ed8;
 }
 
 .verdict-badge.loss {
