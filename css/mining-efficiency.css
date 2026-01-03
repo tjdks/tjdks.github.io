@@ -1,0 +1,445 @@
+/* =========================
+   채광 손익 계산 스타일 (mining-efficiency.css)
+========================= */
+
+/* 시세 입력 패널 */
+.price-edit-panel {
+  background: #fff;
+  border-radius: 12px;
+  padding: 18px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+  border: 1px solid #eee;
+}
+
+.price-edit-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 14px;
+}
+
+.price-edit-header h3 {
+  font-size: 13px;
+  font-weight: 600;
+  color: #333;
+  margin: 0;
+}
+
+.btn-reset-price {
+  padding: 6px 12px;
+  background: #f5f5f5;
+  border: 1px solid #e0e0e0;
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: 500;
+  color: #666;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.btn-reset-price:hover {
+  background: #eee;
+}
+
+/* 시세 섹션 타이틀 */
+.price-section-title {
+  font-size: 11px;
+  font-weight: 500;
+  color: #999;
+  margin: 14px 0 10px 0;
+  padding-bottom: 6px;
+  border-bottom: 1px dashed #e0e0e0;
+}
+
+.price-section-title:first-of-type {
+  margin-top: 0;
+}
+
+/* 시세 입력 그리드 */
+.price-edit-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.price-edit-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 10px;
+  background: #f8f9fa;
+  border-radius: 6px;
+}
+
+.price-edit-item .item-label {
+  font-size: 11px;
+  font-weight: 500;
+  color: #666;
+  white-space: nowrap;
+}
+
+.price-edit-item input {
+  width: 60px;
+  padding: 5px 6px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 500;
+  text-align: right;
+  outline: none;
+  transition: border-color 0.15s;
+}
+
+.price-edit-item input:focus {
+  border-color: #2563eb;
+}
+
+.price-edit-item .unit {
+  font-size: 10px;
+  color: #999;
+}
+
+/* TOP 3 카드 */
+.top3-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+  margin-bottom: 20px;
+}
+
+.top3-card {
+  background: #fff;
+  border-radius: 12px;
+  padding: 16px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+  position: relative;
+  border: 1px solid #eee;
+}
+
+.top3-card.rank-1 {
+  background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+  border: none;
+  box-shadow: 0 4px 16px rgba(37,99,235,0.25);
+}
+
+.top3-card.loss {
+  background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
+  border: none;
+  box-shadow: 0 4px 16px rgba(220,38,38,0.25);
+}
+
+.top3-card .rank-badge {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  width: 24px;
+  height: 24px;
+  background: #f0f0f0;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 700;
+  color: #888;
+}
+
+.top3-card.rank-1 .rank-badge,
+.top3-card.loss .rank-badge {
+  background: rgba(255,255,255,0.2);
+  color: #fff;
+}
+
+.top3-card .recipe-name {
+  font-size: 14px;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 4px;
+  padding-right: 30px;
+}
+
+.top3-card.rank-1 .recipe-name,
+.top3-card.loss .recipe-name {
+  color: #fff;
+}
+
+.top3-card .price-info {
+  font-size: 10px;
+  color: #999;
+  margin-bottom: 12px;
+}
+
+.top3-card.rank-1 .price-info,
+.top3-card.loss .price-info {
+  color: rgba(255,255,255,0.7);
+}
+
+.top3-card .metric-box {
+  padding: 12px;
+  background: #f8f9fa;
+  border-radius: 8px;
+  margin-bottom: 10px;
+}
+
+.top3-card.rank-1 .metric-box,
+.top3-card.loss .metric-box {
+  background: rgba(255,255,255,0.12);
+}
+
+.top3-card .metric-label {
+  font-size: 10px;
+  font-weight: 500;
+  color: #888;
+  margin-bottom: 2px;
+}
+
+.top3-card.rank-1 .metric-label,
+.top3-card.loss .metric-label {
+  color: rgba(255,255,255,0.6);
+}
+
+.top3-card .metric-value {
+  font-size: 20px;
+  font-weight: 700;
+  color: #2563eb;
+}
+
+.top3-card .metric-value.negative {
+  color: #dc2626;
+}
+
+.top3-card.rank-1 .metric-value,
+.top3-card.loss .metric-value {
+  color: #fff;
+}
+
+.top3-card .metric-unit {
+  font-size: 10px;
+  color: #999;
+  margin-left: 2px;
+}
+
+.top3-card.rank-1 .metric-unit,
+.top3-card.loss .metric-unit {
+  color: rgba(255,255,255,0.5);
+}
+
+.top3-card .detail-list {
+  font-size: 11px;
+  color: #666;
+}
+
+.top3-card.rank-1 .detail-list,
+.top3-card.loss .detail-list {
+  color: rgba(255,255,255,0.8);
+}
+
+.top3-card .detail-row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 3px;
+}
+
+.top3-card .detail-value {
+  font-weight: 600;
+}
+
+/* 순위 테이블 컨테이너 */
+.ranking-table-container {
+  background: #fff;
+  border-radius: 12px;
+  padding: 18px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+  border: 1px solid #eee;
+}
+
+.ranking-table-container h3 {
+  font-size: 13px;
+  font-weight: 600;
+  color: #333;
+  margin: 0 0 14px 0;
+}
+
+/* 요약 통계 */
+.summary-stats {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+  margin-bottom: 14px;
+}
+
+.summary-stat {
+  padding: 14px;
+  border-radius: 8px;
+  text-align: center;
+}
+
+.summary-stat.profit {
+  background: #dcfce7;
+}
+
+.summary-stat.loss {
+  background: #fee2e2;
+}
+
+.summary-stat .stat-label {
+  font-size: 11px;
+  font-weight: 500;
+  margin-bottom: 4px;
+}
+
+.summary-stat.profit .stat-label {
+  color: #166534;
+}
+
+.summary-stat.loss .stat-label {
+  color: #991b1b;
+}
+
+.summary-stat .stat-value {
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+.summary-stat.profit .stat-value {
+  color: #16a34a;
+}
+
+.summary-stat.loss .stat-value {
+  color: #dc2626;
+}
+
+/* 순위 테이블 */
+.ranking-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12px;
+}
+
+.ranking-table thead tr {
+  border-bottom: 1px solid #eee;
+}
+
+.ranking-table th {
+  padding: 10px 8px;
+  text-align: left;
+  font-size: 10px;
+  font-weight: 500;
+  color: #888;
+}
+
+.ranking-table th.text-right {
+  text-align: right;
+}
+
+.ranking-table tbody tr {
+  border-bottom: 1px solid #f5f5f5;
+  transition: background 0.15s;
+}
+
+.ranking-table tbody tr:hover {
+  background: #fafafa;
+}
+
+.ranking-table tbody tr.top3-row {
+  background: #f8f9fa;
+}
+
+.ranking-table td {
+  padding: 12px 8px;
+}
+
+.ranking-table td.text-right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+.ranking-table .rank-num {
+  font-weight: 600;
+  color: #bbb;
+}
+
+.ranking-table .rank-num.top {
+  color: #2563eb;
+}
+
+.ranking-table .item-name {
+  font-weight: 500;
+  color: #333;
+}
+
+.ranking-table .cost-val {
+  color: #666;
+}
+
+.ranking-table .net-val {
+  color: #e67e22;
+  font-weight: 500;
+}
+
+.ranking-table .profit-val {
+  font-weight: 600;
+}
+
+.ranking-table .profit-val.positive {
+  color: #16a34a;
+}
+
+.ranking-table .profit-val.negative {
+  color: #dc2626;
+}
+
+/* 결과 배지 */
+.verdict-badge {
+  display: inline-block;
+  padding: 3px 8px;
+  border-radius: 4px;
+  font-size: 10px;
+  font-weight: 500;
+}
+
+.verdict-badge.profit {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.verdict-badge.loss {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+/* 반응형 */
+@media (max-width: 768px) {
+  .top3-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .price-edit-grid {
+    gap: 6px;
+  }
+
+  .price-edit-item {
+    flex: 1 1 calc(50% - 3px);
+    min-width: 130px;
+  }
+
+  .ranking-table {
+    font-size: 11px;
+  }
+
+  .ranking-table th,
+  .ranking-table td {
+    padding: 8px 6px;
+  }
+}
+
+@media (max-width: 480px) {
+  .price-edit-item {
+    flex: 1 1 100%;
+  }
+
+  .summary-stats {
+    grid-template-columns: 1fr;
+  }
+}
