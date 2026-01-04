@@ -2,7 +2,7 @@
 
 const STAMINA_CONFIG = {
   perGather: 7,
-  hoeLevel: 0,
+  hoeLevel: 1,
   expertGift: 0,
   expertFire: 0,
 };
@@ -221,7 +221,7 @@ function syncExpertSettings() {
   const giftInput = document.getElementById('expert-gift');
   const fireInput = document.getElementById('expert-fire');
   
-  STAMINA_CONFIG.hoeLevel = hoeInput ? parseInt(hoeInput.value) || 0 : 0;
+  STAMINA_CONFIG.hoeLevel = hoeInput ? (parseInt(hoeInput.value) || 1) : 1;
   STAMINA_CONFIG.expertGift = giftInput ? parseInt(giftInput.value) || 0 : 0;
   STAMINA_CONFIG.expertFire = fireInput ? parseInt(fireInput.value) || 0 : 0;
   

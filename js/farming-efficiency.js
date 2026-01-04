@@ -115,7 +115,7 @@ const EXPERT_MONEY_DATA = [
 // 상태 변수
 let efficiencyState = {
   prices: {},
-  stamina: 3300,
+  stamina: 3000,
   mode: 'efficiency',
   hoeLevel: 0,
   harvest: 0,
@@ -310,8 +310,12 @@ function calculateEfficiency() {
     const staminaPerOne = gatherCount * 7;
     const sellPrice = efficiencyState.prices[recipe.name] * (1 + moneyBonus);
     const efficiency = staminaPerOne > 0 ? sellPrice / staminaPerOne : 0;
-    const maxCount = staminaPerOne > 0 ? Math.floor(efficiencyState.stamina / staminaPerOne) : 0;
+    const maxCount = staminaPerOne > 0
+      ? Math.floor(efficiencyState.stamina / staminaPerOne)
+      : 0;
+
     const totalProfit = maxCount * sellPrice;
+    const usedStamina = efficiencyState.stamina;
     const pricePercent = Math.floor((efficiencyState.prices[recipe.name] / recipe.maxPrice) * 100);
 
     return {
@@ -323,6 +327,7 @@ function calculateEfficiency() {
       efficiency,
       maxCount,
       totalProfit,
+      usedStamina, // ✅ 추가
       totalSeeds: {
         tomato: Math.ceil((seedsPerCrop.tomato || 0) * maxCount),
         onion: Math.ceil((seedsPerCrop.onion || 0) * maxCount),
@@ -478,7 +483,7 @@ function renderRankingTable() {
       <tr class="recipe-detail-row" data-detail="${item.name}" style="display:none;">
         <td colspan="7">
           <div class="recipe-detail-content">
-            <span class="recipe-detail-label">📖 조합법</span>
+            <span class="recipe-detail-label">조합법</span>
             <span class="recipe-detail-ingredients">${item.ingredients}</span>
           </div>
         </td>

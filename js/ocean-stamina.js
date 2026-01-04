@@ -246,7 +246,7 @@ function syncExpertSettings() {
   const starInput = document.getElementById('expert-star');
   const clamInput = document.getElementById('expert-clam-refill');
   
-  STAMINA_CONFIG.rodLevel = rodInput ? parseInt(rodInput.value) || 0 : 0;
+  STAMINA_CONFIG.rodLevel = rodInput  ? (parseInt(rodInput.value) || 1)  : 1;
   STAMINA_CONFIG.expertDeepSea = deepSeaInput ? parseInt(deepSeaInput.value) || 0 : 0;
   STAMINA_CONFIG.expertStar = starInput ? parseInt(starInput.value) || 0 : 0;
   STAMINA_CONFIG.expertClamRefill = clamInput ? parseInt(clamInput.value) || 0 : 0;
