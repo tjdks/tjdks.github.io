@@ -190,10 +190,10 @@ function buildResult(best, totalCore, totalEss, totalShellfish, availableEss) {
     };
 
     // 블록 필요량 (정수 제작에 필요) - 제작 횟수 기준
-    // 수호: 점토 1개, 파동: 모래 3개, 혼란: 흙 4개, 생명: 자갈 2개, 부식: 화강암 1개
+    // 수호: 점토 1개, 파동: 모래 2개, 혼란: 흙 4개, 생명: 자갈 2개, 부식: 화강암 1개
     const blockNeed = {
         clay: craftCount.guard * 1,
-        sand: craftCount.wave * 3,
+        sand: craftCount.wave * 2,
         dirt: craftCount.chaos * 4,
         gravel: craftCount.life * 2,
         granite: craftCount.decay * 1
@@ -237,7 +237,7 @@ function buildResult(best, totalCore, totalEss, totalShellfish, availableEss) {
 
     const blockNeedTotal = {
         clay: craftCountTotal.guard * 1,
-        sand: craftCountTotal.wave * 3,
+        sand: craftCountTotal.wave * 2,
         dirt: craftCountTotal.chaos * 4,
         gravel: craftCountTotal.life * 2,
         granite: craftCountTotal.decay * 1
