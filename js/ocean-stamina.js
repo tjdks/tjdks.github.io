@@ -82,34 +82,50 @@ function removeStaminaInput(id) {
 
 function distributeByRarity(totalDrops, starLevel) {
   const starBonus = EXPERT_STAR[starLevel] || 0;
-  const rate3 = 0.10 + starBonus;
-  const rate2 = 0.30;
-  const rate1 = 1 - rate2 - rate3;
-  
+
+  // 기본 가중치
+  const base1 = 60;
+  const base2 = 30;
+  const base3 = 10;
+
+  // 3성 보너스는 "가중치"로 더함
+  const bonusWeight = starBonus * 100; // 0.15 → 15
+
+  const weight1 = base1;
+  const weight2 = base2;
+  const weight3 = base3 + bonusWeight;
+
+  const totalWeight = weight1 + weight2 + weight3;
+
+  const rate1 = weight1 / totalWeight;
+  const rate2 = weight2 / totalWeight;
+  const rate3 = weight3 / totalWeight;
+
   let count1 = Math.floor(totalDrops * rate1);
   let count2 = Math.floor(totalDrops * rate2);
   let count3 = Math.floor(totalDrops * rate3);
-  
-  // 나머지 배분
+
+  // 소수점 나머지 분배
   let remainder = totalDrops - (count1 + count2 + count3);
   const fracs = [
     { key: 'count3', frac: (totalDrops * rate3) % 1 },
     { key: 'count2', frac: (totalDrops * rate2) % 1 },
-    { key: 'count1', frac: (totalDrops * rate1) % 1 }
+    { key: 'count1', frac: (totalDrops * rate1) % 1 },
   ].sort((a, b) => b.frac - a.frac);
-  
+
   const counts = { count1, count2, count3 };
   for (let i = 0; i < remainder; i++) {
     counts[fracs[i % 3].key]++;
   }
-  
-  return { 
-    count1: counts.count1, 
-    count2: counts.count2, 
+
+  return {
+    count1: counts.count1,
+    count2: counts.count2,
     count3: counts.count3,
-    starBonus: Math.round(starBonus * 100)
+    starBonus: Math.round(starBonus * 100),
   };
 }
+
 
 function calculateStamina() {
   syncExpertSettings();
